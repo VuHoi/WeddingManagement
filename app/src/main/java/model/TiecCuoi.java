@@ -1,0 +1,80 @@
+package model;
+
+/**
+ * Created by billy on 03-Mar-17.
+ */
+
+public class TiecCuoi {
+    private String makh,codau,chure,sanh,ngay,ca;
+    private int soban;
+
+    public TiecCuoi(String makh,String chure, String codau, String sanh, String ngay, String ca, int soban) {
+        this.codau = codau;
+        this.makh=makh;
+        this.chure = chure;
+        this.sanh = sanh;
+        this.ngay = ngay;
+        this.ca = ca;
+        this.soban = soban;
+    }
+
+    public String getMakh() {
+        return makh;
+    }
+
+    public void setMakh(String makh) {
+        this.makh = makh;
+    }
+
+    public String getCodau() {
+        return codau;
+    }
+
+    public void setCodau(String codau) {
+        this.codau = codau;
+    }
+
+    public String getChure() {
+        return chure;
+    }
+
+    public void setChure(String chure) {
+        this.chure = chure;
+    }
+
+    public String getSanh() {
+        return sanh;
+    }
+
+    public void setSanh(String sanh) {
+        this.sanh = sanh;
+    }
+
+    public String getNgay() {
+        return ngay;
+    }
+
+    public void setNgay(String ngay) {
+        this.ngay = ngay;
+    }
+
+    public String getCa() {
+        return ca;
+    }
+
+    public void setCa(String ca) {
+        this.ca = ca;
+    }
+
+    public int getSoban() {
+        return soban;
+    }
+
+    public void setSoban(int soban) {
+        this.soban = soban;
+    }
+
+    public TiecCuoi() {
+
+    }
+}
