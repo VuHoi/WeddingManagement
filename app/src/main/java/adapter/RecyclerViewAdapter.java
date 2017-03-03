@@ -1,12 +1,16 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.vukhachoi.weddingmanagement.HallsActivity;
+import com.example.vukhachoi.weddingmanagement.NameHalllActivity;
 import com.example.vukhachoi.weddingmanagement.R;
 
 import java.util.List;
@@ -27,6 +31,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.context = context;
     }
 
+
+
     @Override
     public DataViewHolde onCreateViewHolder(ViewGroup parent, int viewType) {
         View Itemview;
@@ -42,6 +48,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemstop,parent,false);
                 break;
         }
+Itemview.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(context,NameHalllActivity.class);
+        v.getContext().startActivity(intent);
+    }
+});
+
+
         return  new DataViewHolde(Itemview);
     }
 

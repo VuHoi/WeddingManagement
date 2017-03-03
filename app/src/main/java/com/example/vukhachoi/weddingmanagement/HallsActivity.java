@@ -1,11 +1,14 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,36 +23,15 @@ public class HallsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_halls);
-     //   addData();
+
         addControl();
         addEvent();
 
     }
 
-    private void addData() {
-
-//        Context context;
-//        RecyclerView.LayoutManager recyclerViewLayoutManager;
-//        List<Person> people = new ArrayList<>();
-//        people.add(new Person("Long", true));
-//        people.add(new Person("My", false));
-//        people.add(new Person("Duong", true));
-//        people.add(new Person("Duyen", false));
-//        people.add(new Person("Long", true));
-//        people.add(new Person("My", false));
-//        people.add(new Person("Duong", true));
-//        people.add(new Person("Duyen", false));
-//        context = getApplicationContext();
-//        rvItems = (RecyclerView) findViewById(R.id.rv_items);
-////        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-//        recyclerViewLayoutManager=new GridLayoutManager(context, 2);
-//        rvItems.setLayoutManager(recyclerViewLayoutManager);
-//        rvItems.setHasFixedSize(true);
-//        rvItems.setAdapter(new RecyclerDataAdapter(MainActivity.this, people));
-    }
-
 
     private void addEvent() {
+
     }
 
     private void addControl() {
