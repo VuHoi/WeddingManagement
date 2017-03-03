@@ -24,20 +24,13 @@
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="41dp"
-        android:src="@drawable/tieccuoi1"
-        android:id="@+id/imgDatTiec"
+        android:layout_height="45dp"
+        android:src="@drawable/tiec1"
+        android:id="@+id/imgTraCuu"
         android:layout_below="@+id/imgTiepNhan"
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="46dp"
-        android:src="@drawable/tiec1"
-        android:id="@+id/imgTraCuu"
-        android:layout_marginTop="12dp"
-        android:layout_below="@+id/imgDatTiec"
-        android:layout_centerHorizontal="true" />
+
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="49dp"
