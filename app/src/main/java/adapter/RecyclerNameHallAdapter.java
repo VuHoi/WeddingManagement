@@ -1,7 +1,6 @@
 package adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.vukhachoi.weddingmanagement.NameHalllActivity;
 import com.example.vukhachoi.weddingmanagement.R;
 
 import java.util.List;
 
-import hall.wedding.management.HallDetail;
+import hall.wedding.management.NameHall;
 
 /**
  * Created by Vu Khac Hoi on 3/3/2017.
@@ -22,11 +20,11 @@ import hall.wedding.management.HallDetail;
 
 public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHallAdapter.DataViewHolde> {
 
-    private List<HallDetail> hallDetails;
+    private List<NameHall> hallName;
     private Context context;
 
-    public RecyclerNameHallAdapter(List<HallDetail> hallDetails, Context context) {
-        this.hallDetails = hallDetails;
+    public RecyclerNameHallAdapter(List<NameHall> hallDetails, Context context) {
+        this.hallName = hallDetails;
         this.context = context;
     }
 
@@ -38,13 +36,13 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         switch (viewType)
         {
             case 1:
-                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemstop,parent,false);
+                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_name_hall,parent,false);
                 break;
             case 2:
-                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_active,parent,false);
+                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_name_hall,parent,false);
                 break;
             default:
-                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemstop,parent,false);
+                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_name_hall,parent,false);
                 break;
         }
         Itemview.setOnClickListener(new View.OnClickListener() {
@@ -62,26 +60,29 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
 
     @Override
     public void onBindViewHolder(RecyclerNameHallAdapter.DataViewHolde holder, int position) {
-        holder.txtTitle.setText(hallDetails.get(position).getNameHall());
+        holder.txtbantoida.setText(hallName.get(position).getBanToiDa()+"");
+        holder.txtgiatoithieu.setText(hallName.get(position).getGiaToiThieu()+"");
     }
 
     @Override
     public int getItemCount() {
-        return hallDetails==null ? 0:hallDetails.size();
+        return hallName==null ? 0:hallName.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(hallDetails.get(position).isActive())
+        if(hallName.get(position).isActive())
             return 1;
         else return 2;
     }
 
     public static class DataViewHolde extends RecyclerView.ViewHolder {
-        TextView txtTitle;
+        TextView txtbantoida,txtgiatoithieu;
+
         public DataViewHolde(View itemView) {
             super(itemView);
-            txtTitle= (TextView) itemView.findViewById(R.id.txtTitle);
+            txtbantoida= (TextView) itemView.findViewById(R.id.txtbantoida);
+            txtgiatoithieu= (TextView) itemView.findViewById(R.id.txtgiatoithieu);
         }
     }
 }
