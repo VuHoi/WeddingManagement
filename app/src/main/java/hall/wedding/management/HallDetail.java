@@ -9,6 +9,9 @@ public class HallDetail {
     private   String NameHall;
     private  boolean IsActive;
 
+    public HallDetail() {
+    }
+
     public String getNameHall() {
         return NameHall;
     }
