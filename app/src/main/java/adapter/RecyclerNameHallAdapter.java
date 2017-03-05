@@ -62,6 +62,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
     public void onBindViewHolder(RecyclerNameHallAdapter.DataViewHolde holder, int position) {
         holder.txtbantoida.setText(hallName.get(position).getBanToiDa()+"");
         holder.txtgiatoithieu.setText(hallName.get(position).getGiaToiThieu()+"");
+        holder.txtNamehall.setText(hallName.get(position).getNamehall()+"");
     }
 
     @Override
@@ -77,12 +78,13 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
     }
 
     public static class DataViewHolde extends RecyclerView.ViewHolder {
-        TextView txtbantoida,txtgiatoithieu;
+        TextView txtbantoida,txtgiatoithieu,txtNamehall;
 
         public DataViewHolde(View itemView) {
             super(itemView);
             txtbantoida= (TextView) itemView.findViewById(R.id.txtbantoida);
             txtgiatoithieu= (TextView) itemView.findViewById(R.id.txtgiatoithieu);
+            txtNamehall= (TextView) itemView.findViewById(R.id.txtNameHall);
         }
     }
 }

@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.vukhachoi.weddingmanagement.HallsActivity;
 import com.example.vukhachoi.weddingmanagement.NameHalllActivity;
 import com.example.vukhachoi.weddingmanagement.R;
 
@@ -23,8 +21,8 @@ import hall.wedding.management.HallDetail;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.DataViewHolde> {
 
-    private List<HallDetail> hallDetails;
-    private Context context;
+    public List<HallDetail> hallDetails;
+    public Context context;
 
     public RecyclerViewAdapter(List<HallDetail> hallDetails, Context context) {
         this.hallDetails = hallDetails;
@@ -48,13 +46,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemstop,parent,false);
                 break;
         }
-Itemview.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        Intent intent=new Intent(context,NameHalllActivity.class);
-        v.getContext().startActivity(intent);
-    }
-});
+
+
 
 
         return  new DataViewHolde(Itemview);
@@ -64,7 +57,9 @@ Itemview.setOnClickListener(new View.OnClickListener() {
 
     @Override
     public void onBindViewHolder(DataViewHolde holder, int position) {
-      holder.txtTitle.setText(hallDetails.get(position).getNameHall());
+        holder.txtTitle.setText(hallDetails.get(position).getNameHall());
+
+
     }
 
     @Override
@@ -79,11 +74,26 @@ Itemview.setOnClickListener(new View.OnClickListener() {
         else return 2;
     }
 
-    public static class DataViewHolde extends RecyclerView.ViewHolder {
+    public  class DataViewHolde extends RecyclerView.ViewHolder {
         TextView txtTitle;
+
         public DataViewHolde(View itemView) {
             super(itemView);
             txtTitle= (TextView) itemView.findViewById(R.id.txtTitle);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int Position=getAdapterPosition();
+                    if(Position!=RecyclerView.NO_POSITION) {
+                        HallDetail item = hallDetails.get(Position);
+                        Intent intent=new Intent(context, NameHalllActivity.class);
+                        intent.putExtra("NameHall",item.getNameHall());
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
     }
 }
