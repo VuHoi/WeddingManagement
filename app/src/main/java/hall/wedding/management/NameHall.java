@@ -10,11 +10,23 @@ public class NameHall {
     public NameHall() {
     }
 
-    public NameHall(int banToiDa, boolean isActive, int giaToiThieu) {
+    public String getNamehall() {
+        return Namehall;
+    }
+
+    public void setNamehall(String namehall) {
+        Namehall = namehall;
+    }
+
+    public NameHall(int banToiDa, String namehall, boolean isActive, int giaToiThieu) {
+
         BanToiDa = banToiDa;
+        Namehall = namehall;
         this.isActive = isActive;
         GiaToiThieu = giaToiThieu;
     }
+
+    private String Namehall;
 
     public boolean isActive() {
 
