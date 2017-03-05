@@ -8,6 +8,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/txtSearch"
         android:inputType="text"
-        android:hint="Nhập tên vợ hoặc chồng"
+        android:hint="Nhập tên chú rể hoặc cô dâu"
         android:imeOptions="actionSearch"/>
 </LinearLayout>

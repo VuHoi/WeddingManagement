@@ -153,6 +153,7 @@ public class activityTraCuu extends AppCompatActivity {
                         {
                             TiecCuoi tc=ds.get(a);
                             ds.remove(a);
+                            tc.setCheck(1);
                             ds.add(0,tc);
                             arrayAdapter.notifyDataSetChanged();
                         }
