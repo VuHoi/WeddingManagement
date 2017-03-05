@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         holder.txtbantoida.setText(hallName.get(position).getBanToiDa()+"");
         holder.txtgiatoithieu.setText(hallName.get(position).getGiaToiThieu()+"");
         holder.txtNamehall.setText(hallName.get(position).getNamehall()+"");
+       holder.imgActive.setImageResource(hallName.get(position).getImgActive());
     }
 
     @Override
@@ -79,12 +81,13 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
 
     public static class DataViewHolde extends RecyclerView.ViewHolder {
         TextView txtbantoida,txtgiatoithieu,txtNamehall;
-
+ImageView imgActive;
         public DataViewHolde(View itemView) {
             super(itemView);
             txtbantoida= (TextView) itemView.findViewById(R.id.txtbantoida);
             txtgiatoithieu= (TextView) itemView.findViewById(R.id.txtgiatoithieu);
             txtNamehall= (TextView) itemView.findViewById(R.id.txtNameHall);
+            imgActive= (ImageView) itemView.findViewById(R.id.imgActive);
         }
     }
 }

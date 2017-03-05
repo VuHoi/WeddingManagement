@@ -15,9 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HallsActivity"></activity>
+        <activity android:name=".HallsActivity" />
         <activity android:name=".NameHalllActivity" />
-        <activity android:name=".activityTraCuu"></activity>
+        <activity android:name=".activityTraCuu" />
+        <activity android:name=".DetailWeddingActivity"></activity>
     </application>
 
 </manifest>
