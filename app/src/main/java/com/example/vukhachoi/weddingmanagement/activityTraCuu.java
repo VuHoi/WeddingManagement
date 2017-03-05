@@ -8,7 +8,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
@@ -78,6 +80,8 @@ public class activityTraCuu extends AppCompatActivity {
   }
 
     private void addEvents() {
+        //Bắt sự kiện chọn
+
 
     }
     @Override
@@ -122,6 +126,7 @@ public class activityTraCuu extends AppCompatActivity {
             mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_search));
 
             isSearchOpened = false;
+            recreate();
         } else { //open the search entry
 
             action.setDisplayShowCustomEnabled(true); //enable it to display a
@@ -129,29 +134,31 @@ public class activityTraCuu extends AppCompatActivity {
             action.setCustomView(R.layout.search_bar);//add the custom view
             action.setDisplayShowTitleEnabled(false); //hide the title
 
-            //edtSeach = (EditText)action.getCustomView().findViewById(R.id.edtSearch); //the text editor
+
             txtSearch= (AutoCompleteTextView) action.getCustomView().findViewById(R.id.txtSearch);
             txtSearch.setThreshold(1);
             txtSearch.setAdapter(adaptertenvc);
-            //this is a listener to do a search when the user clicks on search button
-//            edtSeach.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                @Override
-//                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                        doSearch();
-//                        return true;
-//                    }
-//                    return false;
-//                }
-//            });
+
 
 
             txtSearch.requestFocus();
 
-            //open the keyboard focused in the edtSearch
-//            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(txtSearch, InputMethodManager.SHOW_IMPLICIT);
-
+            txtSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String temp=txtSearch.getText().toString();
+                    for(int a=0;a<ds.size();a++)
+                    {
+                        if(ds.get(a).getCodau().equals(temp) || ds.get(a).getChure().equals(temp))
+                        {
+                            TiecCuoi tc=ds.get(a);
+                            ds.remove(a);
+                            ds.add(0,tc);
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                    }
+                }
+            });
 
             //add the close icon
             mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_close_clear_cancel));
@@ -160,7 +167,7 @@ public class activityTraCuu extends AppCompatActivity {
     }
 
     private void doSearch() {
-        //
+
     }
 }
 
