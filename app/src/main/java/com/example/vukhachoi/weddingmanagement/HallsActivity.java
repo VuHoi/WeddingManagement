@@ -60,19 +60,21 @@ public class HallsActivity extends AppCompatActivity {
             cursor.moveToNext();
             adapter.notifyDataSetChanged();
         }
+        cursor.close();
 
-       cursor=database.rawQuery("SELECT distinct Loaisanh,tinhtrang FROM sanh where tinhtrang=0",null);
-        while (!cursor.isAfterLast())
+        Cursor cursor1=database.rawQuery("SELECT distinct Loaisanh,tinhtrang FROM sanh where tinhtrang=0",null);
+        cursor1.moveToFirst();
+        while (!cursor1.isAfterLast())
         {
             HallDetail Hall=new HallDetail();
-            Hall.setNameHall(cursor.getString(0));
-            Hall.setActive(Boolean.parseBoolean(cursor.getString(1)));
+            Hall.setNameHall(cursor1.getString(0));
+            Hall.setActive(Boolean.parseBoolean(cursor1.getString(1)));
             hallDetail.add(Hall);
-            cursor.moveToNext();
+            cursor1.moveToNext();
             adapter.notifyDataSetChanged();
         }
-        cursor.moveToFirst();
-        cursor.close();
+        cursor1.moveToFirst();
+        cursor1.close();
         // LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
     }
