@@ -18,14 +18,24 @@ public class NameHall {
         Namehall = namehall;
     }
 
-    public NameHall(int banToiDa, String namehall, boolean isActive, int giaToiThieu) {
+    public int getImgActive() {
+        return imgActive;
+    }
+
+    public void setImgActive(int imgActive) {
+        this.imgActive = imgActive;
+    }
+
+    public NameHall(int banToiDa, int imgActive, String namehall, boolean isActive, int giaToiThieu) {
 
         BanToiDa = banToiDa;
+        this.imgActive = imgActive;
         Namehall = namehall;
         this.isActive = isActive;
         GiaToiThieu = giaToiThieu;
     }
 
+    private  int imgActive;
     private String Namehall;
 
     public boolean isActive() {
