@@ -6,9 +6,18 @@ package model;
 
 public class TiecCuoi {
     private String makh,codau,chure,sanh,ngay,ca;
+    private int check=0;
     private int soban;
 
-    public TiecCuoi(String makh,String chure, String codau, String sanh, String ngay, String ca, int soban) {
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
+    }
+
+    public TiecCuoi(String makh, String chure, String codau, String sanh, String ngay, String ca, int soban) {
         this.codau = codau;
         this.makh=makh;
         this.chure = chure;

@@ -40,10 +40,13 @@ public class adapterTraCuu extends ArrayAdapter<TiecCuoi>{
         TextView ngay=(TextView) row.findViewById(R.id.txtNgay);
         TextView ca=(TextView) row.findViewById(R.id.txtCa);
         TextView soban=(TextView) row.findViewById(R.id.txtSoBan);
-        TextView makh= (TextView) row.findViewById(R.id.txtMaKH);
+
+        //TextView makh= (TextView) row.findViewById(R.id.txtMaKH);
 
         TiecCuoi tc=this.objects.get(position);
-        makh.setText(makh.getText()+tc.getMakh());
+        //makh.setText(makh.getText()+tc.getMakh());
+        if(tc.getCheck()==1)
+            row.setBackgroundColor(0xff00ffff);
         chure.setText(chure.getText()+tc.getChure());
         codau.setText(codau.getText()+tc.getCodau());
         sanh.setText(sanh.getText()+tc.getSanh());
@@ -54,4 +57,5 @@ public class adapterTraCuu extends ArrayAdapter<TiecCuoi>{
         return row;
 
     }
+
 }
