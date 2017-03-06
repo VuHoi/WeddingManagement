@@ -38,23 +38,23 @@ public class Menu extends AppCompatActivity {
     }
     private void HoatAnh()
     {
-        ThayDoiAnh(imgTiepNhan,R.drawable.sanh2);
-        ThayDoiAnh(imgTraCuu,R.drawable.tiec2);
-        ThayDoiAnh(imgHoaDon,R.drawable.hoadon2);
-        ThayDoiAnh(imgBaoCao,R.drawable.baocao2);
-        ThayDoiAnh(imgThayDoi,R.drawable.thaydoi2);
+        //ThayDoiAnh(imgHoaDon,R.drawable.hoadon2);
+        //ThayDoiAnh(imgBaoCao,R.drawable.baocao2);
+
 
         imgTraCuu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ThayDoiAnh(imgTraCuu,R.drawable.tiec2);
                 Intent intent=new Intent(Menu.this,activityTraCuu.class);
                 startActivity(intent);
             }
         });
 
-imgTiepNhan.setOnClickListener(new View.OnClickListener() {
+        imgTiepNhan.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+        ThayDoiAnh(imgTiepNhan,R.drawable.sanh2);
         Intent intent=new Intent(Menu.this,HallsActivity.class);
         startActivity(intent);
     }
@@ -62,6 +62,7 @@ imgTiepNhan.setOnClickListener(new View.OnClickListener() {
         imgThayDoi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ThayDoiAnh(imgThayDoi,R.drawable.thaydoi2);
                 Intent intent=new Intent(Menu.this,DetailWeddingActivity.class);
                 startActivity(intent);
             }
@@ -70,11 +71,7 @@ imgTiepNhan.setOnClickListener(new View.OnClickListener() {
 
     private void ThayDoiAnh(final ImageView id1, final int id2)
     {
-        id1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+
                 id1.setImageResource(id2);
-            }
-        });
     }
 }
