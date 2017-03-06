@@ -1,29 +1,50 @@
 package com.example.vukhachoi.weddingmanagement;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.RecyclerNameHallAdapter;
 import hall.wedding.management.NameHall;
-import sqlite.DataBase;
+import sqlite.Databasehelper;
 
 public class NameHalllActivity extends AppCompatActivity {
-    SQLiteDatabase database;
-    final String DATABASE_NAME="Weeding.sqlite";
+
     RecyclerView rcHallName;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        database= DataBase.initDatabase(NameHalllActivity.this,DATABASE_NAME);
+
+        Databasehelper myDatabase = new Databasehelper(this);
+
+
+        try {
+            myDatabase.createDatabase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            myDatabase.openDatabase();
+
+        }catch(SQLException sqle){
+
+            throw sqle;
+        }
+        SQLiteDatabase database = myDatabase.getMyDatabase();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name_halll);
         Context context;
@@ -32,6 +53,7 @@ public class NameHalllActivity extends AppCompatActivity {
         recyclerViewLayoutManager=new GridLayoutManager(context, 2);
         Bundle extras=getIntent().getExtras();
         String data= extras.getString("NameHall");
+        ContentValues values=new ContentValues();
 
         List<NameHall> nameHalls = new ArrayList<>();
         Cursor cursor =database.rawQuery("Select * from sanh where loaisanh=? ",new String[]{data});
