@@ -42,6 +42,7 @@ public class activityTraCuu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tra_cuu);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("Tra cứu");
         setSupportActionBar(mToolbar);
         addControls();
         addEvents();
