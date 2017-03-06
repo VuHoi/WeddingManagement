@@ -1,14 +1,15 @@
 package adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.vukhachoi.weddingmanagement.DetailWeddingActivity;
 import com.example.vukhachoi.weddingmanagement.R;
 
 import java.util.List;
@@ -21,8 +22,8 @@ import hall.wedding.management.NameHall;
 
 public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHallAdapter.DataViewHolde> {
 
-    private List<NameHall> hallName;
-    private Context context;
+    public List<NameHall> hallName;
+    public Context context;
 
     public RecyclerNameHallAdapter(List<NameHall> hallDetails, Context context) {
         this.hallName = hallDetails;
@@ -49,7 +50,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         Itemview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Da click nhe", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -79,7 +80,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         else return 2;
     }
 
-    public static class DataViewHolde extends RecyclerView.ViewHolder {
+    public  class DataViewHolde extends RecyclerView.ViewHolder {
         TextView txtbantoida,txtgiatoithieu,txtNamehall;
 ImageView imgActive;
         public DataViewHolde(View itemView) {
@@ -88,6 +89,21 @@ ImageView imgActive;
             txtgiatoithieu= (TextView) itemView.findViewById(R.id.txtgiatoithieu);
             txtNamehall= (TextView) itemView.findViewById(R.id.txtNameHall);
             imgActive= (ImageView) itemView.findViewById(R.id.imgActive);
+
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int Position=getAdapterPosition();
+                    if(Position!=RecyclerView.NO_POSITION) {
+
+                        Intent intent=new Intent(context, DetailWeddingActivity.class);
+
+                        v.getContext().startActivity(intent);
+                    }
+                }
+            });
         }
     }
 }

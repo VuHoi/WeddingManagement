@@ -19,11 +19,10 @@ import java.util.ArrayList;
 
 import adapter.adapterTraCuu;
 import model.TiecCuoi;
-import sqlite.DataBase;
+import sqlite.MyDatabaseAdapter;
 
 public class activityTraCuu extends AppCompatActivity {
-    final String DATABASE_NAME="Weeding.sqlite";
-    SQLiteDatabase database;
+
 
     ListView lvTraCuu;
     ArrayAdapter<TiecCuoi>arrayAdapter;
@@ -57,7 +56,10 @@ public class activityTraCuu extends AppCompatActivity {
         arrayAdapter=new adapterTraCuu(activityTraCuu.this,R.layout.info,ds);
         lvTraCuu.setAdapter(arrayAdapter);
 
-        database= DataBase.initDatabase(activityTraCuu.this,DATABASE_NAME);
+
+        MyDatabaseAdapter myDatabase = new MyDatabaseAdapter(this);
+        myDatabase.open();
+        SQLiteDatabase database = myDatabase.getMyDatabase();
         Cursor cursor=database.rawQuery("SELECT * FROM THONGTIN",null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast())

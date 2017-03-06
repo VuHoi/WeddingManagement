@@ -9,7 +9,262 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vukhachoi.weddingmanagement.DetailWeddingActivity"
-    android:orientation="horizontal">
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/groom"
+                android:paddingLeft="-40dp"
+                android:paddingRight="-40dp"
+                android:id="@+id/imageView" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textSize="20dp"
+                android:id="@+id/txtChuRe"
+                android:layout_toLeftOf="@+id/imgheart"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/imageView"
+                android:hint="Nhập chú rể"
+                android:textColorHint="@color/colorPrimary"
+                android:layout_alignParentTop="true"
+                android:textColor="#E91E63"
+                />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/heart"
+                android:id="@+id/imgheart"
+                android:layout_marginTop="15dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:id="@+id/txtCoDau"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/imgheart"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_marginTop="15dp"
+                android:layout_toLeftOf="@+id/imgbride"
+                android:layout_alignParentTop="true"
+                android:hint="Nhập cô dâu"
+                android:textColorHint="@color/colorPrimary"
+                android:textColor="#E91E63"
+
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="-40dp"
+                android:paddingRight="-40dp"
+                android:src="@drawable/bride"
+                android:layout_alignParentRight="true"
+                android:id="@+id/imgbride"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtSanh"
+                android:layout_below="@+id/imageView"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="sảnh"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEditSanh"
+                android:layout_below="@+id/imageView"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Nhập sảnh"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:textColorHint="@color/colorPrimary"
+                />
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtNgay"
+                android:layout_below="@+id/txtSanh"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Ngày"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                android:paddingTop="20dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEditngay"
+                android:layout_below="@+id/txtSanh"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Nhâp ngày"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:paddingTop="20dp"
+                android:textColorHint="@color/colorPrimary"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtCa"
+                android:layout_below="@+id/txtNgay"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Ca"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                android:paddingTop="20dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEditca"
+                android:layout_below="@+id/txtNgay"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Nhập ca"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:paddingTop="20dp"
+                android:textColorHint="@color/colorPrimary"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtTiendatcoc"
+                android:layout_below="@+id/txtCa"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Đặt cọc"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                android:paddingTop="20dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEdittiendatcoc"
+                android:layout_below="@+id/txtCa"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Dặt cọc"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:paddingTop="20dp"
+                android:textColorHint="@color/colorPrimary"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtLuongban"
+                android:layout_below="@+id/txtTiendatcoc"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Lượng bàn"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                android:paddingTop="20dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEditLượngBan"
+                android:layout_below="@+id/txtTiendatcoc"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Lượng bàn"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:paddingTop="20dp"
+                android:textColorHint="@color/colorPrimary"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtDutru"
+                android:layout_below="@+id/txtLuongban"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Bàn dự trữ"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                android:paddingTop="20dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEditDutru"
+                android:layout_below="@+id/txtLuongban"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Bàn dự trữ"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:paddingTop="20dp"
+                android:textColorHint="@color/colorPrimary"
+                />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đặt bàn:"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    android:id="@+id/textView"
+                    android:layout_below="@+id/txtEditDutru"
+                    android:padding="10dp"/>
+
+                <ListView
+                    android:layout_below="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:id="@+id/lsv_MonAn"
+                    ></ListView>
+
+
+        </RelativeLayout>
+
+    </ScrollView>
 </LinearLayout>
