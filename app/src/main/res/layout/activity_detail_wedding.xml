@@ -13,7 +13,11 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/srv"
+        android:fillViewport="true"
+        >
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -87,6 +91,7 @@
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:text="sảnh"
+                android:paddingTop="10dp"
                 android:layout_toRightOf="@+id/imageView"
                 android:layout_toLeftOf="@id/imgheart"
                 />
@@ -95,10 +100,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:id="@+id/txtEditSanh"
-                android:layout_below="@+id/imageView"
+                android:layout_below="@+id/imgbride"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:hint="Nhập sảnh"
+
+
                 android:layout_toRightOf="@+id/imgheart"
                 android:layout_toLeftOf="@id/imgbride"
                 android:textColorHint="@color/colorPrimary"
@@ -129,7 +136,7 @@
                 android:hint="Nhâp ngày"
                 android:layout_toRightOf="@+id/imgheart"
                 android:layout_toLeftOf="@id/imgbride"
-                android:paddingTop="20dp"
+                android:paddingTop="18dp"
                 android:textColorHint="@color/colorPrimary"
                 />
 
@@ -157,7 +164,7 @@
                 android:hint="Nhập ca"
                 android:layout_toRightOf="@+id/imgheart"
                 android:layout_toLeftOf="@id/imgbride"
-                android:paddingTop="20dp"
+                android:paddingTop="18dp"
                 android:textColorHint="@color/colorPrimary"
                 />
 
@@ -185,7 +192,7 @@
                 android:hint="Dặt cọc"
                 android:layout_toRightOf="@+id/imgheart"
                 android:layout_toLeftOf="@id/imgbride"
-                android:paddingTop="20dp"
+                android:paddingTop="18dp"
                 android:textColorHint="@color/colorPrimary"
                 />
             <TextView
@@ -212,7 +219,7 @@
                 android:hint="Lượng bàn"
                 android:layout_toRightOf="@+id/imgheart"
                 android:layout_toLeftOf="@id/imgbride"
-                android:paddingTop="20dp"
+                android:paddingTop="18dp"
                 android:textColorHint="@color/colorPrimary"
                 />
             <TextView
@@ -239,7 +246,7 @@
                 android:hint="Bàn dự trữ"
                 android:layout_toRightOf="@+id/imgheart"
                 android:layout_toLeftOf="@id/imgbride"
-                android:paddingTop="20dp"
+                android:paddingTop="18dp"
                 android:textColorHint="@color/colorPrimary"
                 />
 
@@ -255,16 +262,32 @@
                     android:layout_below="@+id/txtEditDutru"
                     android:padding="10dp"/>
 
-                <ListView
-                    android:layout_below="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
 
-                    android:id="@+id/lsv_MonAn"
-                    ></ListView>
 
+            <ListView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/lsv_MonAn"
+                android:layout_below="@+id/textView"
+
+                ></ListView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dịch vụ:"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:id="@+id/Dichvu"
+                android:layout_below="@+id/txtEditDutru"
+                android:padding="10dp"/>
 
         </RelativeLayout>
 
-    </ScrollView>
+ </ScrollView>
+
 </LinearLayout>
