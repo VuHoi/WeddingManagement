@@ -2,6 +2,13 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar_ThanhToan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -20,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textSize="15dp"
-            android:id="@+id/txtChuRe_hoadon"
+            android:id="@+id/txtChuRe_LapHoaDon"
             android:layout_toLeftOf="@+id/imgheart"
             android:textStyle="bold"
             android:textAlignment="center"
@@ -37,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:id="@+id/txtCoDau_hoadon"
+            android:id="@+id/txtCoDau_LapHoaDon"
             android:layout_gravity="center"
             android:layout_toRightOf="@+id/imgheart"
             android:textStyle="bold"
@@ -69,18 +76,27 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Sảnh:"
                 android:layout_gravity="center|start"
-                android:text="Mã KH:"
-                android:id="@+id/txtMaKH_hoadon"
+                android:id="@+id/txtSanh_LapHoaDon"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đơn giá bàn:"
+                android:layout_gravity="center|start"
+                android:layout_marginTop="10dp"
+                android:id="@+id/txtDonGiaBan"
                 android:textSize="20dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sảnh:"
+                android:text="Tổng tiền bàn:"
                 android:layout_gravity="center|start"
-                android:id="@+id/txtSanh_hoadon"
-                android:textSize="20dp" />
-
+                android:layout_marginTop="10dp"
+                android:id="@+id/txtTongTienBan"
+                android:textSize="20dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -91,14 +107,30 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngày:"
+                android:text="Số lượng bàn:"
                 android:layout_gravity="center|start"
-                android:id="@+id/txtNgay_hoadon"
+                android:layout_marginTop="10dp"
+                android:textSize="20dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:hint="Nhập số bàn"
+                android:inputType="number"
+                android:id="@+id/txtSLBan"
+                android:layout_marginTop="0dp"
                 android:textSize="20dp"/>
 
-
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày thanh toán:"
+                android:layout_gravity="center|start"
+                android:id="@+id/txt_NgayThanhToan"
+                android:layout_marginTop="3dp"
+                android:textSize="20dp"/>
         </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>
