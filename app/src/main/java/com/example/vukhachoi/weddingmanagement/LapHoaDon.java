@@ -27,13 +27,11 @@ public class LapHoaDon extends AppCompatActivity {
 
     private void addControls() {
 
-        //ds = (ArrayList<TiecCuoi>) getIntent().getSerializableExtra("dsdamcuoi");
-//        ArrayList<TiecCuoi> test= getIntent().getParcelableExtra("dsdamcuoi");
-//        if(test.size()==0)
-//        Toast.makeText(LapHoaDon.this,"deo co",Toast.LENGTH_LONG).show();
-
+//        ArrayList<TiecCuoi> test= (ArrayList<TiecCuoi>) getIntent().getSerializableExtra("Contact_list");
+//
+//
 //        lv_tc= (ListView) findViewById(R.id.lv_tc);
-//        adapter= new ArrayAdapter<TiecCuoi>(LapHoaDon.this,android.R.layout.simple_list_item_1,ds);
+//        adapter= new ArrayAdapter<TiecCuoi>(LapHoaDon.this,android.R.layout.simple_list_item_1,test);
 //        lv_tc.setAdapter(adapter);
     }
 }
