@@ -1,8 +1,8 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import adapter.adapterTraCuu;
@@ -48,27 +47,16 @@ public class activityTraCuu extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         addControls();
         addEvents();
+        Intent intent=new Intent(activityTraCuu.this,LapHoaDon.class);
+        ArrayList<TiecCuoi> testing=new ArrayList<>();
+        intent.putParcelableArrayListExtra("dsdamcuoi",testing);
+        startActivity(intent);
     }
 
     private void addControls() {
         Databasehelper myDatabase = new Databasehelper(this);
 
-
-        try {
-            myDatabase.createDatabase();
-
-        } catch (IOException ioe) {
-
-            throw new Error("Unable to create database");
-        }
-
-        try {
-            myDatabase.openDatabase();
-
-        }catch(SQLException sqle){
-
-            throw sqle;
-        }
+        myDatabase.Khoitai();
 
         tenvc=new ArrayList<>();
         adaptertenvc=new ArrayAdapter(activityTraCuu.this,android.R.layout.select_dialog_item,tenvc);
@@ -82,23 +70,40 @@ public class activityTraCuu extends AppCompatActivity {
         SQLiteDatabase database = myDatabase.getMyDatabase();
         Cursor cursor=database.rawQuery("SELECT * FROM THONGTIN",null);
         cursor.moveToFirst();
-        while (!cursor.isAfterLast())
-        {
-            String makh=cursor.getString(0);
-            String chure=cursor.getString(1);
-            String codau=cursor.getString(2);
-            String sanh=cursor.getString(9);
-            String ngay=cursor.getString(4);
-            String ca=cursor.getString(5);
-            int soban=cursor.getInt(7);
-            ds.add(new TiecCuoi(makh,chure,codau,sanh,ngay,ca,soban));
-            tenvc.add(chure);
-            tenvc.add(codau);
+        while (!cursor.isAfterLast()) {
+            String makh = cursor.getString(0);
+            String chure = cursor.getString(1);
+            String codau = cursor.getString(2);
+            String sanh = cursor.getString(9);
+            String ngay = cursor.getString(4);
+            String ca = cursor.getString(5);
+            int soban = cursor.getInt(7);
+            int flagtenchure = 1;
+            int flagtencodau=1;
+            for(String ten:tenvc)
+            {
+                if(chure.equals(ten))
+                {
+                    flagtenchure=0;
+                }
+                if(codau.equals(ten))
+                {
+                    flagtencodau=0;
+                }
+
+            }
+            if(flagtenchure==1)
+                tenvc.add(chure);
+            if(flagtencodau==1)
+                tenvc.add(codau);
+            ds.add(new TiecCuoi(makh, chure, codau, sanh, ngay, ca, soban));
             adaptertenvc.notifyDataSetChanged();
             arrayAdapter.notifyDataSetChanged();
             cursor.moveToNext();
         }
         cursor.close();
+
+
   }
 
     private void addEvents() {

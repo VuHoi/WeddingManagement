@@ -1,5 +1,7 @@
 package model;
 
+import android.os.Parcel;
+
 /**
  * Created by billy on 03-Mar-17.
  */
@@ -8,6 +10,19 @@ public class TiecCuoi {
     private String makh,codau,chure,sanh,ngay,ca;
     private int check=0;
     private int soban;
+
+    protected TiecCuoi(Parcel in) {
+        makh = in.readString();
+        codau = in.readString();
+        chure = in.readString();
+        sanh = in.readString();
+        ngay = in.readString();
+        ca = in.readString();
+        check = in.readInt();
+        soban = in.readInt();
+    }
+
+
 
     public int getCheck() {
         return check;
@@ -86,4 +101,5 @@ public class TiecCuoi {
     public TiecCuoi() {
 
     }
+
 }
