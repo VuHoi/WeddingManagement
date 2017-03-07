@@ -10,20 +10,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.vukhachoi.weddingmanagement.DetailWeddingActivity"
     >
-
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/srv"
-        android:fillViewport="true"
-        >
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:fillViewport="true">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="wrap_content"
 
+            >
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btncapnhat"
+                android:text="Cập nhật"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/lsv_dichvu"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btndat"
+                android:text="Đặt"
+                android:layout_toLeftOf="@+id/btncapnhat"
+                android:layout_below="@+id/lsv_dichvu"
+                />
             <ImageView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/groom"
@@ -254,16 +271,16 @@
                 />
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đặt bàn:"
-                    android:textSize="20dp"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:id="@+id/textView"
-                    android:layout_below="@+id/txtEditDutru"
-                    android:padding="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đặt bàn:"
+                android:textSize="20dp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:id="@+id/textView"
+                android:layout_below="@+id/txtEditDutru"
+                android:padding="10dp"/>
 
 
 
@@ -277,7 +294,6 @@
 
                 ></ListView>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -286,11 +302,21 @@
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:id="@+id/Dichvu"
-                android:layout_below="@+id/txtEditDutru"
+                android:layout_below="@+id/lsv_MonAn"
                 android:padding="10dp"/>
+
+            <ListView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/lsv_dichvu"
+                android:layout_below="@+id/Dichvu"
+
+                ></ListView>
 
         </RelativeLayout>
 
- </ScrollView>
 
+    </ScrollView>
 </LinearLayout>

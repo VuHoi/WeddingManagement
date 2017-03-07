@@ -27,6 +27,7 @@ import sqlite.Databasehelper;
 public class NameHalllActivity extends AppCompatActivity {
 
     RecyclerView rcHallName;
+
     Toolbar toolbar;
     MenuItem myMenu;
     ListView lv_edit;
@@ -111,19 +112,11 @@ public class NameHalllActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-        temp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(flag==1)
-                {
-                    lv_edit.setVisibility(View.INVISIBLE);
-                    flag=0;
-                }
-            }
-        });
+
         lv_edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                flag=1;
                 switch (i)
                 {
                     case 0:
@@ -154,6 +147,16 @@ public class NameHalllActivity extends AppCompatActivity {
         adapter=new ArrayAdapter<String>(NameHalllActivity.this,android.R.layout.simple_list_item_1,ds);
         lv_edit.setAdapter(adapter);
         temp=findViewById(R.id.activity_name_halll);
+        temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(flag==1)
+                {
+                    lv_edit.setVisibility(View.INVISIBLE);
+                    flag=0;
+                }
+            }
+        });
     }
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.mane_namehall, menu);
