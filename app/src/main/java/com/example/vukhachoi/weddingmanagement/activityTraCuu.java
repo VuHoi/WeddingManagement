@@ -2,6 +2,7 @@ package com.example.vukhachoi.weddingmanagement;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -15,11 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import adapter.adapterTraCuu;
 import model.TiecCuoi;
-import sqlite.MyDatabaseAdapter;
+import sqlite.Databasehelper;
 
 public class activityTraCuu extends AppCompatActivity {
 
@@ -49,6 +51,25 @@ public class activityTraCuu extends AppCompatActivity {
     }
 
     private void addControls() {
+        Databasehelper myDatabase = new Databasehelper(this);
+
+
+        try {
+            myDatabase.createDatabase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            myDatabase.openDatabase();
+
+        }catch(SQLException sqle){
+
+            throw sqle;
+        }
+
         tenvc=new ArrayList<>();
         adaptertenvc=new ArrayAdapter(activityTraCuu.this,android.R.layout.select_dialog_item,tenvc);
 
@@ -58,8 +79,6 @@ public class activityTraCuu extends AppCompatActivity {
         lvTraCuu.setAdapter(arrayAdapter);
 
 
-        MyDatabaseAdapter myDatabase = new MyDatabaseAdapter(this);
-        myDatabase.open();
         SQLiteDatabase database = myDatabase.getMyDatabase();
         Cursor cursor=database.rawQuery("SELECT * FROM THONGTIN",null);
         cursor.moveToFirst();
