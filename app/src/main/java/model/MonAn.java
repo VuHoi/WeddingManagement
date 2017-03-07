@@ -6,7 +6,8 @@ package model;
 
 public class MonAn {
     private  String TenMonAn;
-
+    private int Gia;
+    private String MaKH;
 
     public String getMaKH() {
         return MaKH;
@@ -16,7 +17,7 @@ public class MonAn {
         MaKH = maKH;
     }
 
-    private String MaKH;
+
 
     public MonAn() {
     }
@@ -43,5 +44,5 @@ public class MonAn {
         Gia = gia;
     }
 
-    private int Gia;
+
 }

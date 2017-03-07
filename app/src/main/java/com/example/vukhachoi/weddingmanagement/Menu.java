@@ -40,10 +40,10 @@ public class Menu extends AppCompatActivity {
     {
         //ThayDoiAnh(imgHoaDon,R.drawable.hoadon2);
         //ThayDoiAnh(imgBaoCao,R.drawable.baocao2);
-        imgThayDoi.setOnClickListener(new View.OnClickListener() {
+        imgHoaDon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ThayDoiAnh(imgThayDoi,R.drawable.thaydoi2);
+                ThayDoiAnh(imgHoaDon,R.drawable.hoadon2);
                 Intent intent=new Intent(Menu.this,LapHoaDon.class);
                 startActivity(intent);
             }
