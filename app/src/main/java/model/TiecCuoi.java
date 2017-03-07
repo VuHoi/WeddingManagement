@@ -2,11 +2,13 @@ package model;
 
 import android.os.Parcel;
 
+import java.io.Serializable;
+
 /**
  * Created by billy on 03-Mar-17.
  */
 
-public class TiecCuoi {
+public class TiecCuoi implements Serializable {
     private String makh,codau,chure,sanh,ngay,ca;
     private int check=0;
     private int soban;
