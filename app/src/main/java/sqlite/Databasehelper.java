@@ -19,7 +19,7 @@ public class Databasehelper extends SQLiteOpenHelper
     private final Context myContext;
     private static final String DATABASE_NAME = "Weeding.sqlite";
     public final static String DATABASE_PATH ="/data/data/com.example.vukhachoi.weddingmanagement/";
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 6;
     //public static final int DATABASE_VERSION_old = 1;
 
     //Constructor
@@ -33,7 +33,7 @@ public class Databasehelper extends SQLiteOpenHelper
     //Create a empty database on the system
     public void createDatabase() throws IOException
     {
-//        db_delete();
+//       db_delete();
         boolean dbExist = checkDataBase();
 
         if(dbExist)
