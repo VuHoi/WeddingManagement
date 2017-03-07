@@ -1,7 +1,6 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -47,10 +46,6 @@ public class activityTraCuu extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         addControls();
         addEvents();
-        Intent intent=new Intent(activityTraCuu.this,LapHoaDon.class);
-        ArrayList<TiecCuoi> testing=new ArrayList<>();
-        intent.putParcelableArrayListExtra("dsdamcuoi",testing);
-        startActivity(intent);
     }
 
     private void addControls() {
@@ -102,7 +97,6 @@ public class activityTraCuu extends AppCompatActivity {
             cursor.moveToNext();
         }
         cursor.close();
-
 
   }
 
