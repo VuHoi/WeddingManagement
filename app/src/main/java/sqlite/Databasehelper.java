@@ -137,6 +137,24 @@ public class Databasehelper extends SQLiteOpenHelper
             db_delete();
         }
     }
+    public void Khoitai()
+    {
+        try {
+            this.createDatabase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            this.openDatabase();
+
+        }catch(SQLException sqle){
+
+            throw sqle;
+        }
+    }
 
     //add your public methods for insert, get, delete and update data in database.
 }

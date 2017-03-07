@@ -18,7 +18,8 @@
         <activity android:name=".HallsActivity" />
         <activity android:name=".NameHalllActivity" />
         <activity android:name=".activityTraCuu" />
-        <activity android:name=".DetailWeddingActivity"></activity>
+        <activity android:name=".DetailWeddingActivity" />
+        <activity android:name=".LapHoaDon"/>
     </application>
 
 </manifest>
