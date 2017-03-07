@@ -99,6 +99,7 @@ ImageView imgActive;
                     if(Position!=RecyclerView.NO_POSITION) {
 
                         Intent intent=new Intent(context, DetailWeddingActivity.class);
+intent.putExtra("Tensanh",txtNamehall.getText().toString());
 
                         v.getContext().startActivity(intent);
                     }

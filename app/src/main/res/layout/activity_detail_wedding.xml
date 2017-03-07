@@ -13,7 +13,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/srv"
         android:fillViewport="true"
         >
@@ -23,6 +23,22 @@
             android:layout_height="match_parent"
             >
 
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đặt Tiệc"
+                android:id="@+id/btndattiec"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/lsv_dichvu"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cập Nhật"
+                android:id="@+id/btncapnhat"
+
+                android:layout_below="@+id/lsv_dichvu"
+                android:layout_toLeftOf="@+id/btndattiec"/>
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -170,13 +186,40 @@
                 android:paddingTop="18dp"
                 android:textColorHint="@color/colorPrimary"
                 />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtDienthoai"
+                android:layout_below="@+id/txtCa"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Điện thoại"
+                android:layout_toRightOf="@+id/imageView"
+                android:layout_toLeftOf="@id/imgheart"
+                android:paddingTop="20dp"
+                />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:id="@+id/txtEditsodienthooai"
+                android:layout_below="@+id/txtCa"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:hint="Điên thoại"
+                android:layout_toRightOf="@+id/imgheart"
+                android:layout_toLeftOf="@id/imgbride"
+                android:paddingTop="18dp"
+                android:textColorHint="@color/colorPrimary"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:id="@+id/txtTiendatcoc"
-                android:layout_below="@+id/txtCa"
+                android:layout_below="@+id/txtDienthoai"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:text="Đặt cọc"
@@ -189,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
                 android:id="@+id/txtEdittiendatcoc"
-                android:layout_below="@+id/txtCa"
+                android:layout_below="@+id/txtDienthoai"
                 android:textStyle="bold"
                 android:textAlignment="center"
                 android:hint="Dặt cọc"
@@ -285,10 +328,18 @@
                 android:textSize="20dp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
-                android:id="@+id/Dichvu"
-                android:layout_below="@+id/txtEditDutru"
+                android:id="@+id/txtDichvu"
+                android:layout_below="@+id/lsv_MonAn"
                 android:padding="10dp"/>
+            <ListView
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/lsv_dichvu"
+                android:layout_below="@+id/txtDichvu"
+
+                ></ListView>
         </RelativeLayout>
 
  </ScrollView>
