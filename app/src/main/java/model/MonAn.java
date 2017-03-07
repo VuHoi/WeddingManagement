@@ -7,6 +7,17 @@ package model;
 public class MonAn {
     private  String TenMonAn;
 
+
+    public String getMaKH() {
+        return MaKH;
+    }
+
+    public void setMaKH(String maKH) {
+        MaKH = maKH;
+    }
+
+    private String MaKH;
+
     public MonAn() {
     }
 
