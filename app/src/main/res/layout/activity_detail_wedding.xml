@@ -102,11 +102,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:id="@+id/txtSanh"
+                android:id="@+id/txtNgay"
                 android:layout_below="@+id/imageView"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:text="sảnh"
+                android:text="Ngay"
                 android:paddingTop="10dp"
                 android:layout_toRightOf="@+id/imageView"
                 android:layout_toLeftOf="@id/imgheart"
@@ -115,11 +115,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:id="@+id/txtEditSanh"
+                android:id="@+id/txtEditngay"
                 android:layout_below="@+id/imgbride"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:hint="Nhập sảnh"
+                android:hint="Nhập Ngày"
 
 
                 android:layout_toRightOf="@+id/imgheart"
@@ -131,33 +131,8 @@
                 android:layout_alignParentLeft="false" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:id="@+id/txtNgay"
-                android:layout_below="@+id/txtSanh"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:text="Ngày"
-                android:layout_toRightOf="@+id/imageView"
-                android:layout_toLeftOf="@id/imgheart"
-                android:paddingTop="20dp"
-                />
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:id="@+id/txtEditngay"
-                android:layout_below="@+id/txtSanh"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:hint="Nhâp ngày"
-                android:layout_toRightOf="@+id/imgheart"
-                android:layout_toLeftOf="@id/imgbride"
-                android:paddingTop="18dp"
-                android:textColorHint="@color/colorPrimary"
-                />
+
+
 
             <TextView
                 android:layout_width="wrap_content"
