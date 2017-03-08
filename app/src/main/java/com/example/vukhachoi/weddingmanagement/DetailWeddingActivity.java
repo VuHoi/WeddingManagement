@@ -1,15 +1,18 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ Button btndattiec,btncapnhat;
         setContentView(R.layout.activity_detail_wedding);
         addControl();
         addEvent();
+
 
 
     }
@@ -121,11 +125,28 @@ lsvdichvu= (ListView) findViewById(R.id.lsv_dichvu);
         cursor1.close();
     adapterDichVu=new AdapterDichVu(DetailWeddingActivity.this,R.layout.item_dichvu,listdichvu);
         lsvdichvu.setAdapter(adapterDichVu);
+
+
+
+
+
     }
 
 
     private void addEvent() {
 btndattiec.setOnClickListener(this);
+        btncapnhat.setOnClickListener(this);
+        lsvMonAn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MonAn monAn=(MonAn)adapter.getItem(position);
+                Toast.makeText(DetailWeddingActivity.this, monAn.getTenMonAn().toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        Toast.makeText(this, "vu khac hoi", Toast.LENGTH_SHORT).show();
+
     }
 
 
@@ -155,8 +176,25 @@ btndattiec.setOnClickListener(this);
 
         }
         else if(btncapnhat.getId()==v.getId())
-        {
+      {
+//            Bundle extras=getIntent().getExtras();
+//            String Tensanh= extras.getString("test");
+//            Toast.makeText(this,Tensanh, Toast.LENGTH_SHORT).show();
+//        String loz=getIntent().getStringExtra("test");
+//          Toast.makeText(DetailWeddingActivity.this,loz,Toast.LENGTH_SHORT).show();
+
 
         }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+if(requestCode==1&&resultCode==RESULT_OK) {
+    Toast.makeText(DetailWeddingActivity.this, data.getExtras().getString("test"), Toast.LENGTH_SHORT).show();
+
+}
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
