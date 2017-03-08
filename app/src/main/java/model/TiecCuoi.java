@@ -10,6 +10,16 @@ import java.io.Serializable;
 
 public class TiecCuoi implements Serializable {
     private String makh,codau,chure,sanh,ngay,ca;
+
+    public int getCheckThanhToan() {
+        return checkThanhToan;
+    }
+
+    public void setCheckThanhToan(int checkThanhToan) {
+        this.checkThanhToan = checkThanhToan;
+    }
+
+    private int checkThanhToan=0;
     private int check=0;
     private int soban;
 
@@ -24,7 +34,14 @@ public class TiecCuoi implements Serializable {
         soban = in.readInt();
     }
 
-
+    public TiecCuoi(String makh,String chure, String codau , String sanh, String ngay) {
+        this.makh = makh;
+        this.codau = codau;
+        this.chure = chure;
+        this.sanh = sanh;
+        this.ngay = ngay;
+        //this.checkThanhToan=checkThanhToan;
+    }
 
     public int getCheck() {
         return check;
