@@ -52,7 +52,7 @@ lsvdichvu= (ListView) findViewById(R.id.lsv_dichvu);
         btncapnhat= (Button) findViewById(R.id.btncapnhat);
         txtChuRe= (EditText) findViewById(R.id.txtChuRe);
         txtCoDau= (EditText) findViewById(R.id.txtCoDau);
-        txtEditSanh= (EditText) findViewById(R.id.txtEditSanh);
+
         txtEditngay= (EditText) findViewById(R.id.txtEditngay);
         txtEditca= (EditText) findViewById(R.id.txtEditca);
         txtEdittiendatcoc= (EditText) findViewById(R.id.txtEdittiendatcoc);
@@ -113,9 +113,9 @@ lsvdichvu= (ListView) findViewById(R.id.lsv_dichvu);
         while (!cursor1.isAfterLast())
         {
             Dichvu dichvu=new Dichvu();
-            dichvu.setTendichvu(cursor1.getString(3).toString());
-            dichvu.setDongia(Integer.parseInt(cursor1.getString(2).toString()));
-            dichvu.setSoluong(Integer.parseInt(cursor1.getString(1).toString()));
+            dichvu.setTendichvu(cursor1.getString(2).toString());
+            dichvu.setDongia(Integer.parseInt(cursor1.getString(1).toString()));
+
             listdichvu.add(dichvu);
             cursor1.moveToNext();
 
@@ -145,7 +145,7 @@ btndattiec.setOnClickListener(this);
             }
         });
 
-        Toast.makeText(this, "vu khac hoi", Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -171,6 +171,7 @@ btndattiec.setOnClickListener(this);
             values.put("soluongBan",Integer.parseInt(  txtEditLượngBan.getText().toString()));
             values.put("sobanDutru",Integer.parseInt( txtEditDutru.getText().toString()));
             values.put("tenSanh",Tensanh);
+
             database.insert("ThongTin",null,values);
 
 
