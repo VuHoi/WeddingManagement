@@ -33,7 +33,7 @@ Button btndattiec,btncapnhat;
     AdapterMonAn adapter;
     AdapterDichVu adapterDichVu;
     String MaKH;
-   EditText txtChuRe,txtCoDau,txtEditSanh,txtEditngay,txtEditca,txtEdittiendatcoc,txtEditLượngBan,txtEditDutru,txtdienthoai;
+   EditText txtChuRe,txtCoDau,txtEditngay,txtEditca,txtEdittiendatcoc,txtEditLượngBan,txtEditDutru,txtdienthoai;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +77,31 @@ lsvdichvu= (ListView) findViewById(R.id.lsv_dichvu);
             throw sqle;
         }
          database = myDatabase.getMyDatabase();
+
+
+
+
+        Bundle extras=getIntent().getExtras();
+        String Tensanh= extras.getString("Tensanh");
+
+        // tra ve khach hang da dat tiec
+try {
+
+
+        Cursor cursorThongTin =database.rawQuery("select * from ThongTin where  TenSanh=?", new String[]{Tensanh});
+    cursorThongTin.moveToFirst();
+        txtChuRe.setText(cursorThongTin.getString(1).toString());
+        txtCoDau.setText(cursorThongTin.getString(2).toString());
+        txtdienthoai.setText(cursorThongTin.getString(3).toString());
+        txtEditngay.setText(cursorThongTin.getString(4).toString());
+        txtEditca.setText(cursorThongTin.getString(5).toString());
+        txtEditDutru.setText(cursorThongTin.getString(8).toString());
+        txtEditLượngBan.setText(cursorThongTin.getString(7).toString());
+        txtEdittiendatcoc.setText(cursorThongTin.getString(6).toString());
+}catch (Exception e){
+
+}
+
         Cursor CsMaKH=   database.rawQuery(" select Makh from thongtin",null);
         CsMaKH.moveToLast();
         MaKH=CsMaKH.getString(0);
@@ -94,6 +119,7 @@ lsvdichvu= (ListView) findViewById(R.id.lsv_dichvu);
             monAn.setTenMonAn(cursor.getString(3).toString());
             monAn.setGia(Integer.parseInt(cursor.getString(1).toString()));
             monAn.setMaKH(MaKH);
+            monAn.setTenSanh(Tensanh);
             lsv.add(monAn);
             cursor.moveToNext();
 
@@ -115,7 +141,8 @@ lsvdichvu= (ListView) findViewById(R.id.lsv_dichvu);
             Dichvu dichvu=new Dichvu();
             dichvu.setTendichvu(cursor1.getString(2).toString());
             dichvu.setDongia(Integer.parseInt(cursor1.getString(1).toString()));
-
+dichvu.setMaKH(MaKH);
+            dichvu.setTenSanh(Tensanh);
             listdichvu.add(dichvu);
             cursor1.moveToNext();
 
