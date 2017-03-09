@@ -51,15 +51,16 @@ public class AdapterMonAn extends ArrayAdapter<MonAn> {
         final MonAn monAN=this.objects.get(position);
         txtMonAn.setText(monAN.getTenMonAn().toString());
         txtGia.setText(monAN.getGia()+"");
+        Toast.makeText(context,monAN.getMaKH().toString(), Toast.LENGTH_SHORT).show();
 try
 {
+Cursor cursorCheck=database.rawQuery("select * from DatMonAn join MonAn on Madatmonan=MaMonAn where TenMonAn=? and  Tensanh=?",new String[]{monAN.getTenMonAn().toString(),monAN.getTenSanh().toString()});
+cursorCheck.moveToFirst();
+    if(cursorCheck.getString(0)!=null&&cursorCheck.getString(2).equals(monAN.getTenSanh()) ){
+        ckb.setChecked(true);
 
-    Cursor cursor1= database.rawQuery("select MaMonAn,MaKH from DatMonAn ",null);
-        cursor1.moveToFirst();
-        Toast.makeText(context, cursor1.getString(0).toString(), Toast.LENGTH_SHORT).show();
-    cursor1.moveToNext();
-    Toast.makeText(context, cursor1.getString(1).toString(), Toast.LENGTH_SHORT).show();
-    Toast.makeText(context, cursor1.getString(0).toString(), Toast.LENGTH_SHORT).show();
+    }
+
 }catch (Exception e)
 {
 
@@ -77,11 +78,12 @@ try
             ContentValues values=new ContentValues();
             values.put("MaKH",monAN.getMaKH());
             values.put("MaMonAn",cursor.getString(0));
+            values.put("TenSanh",monAN.getTenSanh());
             database.insert("DatMonAn",null,values);
         }
         else
         {
-            database.delete("DatMonAn","MaKH=? and MaMonAn=?",new String[]{monAN.getMaKH(), cursor.getString(0).toString()});
+            database.delete("DatMonAn","Tensanh=? and MaMonAn=?",new String[]{monAN.getTenSanh(), cursor.getString(0).toString()});
         }
     }
 });

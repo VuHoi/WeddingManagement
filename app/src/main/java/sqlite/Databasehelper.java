@@ -34,6 +34,7 @@ public class Databasehelper extends SQLiteOpenHelper
     public void createDatabase() throws IOException
     {
 //       db_delete();
+
         boolean dbExist = checkDataBase();
 
         if(dbExist)
