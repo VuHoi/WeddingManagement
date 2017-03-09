@@ -37,6 +37,13 @@ public class Dichvu {
         Dongia = dongia;
     }
 
+    public Dichvu(String maKH,String tendichvu, int soluong, int dongia) {
+        Tendichvu = tendichvu;
+        Soluong = soluong;
+        MaKH = maKH;
+        Dongia = dongia;
+    }
+
     public String getTendichvu() {
         return Tendichvu;
     }

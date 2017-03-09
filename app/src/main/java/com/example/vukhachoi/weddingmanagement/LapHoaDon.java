@@ -14,6 +14,7 @@ import android.widget.TabHost;
 import java.util.ArrayList;
 
 import adapter.Adapter_HoaDon;
+import model.Dichvu;
 import model.TiecCuoi;
 import sqlite.Databasehelper;
 
@@ -24,6 +25,8 @@ public class LapHoaDon extends AppCompatActivity {
     ListView lv_hoadon;
     ArrayAdapter<TiecCuoi>adapterHoaDon;
     ArrayList<TiecCuoi>dsHoaDon;
+
+
 
     ListView lv_hoadonDaThanhToan;
     @Override
@@ -87,6 +90,53 @@ public class LapHoaDon extends AppCompatActivity {
             adapterHoaDon.notifyDataSetChanged();
             cursor.moveToNext();
         }
+        cursor.close();
         lv_hoadon.setAdapter(adapterHoaDon);
+
+        //Lấy tiền bàn
+        Cursor cursor1=database.rawQuery("select thongtin.makh,sum(dongia),dongiatoithieu" +
+                                        " from  sanh join thongtin on sanh.tensanh=thongtin.tensanh join datmonan on thongtin.makh=datmonan.makh join monan on monan.madatmonan=datmonan.mamonan" +
+                                        " group by thongtin.makh",null);
+
+        cursor1.moveToFirst();
+        while (!cursor1.isAfterLast())
+        {
+            String makh = cursor1.getString(0);
+            int tienan = cursor1.getInt(1)+cursor1.getInt(2);
+            for (TiecCuoi tc : dsHoaDon)
+            {
+                if(makh.equals(tc.getMakh()))
+                    tc.setTienban(tienan);
+
+            }
+            cursor1.moveToNext();
+        }
+        cursor1.close();
+
+        Cursor cursor2=database.rawQuery("select thongtin.makh,tendv,soluong,dongia " +
+                "from thongtin join datdichvu on thongtin.makh=datdichvu.makh " +
+                "join dichvu on dichvu.madatdichvu=datdichvu.madv",null);
+        cursor2.moveToFirst();
+
+        while (!cursor2.isAfterLast())
+        {
+            String makh_dv = cursor2.getString(0);
+            String tendv=cursor2.getString(1);
+            int sl=cursor2.getInt(2);
+            int dongia=cursor2.getInt(3);
+            for (TiecCuoi tc : dsHoaDon)
+            {
+                if(makh_dv.equals(tc.getMakh()))
+                {
+                    Dichvu dvtemp=new Dichvu(makh_dv,tendv,sl,dongia);
+                    tc.adddv(dvtemp);
+                }
+
+            }
+            cursor2.moveToNext();
+        }
+        cursor2.close();
+
+
     }
 }
