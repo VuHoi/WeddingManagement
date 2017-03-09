@@ -70,8 +70,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public int getItemViewType(int position) {
         if(hallDetails.get(position).isActive())
-            return 1;
-        else return 2;
+            return 2;
+        else return 1;
     }
 
     public  class DataViewHolde extends RecyclerView.ViewHolder {

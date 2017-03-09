@@ -1,6 +1,5 @@
 package com.example.vukhachoi.weddingmanagement;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -31,6 +30,11 @@ public class HallsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onRestart() {
+        recreate();
+        super.onRestart();
+    }
 
     private void addEvent() {
 
@@ -67,18 +71,9 @@ public class HallsActivity extends AppCompatActivity {
         rcListHall.setHasFixedSize(true);
         RecyclerViewAdapter adapter=new RecyclerViewAdapter(hallDetail,this);
         rcListHall.setAdapter(adapter);
-        ContentValues values=new ContentValues();
-String data="A5";
-        values.put("loaisanh","A");
-        values.put("tensanh","A5");
-        values.put("sobantoida",110);
-        values.put("dongiatoithieu",110);
-        values.put("ghichu","khong co gi");
-        values.put("tinhtrang",1);
+String tinhtrang="1";
 
-
-        database.delete("sanh","tensanh=?",new String[]{data});
-        Cursor cursor=database.rawQuery("SELECT distinct Loaisanh,tinhtrang FROM Sanh",null);
+        Cursor cursor=database.rawQuery(" SELECT distinct Loaisanh,tinhtrang FROM Sanh where tinhtrang=?",new String[]{tinhtrang});
         cursor.moveToFirst();
 
 
@@ -86,7 +81,7 @@ String data="A5";
         {
             HallDetail Hall=new HallDetail();
             Hall.setNameHall(cursor.getString(0));
-            Hall.setActive(Boolean.parseBoolean(cursor.getString(1)));
+            Hall.setActive(true);
             hallDetail.add(Hall);
             cursor.moveToNext();
             adapter.notifyDataSetChanged();
@@ -99,8 +94,17 @@ String data="A5";
         {
             HallDetail Hall=new HallDetail();
             Hall.setNameHall(cursor1.getString(0));
-            Hall.setActive(Boolean.parseBoolean(cursor1.getString(1)));
-            hallDetail.add(Hall);
+            Hall.setActive(false);
+           int i=0;
+            for(HallDetail h:hallDetail )
+            {
+                if(h.getNameHall().toString().equals(Hall.getNameHall().toString())) {
+                    h.setActive(false);
+                   i=1;
+                    break;
+                }
+            }
+         if(i==0)   hallDetail.add(Hall);
             cursor1.moveToNext();
             adapter.notifyDataSetChanged();
         }
