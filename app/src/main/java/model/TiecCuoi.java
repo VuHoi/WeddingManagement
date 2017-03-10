@@ -3,6 +3,7 @@ package model;
 import android.os.Parcel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by billy on 03-Mar-17.
@@ -10,6 +11,21 @@ import java.io.Serializable;
 
 public class TiecCuoi implements Serializable {
     private String makh,codau,chure,sanh,ngay,ca;
+    private int tienban;
+
+    private ArrayList<Dichvu>dv=new ArrayList<>();
+    public void adddv(Dichvu dvtemp)
+    {
+        dv.add(dvtemp);
+    }
+    public int getTienban() {
+        return tienban;
+    }
+
+    public void setTienban(int tienan) {
+        this.tienban = tienan;
+    }
+
 
     public int getCheckThanhToan() {
         return checkThanhToan;
@@ -109,8 +125,19 @@ public class TiecCuoi implements Serializable {
         this.ca = ca;
     }
 
+
+
+
     public int getSoban() {
         return soban;
+    }
+
+    public ArrayList<Dichvu> getDv() {
+        return dv;
+    }
+
+    public void setDv(ArrayList<Dichvu> dv) {
+        this.dv = dv;
     }
 
     public void setSoban(int soban) {
@@ -118,7 +145,6 @@ public class TiecCuoi implements Serializable {
     }
 
     public TiecCuoi() {
-
     }
 
 }
