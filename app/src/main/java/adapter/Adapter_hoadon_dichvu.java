@@ -35,6 +35,7 @@ public class Adapter_hoadon_dichvu extends ArrayAdapter<Dichvu> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         LayoutInflater inflater=this.context.getLayoutInflater();
         View row=inflater.inflate(this.resource,null);
         TextView txtstt= (TextView) row.findViewById(R.id.txtstt);
@@ -48,8 +49,8 @@ public class Adapter_hoadon_dichvu extends ArrayAdapter<Dichvu> {
         stt++;
         txttendv.setText(dv.getTendichvu()+"");
         txt_hoadon_sl.setText(dv.getSoluong()+"");
-        txt_hoadon_dongia.setText(dv.getDongia()+"");
-        txt_hoadon_thanhtien.setText(dv.getDongia()*dv.getSoluong()+"");
+        txt_hoadon_dongia.setText((float)dv.getDongia()/1000000+"");
+        txt_hoadon_thanhtien.setText((float)(dv.getDongia()*dv.getSoluong())/1000000+"");
         return row;
     }
 }

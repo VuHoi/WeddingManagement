@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Created by Vu Khac Hoi on 3/7/2017.
  */
 
-public class Dichvu {
+public class Dichvu implements Serializable {
 
    private String Tendichvu;
    private int Soluong;
