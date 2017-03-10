@@ -72,11 +72,12 @@
         android:id="@+id/txtSanh_LapHoaDon"
         android:layout_marginTop="5dp"
         android:textSize="20dp" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Đơn giá bàn:"
+        android:text="Đơn giá bàn(triệu đồng):"
         android:layout_marginTop="5dp"
         android:id="@+id/txtDonGiaBan"
         android:textSize="20dp"/>
@@ -117,13 +118,80 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Tổng tiền bàn:"
+        android:text="Tổng tiền bàn(triệu đồng):"
         android:id="@+id/txtTongTienBan"
         android:textSize="20dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:text="stt"
+            android:textSize="18dp"/>
 
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Tên dịch vụ"
+            android:paddingLeft="5dp"
+            android:textSize="18dp"/>
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="SL"
+            android:textSize="18dp"
+            android:paddingLeft="8dp"/>
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"/>
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Đơn giá(tr)"
+            android:paddingLeft="5dp"
+            android:textSize="18dp"/>
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="3dp"
+            android:text="Thành tiền(tr)"
+            android:id="@+id/txt_hoadon_thanhtien"
+            android:textSize="18dp"/>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryDark"/>
     <ListView
         android:layout_width="wrap_content"
-        android:layout_marginLeft="10dp"
+
         android:layout_height="127dp"
         android:divider="@color/colorPrimaryDark"
         android:layout_weight="1"
@@ -135,7 +203,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Tổng tiền dịch vụ:"
+        android:text="Tổng tiền dịch vụ(triệu đồng):"
         android:layout_marginTop="5dp"
         android:id="@+id/txttien_dichvu"
         android:textSize="20dp" />
@@ -143,7 +211,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Tổng tiền hóa đơn:"
+        android:text="Tổng tiền hóa đơn(triệu đồng):"
         android:layout_marginTop="5dp"
         android:id="@+id/txttien_hoadon"
         android:textSize="20dp" />
@@ -151,7 +219,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Tiền đặt cọc:"
+        android:text="Tiền đặt cọc(triệu đồng):"
         android:layout_marginTop="5dp"
         android:id="@+id/txttien_datcoc"
         android:textSize="20dp" />
@@ -159,7 +227,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:text="Còn lại:"
+        android:text="Còn lại(triệu đồng):"
         android:layout_marginTop="5dp"
         android:id="@+id/txttien_conlai"
         android:textSize="20dp" />

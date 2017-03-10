@@ -12,6 +12,15 @@ import java.util.ArrayList;
 public class TiecCuoi implements Serializable {
     private String makh,codau,chure,sanh,ngay,ca;
     private int tienban;
+    private int tiendatcoc;
+
+    public int getTiendatcoc() {
+        return tiendatcoc;
+    }
+
+    public void setTiendatcoc(int tiendatcoc) {
+        this.tiendatcoc = tiendatcoc;
+    }
 
     private ArrayList<Dichvu>dv=new ArrayList<>();
     public void adddv(Dichvu dvtemp)
