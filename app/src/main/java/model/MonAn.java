@@ -9,15 +9,9 @@ public class MonAn {
     private int Gia;
     private String MaKH;
 
-    public String getTenSanh() {
-        return TenSanh;
-    }
 
-    public void setTenSanh(String tenSanh) {
-        TenSanh = tenSanh;
-    }
 
-    private  String TenSanh;
+
     public String getMaKH() {
         return MaKH;
     }

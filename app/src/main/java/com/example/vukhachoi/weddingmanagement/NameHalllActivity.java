@@ -107,6 +107,7 @@ public class NameHalllActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         lv_edit.setVisibility(View.INVISIBLE);
+
         super.onResume();
     }
 
@@ -164,6 +165,13 @@ public class NameHalllActivity extends AppCompatActivity {
         myMenu = menu.findItem(R.id.edit_menu);
         return super.onPrepareOptionsMenu(menu);
     }
+
+    @Override
+    protected void onRestart() {
+        recreate();
+        super.onRestart();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId())
@@ -183,5 +191,6 @@ public class NameHalllActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
