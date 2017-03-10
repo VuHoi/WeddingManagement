@@ -98,16 +98,22 @@ try {
         txtEditDutru.setText(cursorThongTin.getString(8).toString());
         txtEditLượngBan.setText(cursorThongTin.getString(7).toString());
         txtEdittiendatcoc.setText(cursorThongTin.getString(6).toString());
+    MaKH=cursorThongTin.getString(0).toString();
 }catch (Exception e){
 
 }
+//tim ma khach hang
 
-        Cursor CsMaKH=   database.rawQuery(" select Makh from thongtin",null);
-        CsMaKH.moveToLast();
-        MaKH=CsMaKH.getString(0);
-        MaKH=MaKH.substring(2,MaKH.length());
-        if(Integer.parseInt(MaKH)<9)MaKH="KH0"+(Integer.parseInt(MaKH)+1);
-        else MaKH="KH"+(Integer.parseInt(MaKH)+1);
+
+if(MaKH==null) {
+    Cursor CsMaKH = database.rawQuery(" select Makh from thongtin", null);
+    CsMaKH.moveToLast();
+    MaKH = CsMaKH.getString(0);
+    MaKH = MaKH.substring(2, MaKH.length());
+    if (Integer.parseInt(MaKH) < 9) MaKH = "KH0" + (Integer.parseInt(MaKH) + 1);
+    else MaKH = "KH" + (Integer.parseInt(MaKH) + 1);
+}
+        Toast.makeText(this,MaKH, Toast.LENGTH_SHORT).show();
 
         lsv= new ArrayList<>();
 
@@ -119,7 +125,7 @@ try {
             monAn.setTenMonAn(cursor.getString(3).toString());
             monAn.setGia(Integer.parseInt(cursor.getString(1).toString()));
             monAn.setMaKH(MaKH);
-            monAn.setTenSanh(Tensanh);
+
             lsv.add(monAn);
             cursor.moveToNext();
 
@@ -142,7 +148,7 @@ try {
             dichvu.setTendichvu(cursor1.getString(2).toString());
             dichvu.setDongia(Integer.parseInt(cursor1.getString(1).toString()));
 dichvu.setMaKH(MaKH);
-            dichvu.setTenSanh(Tensanh);
+
             listdichvu.add(dichvu);
             cursor1.moveToNext();
 

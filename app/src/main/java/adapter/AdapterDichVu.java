@@ -3,8 +3,11 @@ package adapter;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,16 +49,18 @@ public class AdapterDichVu extends ArrayAdapter<Dichvu> {
         TextView txtTendichvu= (TextView) Row.findViewById(R.id.txtTendichvu);
         TextView txtGiaDichVu= (TextView) Row.findViewById(R.id.txtGiaDichvu);
         final TextView txtSoLuong= (TextView) Row.findViewById(R.id.txtSoLuong);
-        CheckBox ckb= (CheckBox) Row.findViewById(R.id.ckbLuachon);
+        final CheckBox ckb= (CheckBox) Row.findViewById(R.id.ckbLuachon);
         final Dichvu dichvu=this.objects.get(position);
         txtTendichvu.setText(dichvu.getTendichvu().toString());
         txtSoLuong.setText(dichvu.getSoluong()+"");
         txtGiaDichVu.setText(dichvu.getDongia()+"");
+
+
         try
         {
-            Cursor cursorCheck=database.rawQuery("select * from DatDichVu join Dichvu on MaDatDichVu=MaDV where TenDV=? and  Tensanh=?",new String[]{dichvu.getTendichvu().toString(),dichvu.getTenSanh().toString()});
+            Cursor cursorCheck=database.rawQuery("select * from DatDichVu join Dichvu on MaDatDichVu=MaDV where TenDV=? and  MaKH=?",new String[]{dichvu.getTendichvu().toString(),dichvu.getMaKH().toString()});
             cursorCheck.moveToFirst();
-            if(cursorCheck.getString(0)!=null&&cursorCheck.getString(3).equals(dichvu.getTenSanh())){
+            if(cursorCheck.getString(0)!=null&&cursorCheck.getString(1).equals(dichvu.getMaKH())){
                 ckb.setChecked(true);
                 txtSoLuong.setText(cursorCheck.getString(2).toString());
             }
@@ -70,19 +75,77 @@ public class AdapterDichVu extends ArrayAdapter<Dichvu> {
             public void onClick(View v) {
                 Cursor cursor= database.rawQuery("select Madatdichvu from DichVu where TenDV=?",new String[]{dichvu.getTendichvu().toString()});
                 cursor.moveToFirst();
-                if(((CheckBox)v).isChecked())
-                {
-                    ContentValues values=new ContentValues();
-                    values.put("MaKH",dichvu.getMaKH());
-                    values.put("MaDv",cursor.getString(0));
-                    values.put("SoLuong",txtSoLuong.getText().toString());
-                    values.put("TenSanh",dichvu.getTenSanh());
-                    database.insert("DatDichVu",null,values);
+                if( Integer.parseInt(txtSoLuong.getText().toString())==0) ckb.setChecked(false);
+                else {
+                    if (((CheckBox) v).isChecked()) {
+
+                        try {
+                            ContentValues values = new ContentValues();
+                            values.put("MaKH", dichvu.getMaKH());
+                            values.put("MaDv", cursor.getString(0));
+                            values.put("SoLuong", txtSoLuong.getText().toString());
+
+
+                            database.insert("DatDichVu", null, values);
+                        }
+                        catch(Exception e)
+                        {
+
+                        }
+                    } else {
+                        database.delete("DatDichVu", "MaKH=? and MaDv=?", new String[]{dichvu.getMaKH(), cursor.getString(0).toString()});
+                    }
                 }
-                else
+            }
+        });
+
+
+
+        txtSoLuong.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Cursor cursor= database.rawQuery("select Madatdichvu from DichVu where TenDV=?",new String[]{dichvu.getTendichvu().toString()});
+                cursor.moveToFirst();
+                try {
+                    if (Integer.parseInt(txtSoLuong.getText().toString()) == 0)
+                        ckb.setChecked(false);
+                    else {
+                        ckb.setChecked(true);
+                        if (ckb.isChecked()) {
+
+                            try {
+                                ContentValues values = new ContentValues();
+                                values.put("MaKH", dichvu.getMaKH());
+                                values.put("MaDv", cursor.getString(0));
+                                values.put("SoLuong", txtSoLuong.getText().toString());
+
+                                database.insertWithOnConflict("DatDichVu", null, values, SQLiteDatabase.CONFLICT_FAIL);
+                            } catch (SQLiteConstraintException e) {
+                                try {
+                                    ContentValues values = new ContentValues();
+                                    values.put("Soluong", txtSoLuong.getText().toString());
+                                    database.updateWithOnConflict("DatDichVu", values, "MaKH=? and MaDV=?", new String[]{dichvu.getMaKH(), cursor.getString(0)}, SQLiteDatabase.CONFLICT_FAIL);
+                                } catch (SQLiteConstraintException SQLe) {
+                                    ckb.setChecked(false);
+                                    txtSoLuong.setText("0");
+                                }
+                            }
+                        }
+                    }
+                }catch (Exception e)
                 {
-                    database.delete("DatDichVu","Tensanh=? and MaDv=?",new String[]{dichvu.getTenSanh(), cursor.getString(0).toString()});
+
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

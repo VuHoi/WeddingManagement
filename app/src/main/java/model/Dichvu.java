@@ -9,15 +9,8 @@ public class Dichvu {
    private String Tendichvu;
    private int Soluong;
 
-    public String getTenSanh() {
-        return TenSanh;
-    }
 
-    public void setTenSanh(String tenSanh) {
-        TenSanh = tenSanh;
-    }
 
-    private  String TenSanh;
     public String getMaKH() {
         return MaKH;
     }

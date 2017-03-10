@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.vukhachoi.weddingmanagement.R;
 
@@ -51,12 +50,12 @@ public class AdapterMonAn extends ArrayAdapter<MonAn> {
         final MonAn monAN=this.objects.get(position);
         txtMonAn.setText(monAN.getTenMonAn().toString());
         txtGia.setText(monAN.getGia()+"");
-        Toast.makeText(context,monAN.getMaKH().toString(), Toast.LENGTH_SHORT).show();
+
 try
 {
-Cursor cursorCheck=database.rawQuery("select * from DatMonAn join MonAn on Madatmonan=MaMonAn where TenMonAn=? and  Tensanh=?",new String[]{monAN.getTenMonAn().toString(),monAN.getTenSanh().toString()});
+Cursor cursorCheck=database.rawQuery("select * from DatMonAn join MonAn on Madatmonan=MaMonAn where TenMonAn=? and  MaKH=?",new String[]{monAN.getTenMonAn().toString(),monAN.getMaKH().toString()});
 cursorCheck.moveToFirst();
-    if(cursorCheck.getString(0)!=null&&cursorCheck.getString(2).equals(monAN.getTenSanh()) ){
+    if(cursorCheck.getString(0)!=null&&cursorCheck.getString(1).equals(monAN.getMaKH()) ){
         ckb.setChecked(true);
 
     }
@@ -78,12 +77,12 @@ cursorCheck.moveToFirst();
             ContentValues values=new ContentValues();
             values.put("MaKH",monAN.getMaKH());
             values.put("MaMonAn",cursor.getString(0));
-            values.put("TenSanh",monAN.getTenSanh());
+
             database.insert("DatMonAn",null,values);
         }
         else
         {
-            database.delete("DatMonAn","Tensanh=? and MaMonAn=?",new String[]{monAN.getTenSanh(), cursor.getString(0).toString()});
+            database.delete("DatMonAn","MaKH=? and MaMonAn=?",new String[]{monAN.getMaKH(), cursor.getString(0).toString()});
         }
     }
 });
