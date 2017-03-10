@@ -113,7 +113,7 @@ public class LapHoaDon extends AppCompatActivity {
         }
         cursor1.close();
 
-        Cursor cursor2=database.rawQuery("select thongtin.makh,tendv,soluong,dongia " +
+        Cursor cursor2=database.rawQuery("select thongtin.makh,tendv,soluong,dongia,tiendatcoc " +
                 "from thongtin join datdichvu on thongtin.makh=datdichvu.makh " +
                 "join dichvu on dichvu.madatdichvu=datdichvu.madv",null);
         cursor2.moveToFirst();
@@ -122,6 +122,7 @@ public class LapHoaDon extends AppCompatActivity {
         {
             String makh_dv = cursor2.getString(0);
             String tendv=cursor2.getString(1);
+            int datcoc=cursor2.getInt(4);
             int sl=cursor2.getInt(2);
             int dongia=cursor2.getInt(3);
             for (TiecCuoi tc : dsHoaDon)
@@ -130,6 +131,7 @@ public class LapHoaDon extends AppCompatActivity {
                 {
                     Dichvu dvtemp=new Dichvu(makh_dv,tendv,sl,dongia);
                     tc.adddv(dvtemp);
+                    tc.setTiendatcoc(datcoc);
                 }
 
             }

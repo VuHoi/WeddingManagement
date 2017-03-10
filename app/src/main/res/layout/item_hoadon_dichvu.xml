@@ -3,12 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-  <TextView
-      android:layout_width="1dp"
-      android:layout_height="match_parent"
-      android:background="@color/colorPrimaryDark"/>
+
     <TextView
-        android:layout_width="40dp"
+        android:layout_width="25dp"
         android:layout_height="wrap_content"
         android:text="stt"
         android:id="@+id/txtstt"
@@ -46,12 +43,13 @@
       android:layout_height="match_parent"
       android:background="@color/colorPrimaryDark"/>
 
-    <TextView
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:text="Đơn giá"
-        android:id="@+id/txt_hoadon_dongia"
-        android:textSize="18dp"/>
+  <TextView
+      android:layout_width="100dp"
+      android:layout_height="wrap_content"
+      android:text="Đơn giá"
+      android:id="@+id/txt_hoadon_dongia"
+      android:textSize="18dp"/>
+
   <TextView
       android:layout_width="1dp"
       android:layout_height="match_parent"
@@ -63,9 +61,5 @@
         android:text="Thành tiền"
         android:id="@+id/txt_hoadon_thanhtien"
         android:textSize="18dp"/>
-  <TextView
-      android:layout_width="1dp"
-      android:layout_height="match_parent"
-      android:background="@color/colorPrimaryDark"/>
 
 </LinearLayout>
