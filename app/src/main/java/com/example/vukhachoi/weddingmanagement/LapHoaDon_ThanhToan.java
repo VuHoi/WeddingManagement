@@ -1,5 +1,7 @@
 package com.example.vukhachoi.weddingmanagement;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -21,6 +24,7 @@ import java.util.Calendar;
 import adapter.Adapter_hoadon_dichvu;
 import model.Dichvu;
 import model.TiecCuoi;
+import sqlite.Databasehelper;
 
 public class LapHoaDon_ThanhToan extends AppCompatActivity {
 
@@ -45,6 +49,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
 
     Button btnLap;
     Button btnHuy;
+    Databasehelper myDatabase = new Databasehelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +60,26 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
 
     private void addEvents() {
 
+        btnLap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                myDatabase.Khoitai();;
+                SQLiteDatabase database = myDatabase.getMyDatabase();
+                ContentValues values=new ContentValues();
+                values.put("Makh",temp.getMakh());
+                values.put("Soluongban",Integer.parseInt(txtSLBan.getText().toString()));
+                values.put("Dongia",temp.getTienban());
+                values.put("Tiendatcoc",temp.getTiendatcoc());
+                values.put("Tongtien",a+tiendv);
+                database.insert("hoadon",null,values);
+                Toast.makeText(LapHoaDon_ThanhToan.this,"Lập hóa đon thành công",Toast.LENGTH_LONG).show();
+//                Intent intent=new Intent(LapHoaDon_ThanhToan.this,LapHoaDon.class);
+//                intent.putExtra("makhdalap",temp.getMakh());
+//                startActivity(intent);
+                finish();
+            }
+        });
         btnHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +103,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                        float temp1=(float)a+tiendv;
                        txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
 
-                       float conlai=temp.getTiendatcoc()-temp1;
+                       float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;
                        txttien_conlai.setText(txttien_conlai.getText().toString()+x.format(conlai));
                    }
                }
@@ -140,7 +165,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
         txttien_dichvu.setText(txttien_dichvu.getText().toString()+x.format(tiendv));
 
 
-        txttien_datcoc.setText(txttien_datcoc.getText().toString()+temp.getTiendatcoc());
+        txttien_datcoc.setText(txttien_datcoc.getText().toString()+(float)temp.getTiendatcoc()/1000000);
 
 
     }

@@ -43,10 +43,9 @@ public class Adapter_hoadon_dichvu extends ArrayAdapter<Dichvu> {
         TextView txt_hoadon_sl= (TextView) row.findViewById(R.id.txt_hoadon_sl);
         TextView txt_hoadon_dongia= (TextView) row.findViewById(R.id.txt_hoadon_dongia);
         TextView txt_hoadon_thanhtien= (TextView) row.findViewById(R.id.txt_hoadon_thanhtien);
-
+        stt=position+1;
         Dichvu dv=this.objects.get(position);
         txtstt.setText(stt+"");
-        stt++;
         txttendv.setText(dv.getTendichvu()+"");
         txt_hoadon_sl.setText(dv.getSoluong()+"");
         txt_hoadon_dongia.setText((float)dv.getDongia()/1000000+"");
