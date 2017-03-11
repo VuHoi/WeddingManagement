@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -9,9 +11,19 @@
         android:layout_gravity="center"
         android:src="@drawable/towhall"
         android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
+
 
         />
+    <EditText
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imgHallName"
+        android:id="@+id/edttensanh"
+        android:textColor="#76FF03"
+        android:hint="Nhập Tên Sảnh"
+        android:textStyle="bold"
+        android:paddingTop="5dp"/>
     <TextView
 
         android:layout_width="wrap_content"
@@ -23,17 +35,19 @@
 
         android:textStyle="bold"
         android:paddingTop="10dp"
-        android:layout_below="@+id/imgHallName"
+        android:layout_below="@+id/edttensanh"
 
-        android:paddingRight="10dp"
+        android:paddingRight="22dp"
         android:id="@+id/txtban"/>
     <EditText
+        android:textAlignment="center"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/txtban"
-        android:layout_below="@+id/imgHallName"
+        android:layout_below="@+id/edttensanh"
         android:id="@+id/edtbantoida"
         android:textColor="#76FF03"
+        android:textStyle="bold"
         android:paddingTop="5dp"/>
     <TextView
         android:layout_width="wrap_content"
@@ -47,15 +61,34 @@
         android:paddingTop="10dp"
 
         android:id="@+id/txtgiatoithieu"
-android:text="Giá tối thiểu"
+android:text="Giá tối thiểu :"
 
         />
     <EditText
+        android:textAlignment="center"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/txtgiatoithieu"
         android:layout_below="@+id/txtban"
         android:id="@+id/edtgiatoithieu"
         android:textColor="#76FF03"
+        android:textStyle="bold"
         android:paddingTop="5dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thêm"
+        android:id="@+id/btnThem"
+        android:layout_below="@+id/edtgiatoithieu"
+        android:layout_toRightOf="@+id/txtgiatoithieu"
+        android:layout_marginLeft="-40dp"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sửa"
+        android:id="@+id/btnSua"
+        android:layout_below="@+id/edtgiatoithieu"
+        android:layout_toRightOf="@+id/txtgiatoithieu"
+        android:layout_marginLeft="-40dp"/>
 </RelativeLayout>
