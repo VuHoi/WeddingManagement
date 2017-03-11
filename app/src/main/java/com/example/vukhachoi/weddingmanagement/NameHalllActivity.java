@@ -1,22 +1,23 @@
 package com.example.vukhachoi.weddingmanagement;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,11 @@ import hall.wedding.management.NameHall;
 import sqlite.Databasehelper;
 
 public class NameHalllActivity extends AppCompatActivity {
-
+    Databasehelper myDatabase;
+    SQLiteDatabase database;
+    RecyclerNameHallAdapter adapterHallName;
     RecyclerView rcHallName;
+    List<NameHall> nameHalls;
     Toolbar toolbar;
     MenuItem myMenu;
     ListView lv_edit;
@@ -42,25 +46,11 @@ public class NameHalllActivity extends AppCompatActivity {
         setContentView(R.layout.activity_name_halll);
         addControls();
         addEvents();
-        Databasehelper myDatabase = new Databasehelper(this);
+        myDatabase = new Databasehelper(this);
 
 
-        try {
-            myDatabase.createDatabase();
-
-        } catch (IOException ioe) {
-
-            throw new Error("Unable to create database");
-        }
-
-        try {
-            myDatabase.openDatabase();
-
-        }catch(SQLException sqle){
-
-            throw sqle;
-        }
-        SQLiteDatabase database = myDatabase.getMyDatabase();
+        myDatabase.Khoitai();
+        database = myDatabase.getMyDatabase();
 
         Context context;
         context = getApplicationContext();
@@ -70,7 +60,7 @@ public class NameHalllActivity extends AppCompatActivity {
         String data= extras.getString("NameHall");
         ContentValues values=new ContentValues();
 
-        List<NameHall> nameHalls = new ArrayList<>();
+        nameHalls = new ArrayList<>();
         Cursor cursor =database.rawQuery("Select * from sanh where loaisanh=? ",new String[]{data});
         cursor.moveToFirst();
 
@@ -99,7 +89,8 @@ public class NameHalllActivity extends AppCompatActivity {
         // LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rcHallName.setLayoutManager(recyclerViewLayoutManager);
         rcHallName.setHasFixedSize(true);
-        rcHallName.setAdapter(new RecyclerNameHallAdapter( nameHalls,this));
+        adapterHallName =new RecyclerNameHallAdapter(nameHalls,this);
+        rcHallName.setAdapter(adapterHallName);
 
 
     }
@@ -193,4 +184,26 @@ public class NameHalllActivity extends AppCompatActivity {
     }
 
 
+
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if(id==0)
+        {
+            AlertDialog dialog =null;
+            LayoutInflater inflater = LayoutInflater.from(this);
+
+            View dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
+            AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(this);
+
+            dialogbuilder.setView(dialogview);
+            dialogbuilder.setTitle("Login");
+
+            dialogbuilder.setView(dialogview);
+
+            dialog = dialogbuilder.create();
+            return  dialog;
+        }
+        return null;
+    }
 }
