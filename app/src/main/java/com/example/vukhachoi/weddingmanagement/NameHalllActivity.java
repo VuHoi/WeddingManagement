@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +42,10 @@ public class NameHalllActivity extends AppCompatActivity {
     View temp;
     ArrayAdapter<String> adapter;
     ArrayList<String> ds;
-
+final int THEM=0;
+    final int SUA=2;
+    final  int XOA=1;
+    int luachon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -119,15 +126,19 @@ public class NameHalllActivity extends AppCompatActivity {
                 switch (i)
                 {
                     case 0:
-                        //Thêm
+                        luachon=THEM;
+
                         break;
                     case 1:
                         //Xóa
+                        luachon=XOA;
                         break;
                     case 2:
                         //Sửa
+                        luachon=SUA;
                         break;
                 }
+                showDialog(-1);
                 lv_edit.setVisibility(View.INVISIBLE);
                 flag=0;
             }
@@ -188,22 +199,147 @@ public class NameHalllActivity extends AppCompatActivity {
 
     @Override
     protected Dialog onCreateDialog(int id) {
-        if(id==0)
+        AlertDialog dialog =null;
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogview;
+        AlertDialog.Builder dialogbuilder;
+        switch (id)
         {
-            AlertDialog dialog =null;
-            LayoutInflater inflater = LayoutInflater.from(this);
+            case -1:
+                dialogview = inflater.inflate(R.layout.dialog_login, null);
+                dialogbuilder = new AlertDialog.Builder(this);
+                dialogbuilder.setView(dialogview);
+                dialogbuilder.setView(dialogview);
+                dialog = dialogbuilder.create();
+                break;
+            case THEM:
+                dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
+                dialogbuilder = new AlertDialog.Builder(this);
+                dialogbuilder.setView(dialogview);
+                dialogbuilder.setView(dialogview);
+                dialog = dialogbuilder.create();
+                break;
+            case SUA:
+                dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
+                dialogbuilder = new AlertDialog.Builder(this);
+                dialogbuilder.setView(dialogview);
+                dialogbuilder.setView(dialogview);
+                dialog = dialogbuilder.create();
+                break;
+            case XOA:
 
-            View dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
-            AlertDialog.Builder dialogbuilder = new AlertDialog.Builder(this);
-
-            dialogbuilder.setView(dialogview);
-            dialogbuilder.setTitle("Login");
-
-            dialogbuilder.setView(dialogview);
-
-            dialog = dialogbuilder.create();
-            return  dialog;
         }
-        return null;
+
+        return dialog;
+    }
+
+    @Override
+    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+        final AlertDialog alertDialog;
+        Button btnThem;
+        Button btnSua;
+        final    EditText edtgiatoithieu;
+        final   EditText edtbantoida;
+        final    EditText edtTensanh;
+        switch (id) {
+            case -1:
+                //dang nhap
+                alertDialog = (AlertDialog) dialog;
+                Button btndangnhap= (Button) alertDialog.findViewById(R.id.btndangnhap);
+
+                final EditText edtpass= (EditText) alertDialog.findViewById(R.id.edtpass);
+                btndangnhap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        alertDialog.dismiss();
+                        switch (luachon)
+                        {
+                            case THEM :
+                                showDialog(THEM);
+                                break;
+                            case SUA:
+                                showDialog(SUA);
+                                break;
+                            case XOA:
+                                showDialog(XOA);
+                                break;
+                        }
+                    }
+                });
+                break;
+            case THEM:
+                //them sanh
+                alertDialog = (AlertDialog) dialog;
+                btnThem= (Button) alertDialog.findViewById(R.id.btnThem);
+                btnSua= (Button) alertDialog.findViewById(R.id.btnSua);
+                btnSua.setVisibility(View.INVISIBLE);
+                edtgiatoithieu= (EditText) alertDialog.findViewById(R.id.edtgiatoithieu);
+                edtbantoida= (EditText) alertDialog.findViewById(R.id.edtbantoida);
+                edtTensanh= (EditText) alertDialog.findViewById(R.id.edttensanh);
+                btnThem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ContentValues values=new ContentValues();
+                        Bundle extras=getIntent().getExtras();
+                        String LoaiSanh= extras.getString("NameHall");
+                        if(edtTensanh.getText().toString().isEmpty()||edtbantoida.getText().toString().isEmpty()||edtgiatoithieu.getText().toString().isEmpty() ) {
+
+                            Toast.makeText(NameHalllActivity.this, "Không được bỏ trông các trường", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            try {
+                                values.put("LoaiSanh", LoaiSanh);
+                                values.put("TenSanh", edtTensanh.getText().toString());
+                                values.put("SoBanToiDa", edtbantoida.getText().toString());
+                                values.put("DonGiaToiThieu", edtgiatoithieu.getText().toString());
+                                values.put("GhiChu", "");
+                                values.put("TinhTrang", "0");
+                                database.insertWithOnConflict("Sanh", null, values, SQLiteDatabase.CONFLICT_FAIL);
+                                Toast.makeText(NameHalllActivity.this, "Thêm sảnh thành công", Toast.LENGTH_SHORT).show();
+                                recreate();
+                                alertDialog.dismiss();
+                            } catch (SQLiteConstraintException SQLe) {
+                                Toast.makeText(NameHalllActivity.this, "Thêm sảnh thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+
+                break;
+            case SUA:
+                //sua sanh
+                alertDialog = (AlertDialog) dialog;
+                btnThem= (Button) alertDialog.findViewById(R.id.btnThem);
+                btnSua= (Button) alertDialog.findViewById(R.id.btnSua);
+                btnThem.setVisibility(View.INVISIBLE);
+                edtgiatoithieu= (EditText) alertDialog.findViewById(R.id.edtgiatoithieu);
+                edtbantoida= (EditText) alertDialog.findViewById(R.id.edtbantoida);
+                edtTensanh= (EditText) alertDialog.findViewById(R.id.edttensanh);
+                btnSua.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ContentValues values=new ContentValues();
+                        Bundle extras=getIntent().getExtras();
+                        String Loaisanh= extras.getString("NameHall");
+                        try {
+
+                            values.put("TenSanh", edtTensanh.getText().toString());
+                            values.put("SoBanToiDa", edtbantoida.getText().toString());
+                            values.put("DonGiaToiThieu", edtgiatoithieu.getText().toString());
+
+                            database.updateWithOnConflict("Sanh", values,"TenSanh=? and LoaiSanh=?" ,new String[]{edtTensanh.getText().toString(),Loaisanh},SQLiteDatabase.CONFLICT_FAIL);
+                            Toast.makeText(NameHalllActivity.this,"Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                            recreate();
+                            alertDialog.dismiss();
+                        }
+                        catch (SQLiteConstraintException SQLe)
+                        {
+                            Toast.makeText(NameHalllActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+        }
     }
 }

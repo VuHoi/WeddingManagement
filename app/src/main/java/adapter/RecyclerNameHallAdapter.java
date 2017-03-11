@@ -65,7 +65,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         holder.txtbantoida.setText(hallName.get(position).getBanToiDa()+"");
         holder.txtgiatoithieu.setText(hallName.get(position).getGiaToiThieu()+"");
         holder.txtNamehall.setText(hallName.get(position).getNamehall()+"");
-       holder.imgActive.setImageResource(hallName.get(position).getImgActive());
+        holder.imgActive.setImageResource(hallName.get(position).getImgActive());
     }
 
     @Override
@@ -82,16 +82,13 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
 
     public  class DataViewHolde extends RecyclerView.ViewHolder {
         TextView txtbantoida,txtgiatoithieu,txtNamehall;
-ImageView imgActive;
+        ImageView imgActive;
         public DataViewHolde(View itemView) {
             super(itemView);
             txtbantoida= (TextView) itemView.findViewById(R.id.txtbantoida);
             txtgiatoithieu= (TextView) itemView.findViewById(R.id.txtgiatoithieu);
             txtNamehall= (TextView) itemView.findViewById(R.id.txtNameHall);
             imgActive= (ImageView) itemView.findViewById(R.id.imgActive);
-
-
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,7 +96,7 @@ ImageView imgActive;
                     if(Position!=RecyclerView.NO_POSITION) {
 
                         Intent intent=new Intent(context, DetailWeddingActivity.class);
-intent.putExtra("Tensanh",txtNamehall.getText().toString());
+                        intent.putExtra("Tensanh",txtNamehall.getText().toString());
 
                         v.getContext().startActivity(intent);
                     }
