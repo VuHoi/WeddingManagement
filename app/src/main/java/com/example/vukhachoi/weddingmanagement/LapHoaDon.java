@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import adapter.Adapter_HoaDon;
 import model.Dichvu;
+import model.Hoadon;
 import model.TiecCuoi;
 import sqlite.Databasehelper;
 
@@ -26,7 +27,12 @@ public class LapHoaDon extends AppCompatActivity {
     ArrayAdapter<TiecCuoi>adapterHoaDon;
     ArrayList<TiecCuoi>dsHoaDon;
 
+    ListView lv_hoadon_dathanhtoan;
+    ArrayList<Hoadon>dsHoaDon_dathanhtoan;
+    ArrayAdapter<Hoadon>adapterHoaDon_dathanhtoan;
 
+    Databasehelper myDatabase = new Databasehelper(this);
+    SQLiteDatabase database;
 
     ListView lv_hoadonDaThanhToan;
     @Override
@@ -49,6 +55,12 @@ public class LapHoaDon extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onRestart() {
+        recreate();
+        super.onRestart();
+    }
+
     private void AddTabhost()
     {
         tabHost= (TabHost) findViewById(R.id.tabHost);
@@ -66,28 +78,45 @@ public class LapHoaDon extends AppCompatActivity {
 
         tabHost.setCurrentTab(0);
     }
-    private void addControls() {
-
-       AddTabhost();
-
+    private void Xulytab1()
+    {
         lv_hoadon= (ListView) findViewById(R.id.lv_hoadon);
-        Databasehelper myDatabase = new Databasehelper(this);
-        //myDatabase.db_delete();
-        myDatabase.Khoitai();;
-        SQLiteDatabase database = myDatabase.getMyDatabase();
 
         dsHoaDon=new ArrayList<>();
         adapterHoaDon=new Adapter_HoaDon(LapHoaDon.this, R.layout.item_hoadon,dsHoaDon);
+
+
+        Cursor hoadon_dalap=database.rawQuery("select makh from hoadon",null);
+        hoadon_dalap.moveToFirst();
+        ArrayList<String>dshoadondalap=new ArrayList<>();
+        while (!hoadon_dalap.isAfterLast())
+        {
+            dshoadondalap.add(hoadon_dalap.getString(0));
+            hoadon_dalap.moveToNext();
+        }
+        hoadon_dalap.close();
+
         Cursor cursor=database.rawQuery("SELECT   makh,tenchure,tencodau,tensanh,ngay FROM THONGTIN",null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
+            int flag=1;
             String makh = cursor.getString(0);
-            String chure = cursor.getString(1);
-            String codau = cursor.getString(2);
-            String sanh = cursor.getString(3);
-            String ngay = cursor.getString(4);
-            dsHoaDon.add(new TiecCuoi(makh, chure, codau, sanh, ngay));
-            adapterHoaDon.notifyDataSetChanged();
+            for(String test:dshoadondalap)
+            {
+                if(makh.equals(test))
+                {
+                   flag=0;
+                }
+            }
+            if(flag==1)
+            {
+                String chure = cursor.getString(1);
+                String codau = cursor.getString(2);
+                String sanh = cursor.getString(3);
+                String ngay = cursor.getString(4);
+                dsHoaDon.add(new TiecCuoi(makh, chure, codau, sanh, ngay));
+                adapterHoaDon.notifyDataSetChanged();
+            }
             cursor.moveToNext();
         }
         cursor.close();
@@ -95,8 +124,8 @@ public class LapHoaDon extends AppCompatActivity {
 
         //Lấy tiền bàn
         Cursor cursor1=database.rawQuery("select thongtin.makh,sum(dongia),dongiatoithieu" +
-                                        " from  sanh join thongtin on sanh.tensanh=thongtin.tensanh join datmonan on thongtin.makh=datmonan.makh join monan on monan.madatmonan=datmonan.mamonan" +
-                                        " group by thongtin.makh",null);
+                " from  sanh join thongtin on sanh.tensanh=thongtin.tensanh join datmonan on thongtin.makh=datmonan.makh join monan on monan.madatmonan=datmonan.mamonan" +
+                " group by thongtin.makh",null);
 
         cursor1.moveToFirst();
         while (!cursor1.isAfterLast())
@@ -138,6 +167,36 @@ public class LapHoaDon extends AppCompatActivity {
             cursor2.moveToNext();
         }
         cursor2.close();
+    }
+
+    private void Xulytab2()
+    {
+
+        lv_hoadon_dathanhtoan= (ListView) findViewById(R.id.lv_hoadon_lichsu);
+        dsHoaDon_dathanhtoan=new ArrayList<>();
+        adapterHoaDon_dathanhtoan=new ArrayAdapter<Hoadon>(LapHoaDon.this,android.R.layout.simple_list_item_1,dsHoaDon_dathanhtoan);
+        lv_hoadon_dathanhtoan.setAdapter(adapterHoaDon_dathanhtoan);
+        Cursor cursor=database.rawQuery("select mahd,makh,soluongban,dongia,tiendatcoc,tongtien from hoadon",null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String mahd=cursor.getString(0);
+            String makh=cursor.getString(1);
+            int sl=cursor.getInt(2);
+            int datcoc=cursor.getInt(3);
+            int tongtien=cursor.getInt(4);
+            dsHoaDon_dathanhtoan.add(new Hoadon(mahd,makh,sl,datcoc,datcoc,tongtien));
+            adapterHoaDon_dathanhtoan.notifyDataSetChanged();
+            cursor.moveToNext();
+        }
+        cursor.close();
+    }
+    private void addControls() {
+        myDatabase.Khoitai();
+        database = myDatabase.getMyDatabase();
+        AddTabhost();
+        Xulytab1();
+        Xulytab2();
+
 
 
     }
