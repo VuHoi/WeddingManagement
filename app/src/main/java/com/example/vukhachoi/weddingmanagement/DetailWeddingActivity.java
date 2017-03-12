@@ -2,7 +2,6 @@ package com.example.vukhachoi.weddingmanagement;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,21 +58,7 @@ public class DetailWeddingActivity extends AppCompatActivity implements View.OnC
         txtdienthoai= (EditText) findViewById(R.id.txtEditsodienthooai);
         Databasehelper myDatabase = new Databasehelper(this);
 
-        try {
-            myDatabase.createDatabase();
-
-        } catch (IOException ioe) {
-
-            throw new Error("Unable to create database");
-        }
-
-        try {
-            myDatabase.openDatabase();
-
-        }catch(SQLException sqle){
-
-            throw sqle;
-        }
+       myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
 
 
@@ -183,47 +167,50 @@ public class DetailWeddingActivity extends AppCompatActivity implements View.OnC
         {
 
 
+            if(txtEdittiendatcoc.getText().toString().isEmpty()||txtCoDau.getText().toString().isEmpty()||txtdienthoai.getText().toString().isEmpty()||txtEditngay.getText().toString().isEmpty()||txtEditca.getText().toString().isEmpty()||txtEdittiendatcoc.getText().toString().isEmpty()||txtEditLượngBan.getText().toString().isEmpty()||txtEditDutru.getText().toString().isEmpty())
+                Toast.makeText(this,"Các trường không được bỏ trống", Toast.LENGTH_SHORT).show();
+            else {
+                try {
 
-            try {
+                    ContentValues values = new ContentValues();
+                    values.put("MaKH", MaKH);
+                    values.put("TenChure", txtChuRe.getText().toString());
+                    values.put("tenCoDau", txtCoDau.getText().toString());
+                    values.put("Dienthoai", txtdienthoai.getText().toString());
+                    values.put("ngay", txtEditngay.getText().toString());
+                    values.put("ca", txtEditca.getText().toString());
+                    values.put("tiendatcoc", Integer.parseInt(txtEdittiendatcoc.getText().toString()));
+                    values.put("soluongBan", Integer.parseInt(txtEditLượngBan.getText().toString()));
+                    values.put("sobanDutru", Integer.parseInt(txtEditDutru.getText().toString()));
+                    values.put("tenSanh", Tensanh);
 
-                ContentValues values = new ContentValues();
-                values.put("MaKH", MaKH);
-                values.put("TenChure", txtChuRe.getText().toString());
-                values.put("tenCoDau", txtCoDau.getText().toString());
-                values.put("Dienthoai", txtdienthoai.getText().toString());
-                values.put("ngay", txtEditngay.getText().toString());
-                values.put("ca", txtEditca.getText().toString());
-                values.put("tiendatcoc", Integer.parseInt(txtEdittiendatcoc.getText().toString()));
-                values.put("soluongBan", Integer.parseInt(txtEditLượngBan.getText().toString()));
-                values.put("sobanDutru", Integer.parseInt(txtEditDutru.getText().toString()));
-                values.put("tenSanh", Tensanh);
-
-                database.insertWithOnConflict("ThongTin", null, values,SQLiteDatabase.CONFLICT_FAIL);
-                Toast.makeText(this, "Thêm Tiệc Thành Công", Toast.LENGTH_SHORT).show();
-            }catch (SQLiteConstraintException SQLe)
-            {
-                Toast.makeText(this, "Khách hàng đã tồn tại", Toast.LENGTH_SHORT).show();
+                    database.insertWithOnConflict("ThongTin", null, values, SQLiteDatabase.CONFLICT_FAIL);
+                    Toast.makeText(this, "Thêm Tiệc Thành Công", Toast.LENGTH_SHORT).show();
+                } catch (SQLiteConstraintException SQLe) {
+                    Toast.makeText(this, "Khách hàng đã tồn tại", Toast.LENGTH_SHORT).show();
+                }
             }
-
         }
-        else if(btncapnhat.getId()==v.getId())
-        {
-            try {
-                ContentValues values = new ContentValues();
-                values.put("MaKH", MaKH);
-                values.put("TenChure", txtChuRe.getText().toString());
-                values.put("tenCoDau", txtCoDau.getText().toString());
-                values.put("Dienthoai", txtdienthoai.getText().toString());
-                values.put("ngay", txtEditngay.getText().toString());
-                values.put("ca", txtEditca.getText().toString());
-                values.put("tiendatcoc", Integer.parseInt(txtEdittiendatcoc.getText().toString()));
-                values.put("soluongBan", Integer.parseInt(txtEditLượngBan.getText().toString()));
-                values.put("sobanDutru", Integer.parseInt(txtEditDutru.getText().toString()));
-                database.updateWithOnConflict("ThongTin", values, "Tensanh=?", new String[]{Tensanh},SQLiteDatabase.CONFLICT_FAIL);
-                Toast.makeText(this, "Cập nhật tiệc thành công", Toast.LENGTH_SHORT).show();
-            }catch (SQLiteConstraintException SQLe)
-            {
-                Toast.makeText(this, "Cập nhật tiệc thất bại", Toast.LENGTH_SHORT).show();
+        else if(btncapnhat.getId()==v.getId()) {
+            if (txtEdittiendatcoc.getText().toString().isEmpty() || txtCoDau.getText().toString().isEmpty() || txtdienthoai.getText().toString().isEmpty() || txtEditngay.getText().toString().isEmpty() || txtEditca.getText().toString().isEmpty() || txtEdittiendatcoc.getText().toString().isEmpty() || txtEditLượngBan.getText().toString().isEmpty() || txtEditDutru.getText().toString().isEmpty())
+                Toast.makeText(this, "Các trường không được bỏ trống", Toast.LENGTH_SHORT).show();
+            else {
+                try {
+                    ContentValues values = new ContentValues();
+                    values.put("MaKH", MaKH);
+                    values.put("TenChure", txtChuRe.getText().toString());
+                    values.put("tenCoDau", txtCoDau.getText().toString());
+                    values.put("Dienthoai", txtdienthoai.getText().toString());
+                    values.put("ngay", txtEditngay.getText().toString());
+                    values.put("ca", txtEditca.getText().toString());
+                    values.put("tiendatcoc", Integer.parseInt(txtEdittiendatcoc.getText().toString()));
+                    values.put("soluongBan", Integer.parseInt(txtEditLượngBan.getText().toString()));
+                    values.put("sobanDutru", Integer.parseInt(txtEditDutru.getText().toString()));
+                    database.updateWithOnConflict("ThongTin", values, "Tensanh=?", new String[]{Tensanh}, SQLiteDatabase.CONFLICT_FAIL);
+                    Toast.makeText(this, "Cập nhật tiệc thành công", Toast.LENGTH_SHORT).show();
+                } catch (SQLiteConstraintException SQLe) {
+                    Toast.makeText(this, "Cập nhật tiệc thất bại", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

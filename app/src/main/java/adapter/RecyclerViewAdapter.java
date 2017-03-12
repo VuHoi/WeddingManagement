@@ -37,13 +37,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         switch (viewType)
         {
             case 1:
-                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemstop,parent,false);
-                break;
-            case 2:
                 Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_active,parent,false);
                 break;
-            default:
+            case 2:
                 Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemstop,parent,false);
+                break;
+            default:
+                Itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_active,parent,false);
                 break;
         }
 
