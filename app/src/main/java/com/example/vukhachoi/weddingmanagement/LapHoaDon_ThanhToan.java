@@ -46,6 +46,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     float tiendv=0;
     ArrayAdapter<Dichvu>adapter;
     DecimalFormat x=new DecimalFormat("#.##");
+    DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     Button btnLap;
     Button btnHuy;
@@ -72,11 +73,13 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 values.put("Dongia",temp.getTienban());
                 values.put("Tiendatcoc",temp.getTiendatcoc());
                 values.put("Tongtien",a+tiendv);
+                values.put("Nghd",df.format(Calendar.getInstance().getTime()));
                 database.insert("hoadon",null,values);
                 Toast.makeText(LapHoaDon_ThanhToan.this,"Lập hóa đon thành công",Toast.LENGTH_LONG).show();
-//                Intent intent=new Intent(LapHoaDon_ThanhToan.this,LapHoaDon.class);
-//                intent.putExtra("makhdalap",temp.getMakh());
-//                startActivity(intent);
+                for(Dichvu dv:temp.getDv())
+                {
+
+                }
                 finish();
             }
         });
@@ -99,7 +102,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                    txttien_conlai.setText("Còn lại(triệu đồng): ");
                    if(!txtSLBan.getText().toString().equals("")) {
                        a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
-                       txtTongTienBan.setText(txtTongTienBan.getText().toString() + a);
+                       txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
                        float temp1=(float)a+tiendv;
                        txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
 
@@ -143,7 +146,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
         txttien_datcoc= (TextView) findViewById(R.id.txttien_datcoc);
         txttien_conlai= (TextView) findViewById(R.id.txttien_conlai);
 
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+
         String date = df.format(Calendar.getInstance().getTime());
         txt_NgayThanhToan.setText(txt_NgayThanhToan.getText()+date);
         txtChuRe_LapHoaDon.setText(temp.getChure());
