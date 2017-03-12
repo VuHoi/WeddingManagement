@@ -59,7 +59,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         holder.ckbDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(hallName.size()>=1)
+                if(hallName.size()>1)
                     hallName.get(position).setCheck(((CheckBox)v).isChecked());
                 else ((CheckBox)v).setChecked(false);
             }
