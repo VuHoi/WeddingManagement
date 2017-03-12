@@ -152,8 +152,14 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
         btnxoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for(NameHall hall:nameHalls)
+                {
+                    hall.setVisible(false);
+                }
+                adapterHallName.notifyDataSetChanged();
                 adapterHallName.remove();
                 rltbackground.setVisibility(View.INVISIBLE);
+
             }
         });
     }
@@ -202,6 +208,12 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
                         break;
                     case 3:
                         luachon=MACDINH;
+                        for(NameHall hall:nameHalls)
+                        {
+                            hall.setVisible(false);
+                        }
+                        adapterHallName.notifyDataSetChanged();
+                        break;
                 }
 
                 lv_edit.setVisibility(View.INVISIBLE);
