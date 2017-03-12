@@ -36,6 +36,7 @@ public class NameHalllActivity extends AppCompatActivity {
     SQLiteDatabase database;
     RecyclerNameHallAdapter adapterHallName;
     RecyclerView rcHallName;
+    Button btnxoa;
     List<NameHall> nameHalls;
     Toolbar toolbar;
     MenuItem myMenu;
@@ -73,8 +74,8 @@ public class NameHalllActivity extends AppCompatActivity {
         recyclerViewLayoutManager=new GridLayoutManager(context, 2);
         Bundle extras=getIntent().getExtras();
         String data= extras.getString("NameHall");
-        ContentValues values=new ContentValues();
 
+btnxoa= (Button) findViewById(R.id.btnxoa);
         nameHalls = new ArrayList<>();
         Cursor cursor =database.rawQuery("Select * from sanh where loaisanh=? ",new String[]{data});
         cursor.moveToFirst();
@@ -86,7 +87,8 @@ public class NameHalllActivity extends AppCompatActivity {
             nameHall.setBanToiDa(Integer.parseInt(cursor.getString(2)));
             nameHall.setGiaToiThieu(Integer.parseInt(cursor.getString(3)));
             nameHall.setNamehall(cursor.getString(1));
-
+            nameHall.setVisible(false);
+            nameHall.setCheck(false);
             nameHalls.add(nameHall);
             if(cursor.getString(5).equals("1"))
             {
@@ -116,18 +118,21 @@ public class NameHalllActivity extends AppCompatActivity {
                     intent.putExtra("Tensanh",viewModel.getNamehall().toString());
                     v.getContext().startActivity(intent);
                 }
-                else if(luachon==XOA) {
-                    try {
-                        adapterHallName.remove(viewModel);
-                        ContentValues values = new ContentValues();
-
-                        database.delete("Sanh", "Loaisanh=? and TenSanh=?", new String[]{LoaiSanh, viewModel.getNamehall().toString()});
-                        Toast.makeText(NameHalllActivity.this, "Đã xóa " + viewModel.getNamehall().toString(), Toast.LENGTH_SHORT).show();
-                    }catch (SQLiteConstraintException SQLe)
-                    {
-                        Toast.makeText(NameHalllActivity.this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
-                    }
-                }
+//                else if(luachon==XOA) {
+//                    try {
+//
+////                        ContentValues values = new ContentValues();
+//
+////                        database.delete("Sanh", "Loaisanh=? and TenSanh=?", new String[]{LoaiSanh, viewModel.getNamehall().toString()});
+//                        Toast.makeText(NameHalllActivity.this, "Đã xóa " + viewModel.getNamehall().toString(), Toast.LENGTH_SHORT).show();
+//                    }catch (SQLiteConstraintException SQLe)
+//                    {
+//                        Toast.makeText(NameHalllActivity.this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//
+//
+//                }
                 else if(luachon==SUA)
                 {
                     giaToiThieu=viewModel.getGiaToiThieu()+"";
@@ -137,7 +142,20 @@ public class NameHalllActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        btnxoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterHallName.remove();
+
+            }
+        });
     }
+
+
+
+
 
     @Override
     protected void onResume() {
@@ -170,6 +188,7 @@ public class NameHalllActivity extends AppCompatActivity {
                         //Xóa
                         luachon=XOA;
                         showDialog(-1);
+
                         break;
                     case 2:
                         //Sửa
@@ -305,6 +324,13 @@ public class NameHalllActivity extends AppCompatActivity {
                                 break;
 
                             case -1:   luachon=MACDINH; break;
+                            case XOA:
+                                for(NameHall hall:nameHalls)
+                                {
+                                    hall.setVisible(true);
+                                }
+                                adapterHallName.notifyDataSetChanged();
+                                break;
                         }
 
                     }
