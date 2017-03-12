@@ -10,6 +10,25 @@ public class NameHall {
     public NameHall() {
     }
 
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+    private  boolean isVisible;
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
+    private  boolean isActive;
+    private  boolean isCheck;
     public String getNamehall() {
         return Namehall;
     }
@@ -26,12 +45,13 @@ public class NameHall {
         this.imgActive = imgActive;
     }
 
-    public NameHall(int banToiDa, int imgActive, String namehall, boolean isActive, int giaToiThieu) {
-
+    public NameHall(int banToiDa, boolean isVisible, boolean isActive, boolean isCheck, int imgActive, String namehall, int giaToiThieu) {
         BanToiDa = banToiDa;
+        this.isVisible = isVisible;
+        this.isActive = isActive;
+        this.isCheck = isCheck;
         this.imgActive = imgActive;
         Namehall = namehall;
-        this.isActive = isActive;
         GiaToiThieu = giaToiThieu;
     }
 
@@ -47,7 +67,7 @@ public class NameHall {
         isActive = active;
     }
 
-    private  boolean isActive;
+
 
     public int getBanToiDa() {
         return BanToiDa;
