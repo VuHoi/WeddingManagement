@@ -3,6 +3,7 @@ package com.example.vukhachoi.weddingmanagement;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapter.RecyclerNameHallAdapter;
+import adapter.RecyclerViewItemClickInterface;
 import hall.wedding.management.NameHall;
 import sqlite.Databasehelper;
 
@@ -42,10 +44,16 @@ public class NameHalllActivity extends AppCompatActivity {
     View temp;
     ArrayAdapter<String> adapter;
     ArrayList<String> ds;
-final int THEM=0;
+    final int THEM=0;
     final int SUA=2;
     final  int XOA=1;
-    int luachon;
+    final  int MACDINH=3;
+    int luachon=MACDINH;
+    Bundle extras;
+    String LoaiSanh;
+    String banToiDa;
+    String giaToiThieu;
+    String TenSanh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,8 +62,8 @@ final int THEM=0;
         addControls();
         addEvents();
         myDatabase = new Databasehelper(this);
-
-
+        extras=getIntent().getExtras();
+        LoaiSanh= extras.getString("NameHall");
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
 
@@ -82,11 +90,11 @@ final int THEM=0;
             nameHalls.add(nameHall);
             if(cursor.getString(5).equals("1"))
             {
-                nameHall.setImgActive(R.drawable.active);
+                nameHall.setImgActive(R.drawable.red);
             }
             else
             {
-                nameHall.setImgActive(R.drawable.red);
+                nameHall.setImgActive(R.drawable.active);
             }
             cursor.moveToNext();
         }
@@ -99,7 +107,36 @@ final int THEM=0;
         adapterHallName =new RecyclerNameHallAdapter(nameHalls,this);
         rcHallName.setAdapter(adapterHallName);
 
+        adapterHallName.setOnItemClickListener(new RecyclerViewItemClickInterface() {
+            @Override
+            public void onItemclick(View v, NameHall viewModel) {
+                if(luachon==MACDINH)
+                {
+                    Intent intent=new Intent(NameHalllActivity.this, DetailWeddingActivity.class);
+                    intent.putExtra("Tensanh",viewModel.getNamehall().toString());
+                    v.getContext().startActivity(intent);
+                }
+                else if(luachon==XOA) {
+                    try {
+                        adapterHallName.remove(viewModel);
+                        ContentValues values = new ContentValues();
 
+                        database.delete("Sanh", "Loaisanh=? and TenSanh=?", new String[]{LoaiSanh, viewModel.getNamehall().toString()});
+                        Toast.makeText(NameHalllActivity.this, "Đã xóa " + viewModel.getNamehall().toString(), Toast.LENGTH_SHORT).show();
+                    }catch (SQLiteConstraintException SQLe)
+                    {
+                        Toast.makeText(NameHalllActivity.this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if(luachon==SUA)
+                {
+                    giaToiThieu=viewModel.getGiaToiThieu()+"";
+                    banToiDa=viewModel.getBanToiDa()+"";
+                    TenSanh=viewModel.getNamehall()+"";
+                    showDialog(SUA);
+                }
+            }
+        });
     }
 
     @Override
@@ -127,18 +164,22 @@ final int THEM=0;
                 {
                     case 0:
                         luachon=THEM;
-
+                        showDialog(-1);
                         break;
                     case 1:
                         //Xóa
                         luachon=XOA;
+                        showDialog(-1);
                         break;
                     case 2:
                         //Sửa
                         luachon=SUA;
+                        showDialog(-1);
                         break;
+                    case 3:
+                        luachon=MACDINH;
                 }
-                showDialog(-1);
+
                 lv_edit.setVisibility(View.INVISIBLE);
                 flag=0;
             }
@@ -154,6 +195,7 @@ final int THEM=0;
         ds.add("Thêm");
         ds.add("Xóa");
         ds.add("Sửa");
+        ds.add("Mặc định");
         adapter=new ArrayAdapter<String>(NameHalllActivity.this,android.R.layout.simple_list_item_1,ds);
         lv_edit.setAdapter(adapter);
         temp=findViewById(R.id.activity_name_halll);
@@ -211,6 +253,7 @@ final int THEM=0;
                 dialogbuilder.setView(dialogview);
                 dialogbuilder.setView(dialogview);
                 dialog = dialogbuilder.create();
+                
                 break;
             case THEM:
                 dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
@@ -218,6 +261,7 @@ final int THEM=0;
                 dialogbuilder.setView(dialogview);
                 dialogbuilder.setView(dialogview);
                 dialog = dialogbuilder.create();
+                luachon=MACDINH;
                 break;
             case SUA:
                 dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
@@ -226,7 +270,7 @@ final int THEM=0;
                 dialogbuilder.setView(dialogview);
                 dialog = dialogbuilder.create();
                 break;
-            case XOA:
+
 
         }
 
@@ -257,16 +301,15 @@ final int THEM=0;
                         {
                             case THEM :
                                 showDialog(THEM);
+                                luachon=MACDINH;
                                 break;
-                            case SUA:
-                                showDialog(SUA);
-                                break;
-                            case XOA:
-                                showDialog(XOA);
-                                break;
+
+                            case -1:   luachon=MACDINH; break;
                         }
+
                     }
                 });
+
                 break;
             case THEM:
                 //them sanh
@@ -277,12 +320,12 @@ final int THEM=0;
                 edtgiatoithieu= (EditText) alertDialog.findViewById(R.id.edtgiatoithieu);
                 edtbantoida= (EditText) alertDialog.findViewById(R.id.edtbantoida);
                 edtTensanh= (EditText) alertDialog.findViewById(R.id.edttensanh);
+
                 btnThem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ContentValues values=new ContentValues();
-                        Bundle extras=getIntent().getExtras();
-                        String LoaiSanh= extras.getString("NameHall");
+
                         if(edtTensanh.getText().toString().isEmpty()||edtbantoida.getText().toString().isEmpty()||edtgiatoithieu.getText().toString().isEmpty() ) {
 
                             Toast.makeText(NameHalllActivity.this, "Không được bỏ trông các trường", Toast.LENGTH_SHORT).show();
@@ -317,29 +360,40 @@ final int THEM=0;
                 edtgiatoithieu= (EditText) alertDialog.findViewById(R.id.edtgiatoithieu);
                 edtbantoida= (EditText) alertDialog.findViewById(R.id.edtbantoida);
                 edtTensanh= (EditText) alertDialog.findViewById(R.id.edttensanh);
+                edtbantoida.setText(banToiDa);
+                edtgiatoithieu.setText(giaToiThieu);
+                edtTensanh.setText(TenSanh);
+                edtTensanh.setEnabled(false);
+                edtTensanh.setKeyListener(null);
+
                 btnSua.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         ContentValues values=new ContentValues();
                         Bundle extras=getIntent().getExtras();
                         String Loaisanh= extras.getString("NameHall");
-                        try {
+                        if(edtTensanh.getText().toString().isEmpty()||edtbantoida.getText().toString().isEmpty()||edtgiatoithieu.getText().toString().isEmpty() ) {
 
-                            values.put("TenSanh", edtTensanh.getText().toString());
-                            values.put("SoBanToiDa", edtbantoida.getText().toString());
-                            values.put("DonGiaToiThieu", edtgiatoithieu.getText().toString());
-
-                            database.updateWithOnConflict("Sanh", values,"TenSanh=? and LoaiSanh=?" ,new String[]{edtTensanh.getText().toString(),Loaisanh},SQLiteDatabase.CONFLICT_FAIL);
-                            Toast.makeText(NameHalllActivity.this,"Cập nhật thành công", Toast.LENGTH_SHORT).show();
-                            recreate();
-                            alertDialog.dismiss();
+                            Toast.makeText(NameHalllActivity.this, "Không được bỏ trông các trường", Toast.LENGTH_SHORT).show();
                         }
-                        catch (SQLiteConstraintException SQLe)
-                        {
-                            Toast.makeText(NameHalllActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                        else {
+                            try {
+
+                                values.put("TenSanh", edtTensanh.getText().toString());
+                                values.put("SoBanToiDa", edtbantoida.getText().toString());
+                                values.put("DonGiaToiThieu", edtgiatoithieu.getText().toString());
+
+                                database.updateWithOnConflict("Sanh", values, "TenSanh=? and LoaiSanh=?", new String[]{edtTensanh.getText().toString(), Loaisanh}, SQLiteDatabase.CONFLICT_FAIL);
+                                Toast.makeText(NameHalllActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                                recreate();
+                                alertDialog.dismiss();
+                            } catch (SQLiteConstraintException SQLe) {
+                                Toast.makeText(NameHalllActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 });
+              luachon=MACDINH;
         }
     }
 }

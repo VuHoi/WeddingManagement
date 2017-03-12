@@ -14,7 +14,7 @@
         android:minHeight="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
     <ListView
         android:layout_width="100dp"
-        android:layout_height="145dp"
+        android:layout_height="wrap_content"
         android:id="@+id/lv_edit"
         android:layout_gravity="right"
         android:layout_marginTop="56dp"
