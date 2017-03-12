@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import adapter.RecyclerNameHallAdapter;
 import adapter.RecyclerViewItemClickInterface;
 import hall.wedding.management.NameHall;
 import sqlite.Databasehelper;
+
+import static android.view.View.VISIBLE;
 
 public class NameHalllActivity extends AppCompatActivity {
     Databasehelper myDatabase;
@@ -55,6 +58,7 @@ public class NameHalllActivity extends AppCompatActivity {
     String banToiDa;
     String giaToiThieu;
     String TenSanh;
+    RelativeLayout rltbackground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -76,6 +80,7 @@ public class NameHalllActivity extends AppCompatActivity {
         String data= extras.getString("NameHall");
 
 btnxoa= (Button) findViewById(R.id.btnxoa);
+        rltbackground= (RelativeLayout) findViewById(R.id.rltbackground);
         nameHalls = new ArrayList<>();
         Cursor cursor =database.rawQuery("Select * from sanh where loaisanh=? ",new String[]{data});
         cursor.moveToFirst();
@@ -148,7 +153,7 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
             @Override
             public void onClick(View v) {
                 adapterHallName.remove();
-
+                rltbackground.setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -242,7 +247,7 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
             case R.id.edit_menu:
                 if(flag==0)
                 {
-                    lv_edit.setVisibility(View.VISIBLE);
+                    lv_edit.setVisibility(VISIBLE);
                     flag=1;
                 }
                 else
@@ -330,6 +335,9 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
                                     hall.setVisible(true);
                                 }
                                 adapterHallName.notifyDataSetChanged();
+
+                                rltbackground.setVisibility(VISIBLE);
+
                                 break;
                         }
 
