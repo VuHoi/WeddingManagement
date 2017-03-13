@@ -5,8 +5,27 @@ package model;
  */
 
 public class Hoadon {
-    private String mahd,makh;
+    private String mahd,makh,ngthanhtoan;
     private  int slban,dongia,datcoc,tongtien;
+
+    public String getNgthanhtoan() {
+        return ngthanhtoan;
+    }
+
+    public void setNgthanhtoan(String ngthanhtoan) {
+        this.ngthanhtoan = ngthanhtoan;
+    }
+
+    public Hoadon(String mahd, String makh, String ngthanhtoan, int slban, int dongia, int datcoc, int tongtien) {
+
+        this.mahd = mahd;
+        this.makh = makh;
+        this.ngthanhtoan = ngthanhtoan;
+        this.slban = slban;
+        this.dongia = dongia;
+        this.datcoc = datcoc;
+        this.tongtien = tongtien;
+    }
 
     public String getMahd() {
         return mahd;

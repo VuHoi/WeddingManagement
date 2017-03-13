@@ -14,6 +14,7 @@ import android.widget.TabHost;
 import java.util.ArrayList;
 
 import adapter.Adapter_HoaDon;
+import adapter.Adapter_HoaDon_Lichsu;
 import model.Dichvu;
 import model.Hoadon;
 import model.TiecCuoi;
@@ -27,9 +28,7 @@ public class LapHoaDon extends AppCompatActivity {
     ArrayAdapter<TiecCuoi>adapterHoaDon;
     ArrayList<TiecCuoi>dsHoaDon;
 
-    ListView lv_hoadon_dathanhtoan;
-    ArrayList<Hoadon>dsHoaDon_dathanhtoan;
-    ArrayAdapter<Hoadon>adapterHoaDon_dathanhtoan;
+
 
     Databasehelper myDatabase = new Databasehelper(this);
     SQLiteDatabase database;
@@ -171,21 +170,23 @@ public class LapHoaDon extends AppCompatActivity {
 
     private void Xulytab2()
     {
-
-        lv_hoadon_dathanhtoan= (ListView) findViewById(R.id.lv_hoadon_lichsu);
-        dsHoaDon_dathanhtoan=new ArrayList<>();
-        adapterHoaDon_dathanhtoan=new ArrayAdapter<Hoadon>(LapHoaDon.this,android.R.layout.simple_list_item_1,dsHoaDon_dathanhtoan);
-        lv_hoadon_dathanhtoan.setAdapter(adapterHoaDon_dathanhtoan);
-        Cursor cursor=database.rawQuery("select mahd,makh,soluongban,dongia,tiendatcoc,tongtien from hoadon",null);
+        //myDatabase.db_delete();
+        ArrayList<Hoadon>dsls=new ArrayList<>();
+        Adapter_HoaDon_Lichsu ls=new Adapter_HoaDon_Lichsu(LapHoaDon.this,R.layout.item_hoadon_lichsu,dsls);
+        ListView lvls= (ListView) findViewById(R.id.lv_hoadon_lichsu);
+        lvls.setAdapter(ls);
+        Cursor cursor=database.rawQuery("select mahd,makh,soluongban,dongia,tiendatcoc,tongtien,nghd from hoadon",null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             String mahd=cursor.getString(0);
             String makh=cursor.getString(1);
             int sl=cursor.getInt(2);
-            int datcoc=cursor.getInt(3);
-            int tongtien=cursor.getInt(4);
-            dsHoaDon_dathanhtoan.add(new Hoadon(mahd,makh,sl,datcoc,datcoc,tongtien));
-            adapterHoaDon_dathanhtoan.notifyDataSetChanged();
+            int dongia=cursor.getInt(3);
+            int datcoc=cursor.getInt(4);
+            int tongtien=cursor.getInt(5);
+            String nghd=cursor.getString(6);
+            dsls.add(new Hoadon(mahd,makh,nghd,sl,dongia,datcoc,tongtien));
+            ls.notifyDataSetChanged();
             cursor.moveToNext();
         }
         cursor.close();
