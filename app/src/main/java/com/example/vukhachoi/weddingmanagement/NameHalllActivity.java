@@ -13,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -52,6 +55,7 @@ public class NameHalllActivity extends AppCompatActivity {
     final int SUA=2;
     final  int XOA=1;
     final  int MACDINH=3;
+    final  int THAYDOIMATKHAU=4;
     int luachon=MACDINH;
     Bundle extras;
     String LoaiSanh;
@@ -79,7 +83,7 @@ public class NameHalllActivity extends AppCompatActivity {
         Bundle extras=getIntent().getExtras();
         String data= extras.getString("NameHall");
 
-btnxoa= (Button) findViewById(R.id.btnxoa);
+        btnxoa= (Button) findViewById(R.id.btnxoa);
         rltbackground= (RelativeLayout) findViewById(R.id.rltbackground);
         nameHalls = new ArrayList<>();
         Cursor cursor =database.rawQuery("Select * from sanh where loaisanh=? ",new String[]{data});
@@ -289,7 +293,7 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
                 dialogbuilder.setView(dialogview);
                 dialogbuilder.setView(dialogview);
                 dialog = dialogbuilder.create();
-                
+
                 break;
             case THEM:
                 dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
@@ -307,7 +311,16 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
                 dialog = dialogbuilder.create();
                 break;
 
+            case THAYDOIMATKHAU:
 
+                dialogview = inflater.inflate(R.layout.change_password, null);
+                dialogbuilder = new AlertDialog.Builder(this);
+                dialogbuilder.setView(dialogview);
+                dialogbuilder.setView(dialogview);
+                dialog = dialogbuilder.create();
+
+
+                break;
         }
 
         return dialog;
@@ -325,36 +338,61 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
             case -1:
                 //dang nhap
                 alertDialog = (AlertDialog) dialog;
-                Button btndangnhap= (Button) alertDialog.findViewById(R.id.btndangnhap);
-
+                Button btndangnhap= (Button) alertDialog.findViewById(R.id.btnDangNhap);
+                Button btnHuy= (Button) alertDialog.findViewById(R.id.btnHuy);
+                TextView txtforgot= (TextView) alertDialog.findViewById(R.id.txtforgot);
                 final EditText edtpass= (EditText) alertDialog.findViewById(R.id.edtpass);
                 btndangnhap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Cursor cursor=database.rawQuery("select  * from user",null);
+                        cursor.moveToFirst();
+                        if(edtpass.getText().toString().equals(cursor.getString(1).toString())) {
+                            alertDialog.dismiss();
+                            switch (luachon) {
+                                case THEM:
+                                    showDialog(THEM);
+                                    luachon = MACDINH;
+                                    break;
 
-                        alertDialog.dismiss();
-                        switch (luachon)
-                        {
-                            case THEM :
-                                showDialog(THEM);
-                                luachon=MACDINH;
-                                break;
+                                case -1:
+                                    luachon = MACDINH;
+                                    break;
+                                case XOA:
+                                    for (NameHall hall : nameHalls) {
+                                        hall.setVisible(true);
+                                    }
+                                    adapterHallName.notifyDataSetChanged();
 
-                            case -1:   luachon=MACDINH; break;
-                            case XOA:
-                                for(NameHall hall:nameHalls)
-                                {
-                                    hall.setVisible(true);
-                                }
-                                adapterHallName.notifyDataSetChanged();
+                                    rltbackground.setVisibility(VISIBLE);
 
-                                rltbackground.setVisibility(VISIBLE);
-
-                                break;
+                                    break;
+                            }
+                            edtpass.setText(null);
                         }
-
+                        else Toast.makeText(NameHalllActivity.this, "Mật khẩu không đúng", Toast.LENGTH_SHORT).show();
+                        cursor.close();
                     }
                 });
+                btnHuy.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        luachon=MACDINH;
+                    }
+                });
+                txtforgot.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                        showDialog(THAYDOIMATKHAU);
+                    }
+                });
+
+
+
+
+
 
                 break;
             case THEM:
@@ -439,7 +477,91 @@ btnxoa= (Button) findViewById(R.id.btnxoa);
                         }
                     }
                 });
-              luachon=MACDINH;
+                break;
+            case THAYDOIMATKHAU:
+                alertDialog = (AlertDialog) dialog;
+                final EditText edtMatKhauCu,edtMatKhauMoi,edtXacNhanMatKhau;
+                final TextView txtWrongpasscu,txtWrongXacNhan;
+                Button btnchange;
+                edtMatKhauCu= (EditText) alertDialog.findViewById(R.id.edtmatkhaucu);
+                edtMatKhauMoi= (EditText) alertDialog.findViewById(R.id.edtmatkhaumoi);
+                edtXacNhanMatKhau= (EditText) alertDialog.findViewById(R.id.edtxacnhan);
+                txtWrongpasscu= (TextView) alertDialog.findViewById(R.id.txtWrongpasscu);
+                txtWrongXacNhan= (TextView) alertDialog.findViewById(R.id.txtWrongXacNhan);
+                btnchange= (Button) alertDialog.findViewById(R.id.btnchange);
+                final String matKhauCu;
+                Cursor cursor=database.rawQuery("select  * from user",null);
+                cursor.moveToFirst();
+                matKhauCu=cursor.getString(1).toString();
+                cursor.close();
+                edtMatKhauCu.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if(!s.toString().equals(matKhauCu))
+                        {
+                            txtWrongpasscu.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            txtWrongpasscu.setVisibility(View.GONE);
+                            edtMatKhauMoi.setEnabled(true);
+                            edtXacNhanMatKhau.setEnabled(true);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+                edtXacNhanMatKhau.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if(!edtXacNhanMatKhau.getText().toString().equals(edtMatKhauMoi.getText().toString()))
+                        {
+                            txtWrongXacNhan.setVisibility(View.VISIBLE);
+                        }
+                        else
+                        {
+                            txtWrongXacNhan.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+                btnchange.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ContentValues values=new ContentValues();
+                        values.put("MatKhau", edtMatKhauMoi.getText().toString());
+                        database.update("User",values,null,null);
+                        alertDialog.dismiss();
+                        showDialog(-1);
+                        Toast.makeText(NameHalllActivity.this, "Thay đỏi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                        edtMatKhauCu.setText(null);
+                        edtMatKhauMoi.setText(null);
+                        edtXacNhanMatKhau.setText(null);
+                    }
+                });
+
+                break;
+
+
         }
+//        if(luachon!=SUA &&luachon!=-1)   luachon=MACDINH;
     }
 }
