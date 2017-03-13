@@ -103,6 +103,7 @@ public class RecyclerNameHallAdapter extends RecyclerView.Adapter<RecyclerNameHa
         for (;i<hallName.size();i++) {
             if(hallName.get(i).isCheck()) {
                 database.delete("Sanh","TenSanh=?", new String[]{hallName.get(i).getNamehall().toString()});
+                database.delete("ThongTin","TenSanh=?",new String[]{hallName.get(i).getNamehall().toString()});
                 hallName.remove(i);
 
                 notifyItemRemoved(i);
