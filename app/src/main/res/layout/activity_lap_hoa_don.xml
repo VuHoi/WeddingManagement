@@ -7,6 +7,10 @@
     android:orientation="vertical"
     tools:context="com.example.vukhachoi.weddingmanagement.LapHoaDon"
     android:weightSum="1">
+    <include
+        android:id="@+id/toolbar_hoadon"
+        layout="@layout/toobar">
+    </include>
 
 
     <!--<ListView-->
@@ -52,6 +56,9 @@
                     <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:divider="@color/colorPrimaryDark"
+                        android:layout_weight="1"
+                        android:dividerHeight="1dp"
                         android:id="@+id/lv_hoadon_lichsu"></ListView>
 
                 </LinearLayout>

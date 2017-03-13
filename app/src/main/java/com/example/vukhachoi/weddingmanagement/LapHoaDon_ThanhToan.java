@@ -51,6 +51,8 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     Button btnLap;
     Button btnHuy;
     Databasehelper myDatabase = new Databasehelper(this);
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,6 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
         addControls();
         addEvents();
     }
-
     private void addEvents() {
 
         btnLap.setOnClickListener(new View.OnClickListener() {
@@ -76,10 +77,6 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 values.put("Nghd",df.format(Calendar.getInstance().getTime()));
                 database.insert("hoadon",null,values);
                 Toast.makeText(LapHoaDon_ThanhToan.this,"Lập hóa đon thành công",Toast.LENGTH_LONG).show();
-                for(Dichvu dv:temp.getDv())
-                {
-
-                }
                 finish();
             }
         });
@@ -119,6 +116,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     }
 
     private void addControls() {
+
 
         temp= (TiecCuoi) getIntent().getSerializableExtra("tieccuoi");
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar_ThanhToan);
