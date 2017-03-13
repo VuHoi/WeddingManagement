@@ -1,13 +1,19 @@
 package com.example.vukhachoi.weddingmanagement;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -28,16 +34,29 @@ public class LapHoaDon extends AppCompatActivity {
     ArrayAdapter<TiecCuoi>adapterHoaDon;
     ArrayList<TiecCuoi>dsHoaDon;
 
-
+    ArrayList<Hoadon>dsls;
+    Adapter_HoaDon_Lichsu ls;
+    ListView lvls;
 
     Databasehelper myDatabase = new Databasehelper(this);
     SQLiteDatabase database;
 
     ListView lv_hoadonDaThanhToan;
+    private Toolbar mToolbar;
+    private MenuItem mSearchAction;
+    private boolean isSearchOpened = false;
+
+    AutoCompleteTextView txtSearch;
+    ArrayList<String>makh_mahd;
+    ArrayAdapter<String>dsmakh_mahd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lap_hoa_don);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_hoadon);
+        mToolbar.setTitle("Lập hóa đơn");
+        setSupportActionBar(mToolbar);
         addControls();
         addEvents();
 
@@ -75,7 +94,7 @@ public class LapHoaDon extends AppCompatActivity {
         tab2.setContent(R.id.tab2);
         tabHost.addTab(tab2);
 
-        tabHost.setCurrentTab(0);
+        //tabHost.setCurrentTab(0);
     }
     private void Xulytab1()
     {
@@ -170,11 +189,15 @@ public class LapHoaDon extends AppCompatActivity {
 
     private void Xulytab2()
     {
-        //myDatabase.db_delete();
-        ArrayList<Hoadon>dsls=new ArrayList<>();
-        Adapter_HoaDon_Lichsu ls=new Adapter_HoaDon_Lichsu(LapHoaDon.this,R.layout.item_hoadon_lichsu,dsls);
-        ListView lvls= (ListView) findViewById(R.id.lv_hoadon_lichsu);
+        makh_mahd=new ArrayList<>();
+        dsmakh_mahd=new ArrayAdapter<String>(LapHoaDon.this,android.R.layout.simple_list_item_1,makh_mahd);
+
+        dsls=new ArrayList<>();
+        ls=new Adapter_HoaDon_Lichsu(LapHoaDon.this,R.layout.item_hoadon_lichsu,dsls);
+
+        lvls= (ListView) findViewById(R.id.lv_hoadon_lichsu);
         lvls.setAdapter(ls);
+
         Cursor cursor=database.rawQuery("select mahd,makh,soluongban,dongia,tiendatcoc,tongtien,nghd from hoadon",null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -186,6 +209,8 @@ public class LapHoaDon extends AppCompatActivity {
             int tongtien=cursor.getInt(5);
             String nghd=cursor.getString(6);
             dsls.add(new Hoadon(mahd,makh,nghd,sl,dongia,datcoc,tongtien));
+            makh_mahd.add(makh);
+            dsmakh_mahd.notifyDataSetChanged();
             ls.notifyDataSetChanged();
             cursor.moveToNext();
         }
@@ -200,5 +225,99 @@ public class LapHoaDon extends AppCompatActivity {
 
 
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_hoadon, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(android.view.Menu menu) {
+        mSearchAction = menu.findItem(R.id.action_search_hoadon);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_search_hoadon:
+                handleMenuSearch();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    protected void handleMenuSearch(){
+        ActionBar action = getSupportActionBar(); //get the actionbar
+
+        if(isSearchOpened){ //test if the search is open
+
+            action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
+            action.setDisplayShowTitleEnabled(true); //show the title in the action bar
+
+            //hides the keyboard
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(txtSearch.getWindowToken(), 0);
+
+            //add the search icon in the action bar
+            mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_search));
+
+            isSearchOpened = false;
+            recreate();
+        } else { //open the search entry
+
+            action.setDisplayShowCustomEnabled(true); //enable it to display a
+            // custom view in the action bar.
+            action.setCustomView(R.layout.searchbar_hoadon);//add the custom view
+            action.setDisplayShowTitleEnabled(false); //hide the title
+
+
+            txtSearch= (AutoCompleteTextView) action.getCustomView().findViewById(R.id.txtSearch_hoadon);
+            txtSearch.setThreshold(1);
+            txtSearch.setAdapter(dsmakh_mahd);
+
+            txtSearch.requestFocus();
+
+            txtSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    String temp=txtSearch.getText().toString();
+                    for(TiecCuoi tc:dsHoaDon)
+                    {
+                        if(tc.getMakh().equals(temp))
+                        {
+                            TiecCuoi test=tc;
+                            dsHoaDon.remove(tc);
+                            test.setCheck(1);
+                            dsHoaDon.add(0,test);
+                            adapterHoaDon.notifyDataSetChanged();
+                            break;
+                        }
+                    }
+                    for(Hoadon hd:dsls)
+                    {
+                        if(hd.getMakh().equals(temp))
+                        {
+                            Hoadon test=hd;
+                            dsls.remove(hd);
+                            test.setCheck(1);
+                            dsls.add(0,test);
+                            ls.notifyDataSetChanged();
+                            tabHost.setCurrentTab(1);
+                            break;
+                        }
+                    }
+                }
+            });
+
+//            //add the close icon
+            mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_close_clear_cancel));
+            isSearchOpened = true;
+        }
     }
 }
