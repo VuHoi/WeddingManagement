@@ -7,6 +7,15 @@ package model;
 public class Hoadon {
     private String mahd,makh,ngthanhtoan;
     private  int slban,dongia,datcoc,tongtien;
+    private int check=0;
+
+    public int getCheck() {
+        return check;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
+    }
 
     public String getNgthanhtoan() {
         return ngthanhtoan;

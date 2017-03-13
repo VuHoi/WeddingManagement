@@ -1,20 +1,14 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -31,8 +25,6 @@ import adapter.Adapter_hoadon_dichvu;
 import model.Dichvu;
 import model.TiecCuoi;
 import sqlite.Databasehelper;
-
-import static com.example.vukhachoi.weddingmanagement.R.id.txtSearch;
 
 public class LapHoaDon_ThanhToan extends AppCompatActivity {
 
@@ -60,90 +52,13 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     Button btnHuy;
     Databasehelper myDatabase = new Databasehelper(this);
 
-    private Toolbar mToolbar;
-    private MenuItem mSearchAction;
-    private boolean isSearchOpened = false;
-    AutoCompleteTextView txtSearch;
 
-    ArrayList<String> dskh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lap_hoa_don__thanh_toan);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("Tra cứu");
-        setSupportActionBar(mToolbar);
         addControls();
         addEvents();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(android.view.Menu menu) {
-        mSearchAction = menu.findItem(R.id.action_search);
-        return super.onPrepareOptionsMenu(menu);
-    }
-    protected void handleMenuSearch(){
-        ActionBar action = getSupportActionBar(); //get the actionbar
-
-        if(isSearchOpened){ //test if the search is open
-
-            action.setDisplayShowCustomEnabled(false); //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true); //show the title in the action bar
-
-            //hides the keyboard
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(txtSearch.getWindowToken(), 0);
-
-            //add the search icon in the action bar
-            mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_search));
-
-            isSearchOpened = false;
-            recreate();
-        } else { //open the search entry
-
-            action.setDisplayShowCustomEnabled(true); //enable it to display a
-            // custom view in the action bar.
-            action.setCustomView(R.layout.search_bar);//add the custom view
-            action.setDisplayShowTitleEnabled(false); //hide the title
-
-
-            txtSearch= (AutoCompleteTextView) action.getCustomView().findViewById(R.id.txtSearch);
-            txtSearch.setThreshold(1);
-            txtSearch.setAdapter(adaptertenvc);
-
-
-
-            txtSearch.requestFocus();
-
-            txtSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    String temp=txtSearch.getText().toString();
-                    for(int a=0;a<ds.size();a++)
-                    {
-                        if(ds.get(a).getCodau().equals(temp) || ds.get(a).getChure().equals(temp))
-                        {
-                            TiecCuoi tc=ds.get(a);
-                            ds.remove(a);
-                            tc.setCheck(1);
-                            ds.add(0,tc);
-                            arrayAdapter.notifyDataSetChanged();
-                        }
-                    }
-                }
-            });
-
-            //add the close icon
-            mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_close_clear_cancel));
-            isSearchOpened = true;
-        }
     }
     private void addEvents() {
 
