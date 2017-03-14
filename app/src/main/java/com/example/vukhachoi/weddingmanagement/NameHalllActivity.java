@@ -127,21 +127,6 @@ public class NameHalllActivity extends AppCompatActivity {
                     intent.putExtra("Tensanh",viewModel.getNamehall().toString());
                     v.getContext().startActivity(intent);
                 }
-//                else if(luachon==XOA) {
-//                    try {
-//
-////                        ContentValues values = new ContentValues();
-//
-////                        database.delete("Sanh", "Loaisanh=? and TenSanh=?", new String[]{LoaiSanh, viewModel.getNamehall().toString()});
-//                        Toast.makeText(NameHalllActivity.this, "Đã xóa " + viewModel.getNamehall().toString(), Toast.LENGTH_SHORT).show();
-//                    }catch (SQLiteConstraintException SQLe)
-//                    {
-//                        Toast.makeText(NameHalllActivity.this, "Xóa thất bại", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//
-//
-//                }
                 else if(luachon==SUA)
                 {
                     giaToiThieu=viewModel.getGiaToiThieu()+"";
@@ -291,7 +276,7 @@ public class NameHalllActivity extends AppCompatActivity {
                 dialogview = inflater.inflate(R.layout.dialog_login, null);
                 dialogbuilder = new AlertDialog.Builder(this);
                 dialogbuilder.setView(dialogview);
-                dialogbuilder.setView(dialogview);
+
                 dialog = dialogbuilder.create();
 
                 break;
@@ -299,7 +284,7 @@ public class NameHalllActivity extends AppCompatActivity {
                 dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
                 dialogbuilder = new AlertDialog.Builder(this);
                 dialogbuilder.setView(dialogview);
-                dialogbuilder.setView(dialogview);
+
                 dialog = dialogbuilder.create();
                 luachon=MACDINH;
                 break;
@@ -307,7 +292,7 @@ public class NameHalllActivity extends AppCompatActivity {
                 dialogview = inflater.inflate(R.layout.dialog_them_sua_sanh, null);
                 dialogbuilder = new AlertDialog.Builder(this);
                 dialogbuilder.setView(dialogview);
-                dialogbuilder.setView(dialogview);
+
                 dialog = dialogbuilder.create();
                 break;
 
@@ -316,7 +301,7 @@ public class NameHalllActivity extends AppCompatActivity {
                 dialogview = inflater.inflate(R.layout.change_password, null);
                 dialogbuilder = new AlertDialog.Builder(this);
                 dialogbuilder.setView(dialogview);
-                dialogbuilder.setView(dialogview);
+
                 dialog = dialogbuilder.create();
 
 
@@ -327,7 +312,7 @@ public class NameHalllActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPrepareDialog(int id, Dialog dialog, Bundle args) {
+    protected void onPrepareDialog(int id, Dialog dialog) {
         final AlertDialog alertDialog;
         Button btnThem;
         Button btnSua;

@@ -101,7 +101,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="1.Cập nhật món ăn"
-                                android:textSize="20dp"
+                                android:textSize="40dp"
                                 android:textStyle="bold"
                                 android:padding="10dp"
                                 />
@@ -121,7 +121,7 @@
                                 />
                             <ListView
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
+                                android:layout_height="400dp"
                                 android:id="@+id/lsv_CapNhatDichVu">
 
                             </ListView>
