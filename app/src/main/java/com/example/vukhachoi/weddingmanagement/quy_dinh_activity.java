@@ -3,12 +3,16 @@ package com.example.vukhachoi.weddingmanagement;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TabHost;
@@ -30,9 +34,16 @@ public class quy_dinh_activity extends AppCompatActivity {
     Switch swcquydinh;
     Databasehelper myDatabase;
     SQLiteDatabase database;
-    final int THEM=0,XOA=1,SUA=2;
-
-
+    final int THEMMONAN=0,XOAMONAN=1,SUAMONAN=2,THEMDICHVU=4,XOADICHVU=5,SUADICHVU=6,MACDINH=7;
+    Adapter_CapNhat adapter;
+    Adapter_CapNhat_DichVu adapterDIchVu;
+    List<MonAn> listMonAn;
+    List<Dichvu> listDichVu;
+    int  luachon=MACDINH;
+    String TenMonAn;
+    int Gia;
+    int Position=0;
+    int PositionDichVu=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,7 +55,7 @@ public class quy_dinh_activity extends AppCompatActivity {
     }
 
     private void addControl() {
-        //addcontrol myDatabase = new Databasehelper(this);
+        myDatabase = new Databasehelper(this);
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
         tabHost= (TabHost) findViewById(R.id.tabhost);
@@ -62,8 +73,8 @@ public class quy_dinh_activity extends AppCompatActivity {
         //tab cap nhat
         ListView lsvMonAn= (ListView) findViewById(R.id.lsv_CapNhatMonAn);
         ListView lsvDichvu= (ListView) findViewById(R.id.lsv_CapNhatDichVu);
-        List<MonAn> listMonAn=new ArrayList<>();
-        List<Dichvu> listDichVu=new ArrayList<>();
+        listMonAn=new ArrayList<>();
+        listDichVu=new ArrayList<>();
         //adapter mon an
         Cursor cursor=database.rawQuery("select TenMonAn,DonGia from MonAn",null);
         cursor.moveToFirst();
@@ -72,12 +83,13 @@ public class quy_dinh_activity extends AppCompatActivity {
             MonAn m=new MonAn();
             m.setTenMonAn(cursor.getString(0).toString());
             m.setGia(Integer.parseInt(cursor.getString(1).toString()));
-
+m.setXoa(false);
+            m.setVisible(false);
             listMonAn.add(m);
             cursor.moveToNext();
         }
         cursor.close();
-        Adapter_CapNhat adapter=new Adapter_CapNhat(quy_dinh_activity.this,R.layout.item_cap_nhat_mon_an,listMonAn);
+         adapter=new Adapter_CapNhat(quy_dinh_activity.this,R.layout.item_cap_nhat_mon_an,listMonAn);
         lsvMonAn.setAdapter(adapter);
         //adapter dich vu
         Cursor cursordichvu=database.rawQuery("select TenDV,DonGia from dichvu",null);
@@ -87,12 +99,13 @@ public class quy_dinh_activity extends AppCompatActivity {
             Dichvu m=new Dichvu();
             m.setTendichvu(cursordichvu.getString(0).toString());
             m.setDongia(Integer.parseInt(cursordichvu.getString(1).toString()));
-
+m.setXoa(false);
+            m.setVisible(false);
             listDichVu.add(m);
             cursordichvu.moveToNext();
         }
         cursordichvu.close();
-        Adapter_CapNhat_DichVu adapterDIchVu=new Adapter_CapNhat_DichVu(quy_dinh_activity.this,R.layout.item_cap_nhat_mon_an,listDichVu);
+        adapterDIchVu=new Adapter_CapNhat_DichVu(quy_dinh_activity.this,R.layout.item_cap_nhat_mon_an,listDichVu);
         lsvDichvu.setAdapter(adapterDIchVu);
     }
 
@@ -111,6 +124,8 @@ public class quy_dinh_activity extends AppCompatActivity {
 
             }
         });
+        ChinhSuaMonAn();
+        ChinhSuaDichVu();
     }
 
 
@@ -120,30 +135,217 @@ public class quy_dinh_activity extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View dialogview;
         AlertDialog.Builder dialogbuilder;
-        switch (id)
-        {
-            case THEM:
-                dialogview = inflater.inflate(R.layout.dialog_login, null);
+                dialogview = inflater.inflate(R.layout.dialog_mon_an_dich_vu, null);
                 dialogbuilder = new AlertDialog.Builder(this);
                 dialogbuilder.setView(dialogview);
-
                 dialog = dialogbuilder.create();
-
-                break;
-        }
-
-
+        luachon=MACDINH;
         return dialog;
     }
 
     @Override
     protected void onPrepareDialog(int id, Dialog dialog) {
         final AlertDialog alertDialog;
-
+        TextView txtTen;
+        TextView txtNhapGia;
+        final    EditText edtNhapTen;
+        final    EditText edtNhapGia;
+        Button btnXong;
         switch(id)
         {
-            case THEM:
+            case THEMMONAN:
+                alertDialog = (AlertDialog) dialog;
+                txtTen= (TextView) alertDialog.findViewById(R.id.txtTen);
+            edtNhapTen= (EditText) alertDialog.findViewById(R.id.edtNhapTen);
+               txtNhapGia = (TextView) alertDialog.findViewById(R.id.txtNhapGia);
+             edtNhapGia= (EditText) alertDialog.findViewById(R.id.edtNhapGia);
+               btnXong= (Button) alertDialog.findViewById(R.id.btnXong);
+                txtTen.setText("Nhập tên món ăn");
+                txtNhapGia.setText("Nhập Giá yêu cầu");
 
+
+        btnXong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(edtNhapGia.getText().toString().equals(null)||edtNhapTen.getText().toString().equals(null))
+                {
+                    Toast.makeText(quy_dinh_activity.this, "Các trường không được bỏ trống", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    try
+                    {
+                ContentValues values = new ContentValues();
+                values.put("DonGia", Integer.parseInt(edtNhapGia.getText().toString()));
+                values.put("TenMonAn",edtNhapTen.getText().toString());
+                database.insertWithOnConflict("MonAn",null,values,SQLiteDatabase.CONFLICT_FAIL);
+                        MonAn monan=new MonAn();
+                        monan.setGia(Integer.parseInt(edtNhapGia.getText().toString()));
+                        monan.setTenMonAn(edtNhapTen.getText().toString());
+                        monan.setVisible(false);
+                        monan.setXoa(false);
+                        listMonAn.add(monan);
+                        adapter.notifyDataSetChanged();
+                        edtNhapTen.setText(null);
+                        edtNhapGia.setText(null);
+                        alertDialog.dismiss();
+
+                    }
+                    catch (SQLiteConstraintException Sqle)
+                    {
+                        Toast.makeText(quy_dinh_activity.this, "Thêm món ăn thất bại", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                luachon=MACDINH;
+            }
+        });
+
+
+
+
+
+                break;
+            case SUAMONAN:
+                alertDialog = (AlertDialog) dialog;
+                txtTen= (TextView) alertDialog.findViewById(R.id.txtTen);
+                edtNhapTen= (EditText) alertDialog.findViewById(R.id.edtNhapTen);
+                txtNhapGia = (TextView) alertDialog.findViewById(R.id.txtNhapGia);
+                 edtNhapGia= (EditText) alertDialog.findViewById(R.id.edtNhapGia);
+                btnXong= (Button) alertDialog.findViewById(R.id.btnXong);
+                txtTen.setText("Tên món ăn");
+                txtNhapGia.setText("Nhập Giá yêu cầu");
+                edtNhapTen.setEnabled(false);
+                edtNhapTen.setText(TenMonAn);
+                edtNhapGia.setText(Gia+"");
+                btnXong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(edtNhapGia.getText().toString().equals(null)||edtNhapTen.getText().toString().equals(null))
+                        {
+                            Toast.makeText(quy_dinh_activity.this, "Các trường không được bỏ trống", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            try
+                            {
+                                ContentValues values = new ContentValues();
+                                values.put("DonGia", Integer.parseInt(edtNhapGia.getText().toString()));
+
+                                database.updateWithOnConflict("MonAn",values,"TenMonAn=?",new String[]{TenMonAn},SQLiteDatabase.CONFLICT_FAIL);
+                               listMonAn.get(Position).setGia(Integer.parseInt(edtNhapGia.getText().toString()));
+                                adapter.notifyDataSetChanged();
+                                alertDialog.dismiss();
+
+                            }
+                            catch (SQLiteConstraintException Sqle)
+                            {
+                                Toast.makeText(quy_dinh_activity.this, "Thêm món ăn thất bại", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                    }
+                });
+
+                break;
+            case THEMDICHVU:
+                alertDialog = (AlertDialog) dialog;
+                txtTen= (TextView) alertDialog.findViewById(R.id.txtTen);
+                edtNhapTen= (EditText) alertDialog.findViewById(R.id.edtNhapTen);
+                txtNhapGia = (TextView) alertDialog.findViewById(R.id.txtNhapGia);
+                edtNhapGia= (EditText) alertDialog.findViewById(R.id.edtNhapGia);
+                btnXong= (Button) alertDialog.findViewById(R.id.btnXong);
+                txtTen.setText("Nhập tên dịch vụ");
+                txtNhapGia.setText("Nhập Giá yêu cầu");
+
+
+                btnXong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if(edtNhapGia.getText().toString().equals(null)||edtNhapTen.getText().toString().equals(null))
+                        {
+                            Toast.makeText(quy_dinh_activity.this, "Các trường không được bỏ trống", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            try
+                            {
+                                ContentValues values = new ContentValues();
+                                values.put("DonGia", Integer.parseInt(edtNhapGia.getText().toString()));
+                                values.put("TenDV",edtNhapTen.getText().toString());
+                                database.insertWithOnConflict("DichVu",null,values,SQLiteDatabase.CONFLICT_FAIL);
+                                Dichvu dichvu=new Dichvu();
+                                dichvu.setDongia(Integer.parseInt(edtNhapGia.getText().toString()));
+                                dichvu.setTendichvu(edtNhapTen.getText().toString());
+                                dichvu.setVisible(false);
+                                dichvu.setXoa(false);
+                                listDichVu.add(dichvu);
+                                adapterDIchVu.notifyDataSetChanged();
+                                edtNhapTen.setText(null);
+                                edtNhapGia.setText(null);
+                                alertDialog.dismiss();
+
+                            }
+                            catch (SQLiteConstraintException Sqle)
+                            {
+                                Toast.makeText(quy_dinh_activity.this, "Thêm dịch vụ thất bại", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                        luachon=MACDINH;
+                    }
+                });
+
+
+
+
+
+                break;
+
+            case SUADICHVU:
+                alertDialog = (AlertDialog) dialog;
+                txtTen= (TextView) alertDialog.findViewById(R.id.txtTen);
+                edtNhapTen= (EditText) alertDialog.findViewById(R.id.edtNhapTen);
+                txtNhapGia = (TextView) alertDialog.findViewById(R.id.txtNhapGia);
+                edtNhapGia= (EditText) alertDialog.findViewById(R.id.edtNhapGia);
+                btnXong= (Button) alertDialog.findViewById(R.id.btnXong);
+                txtTen.setText("Tên dịch vụ");
+                txtNhapGia.setText("Nhập Giá yêu cầu");
+                edtNhapTen.setEnabled(false);
+                edtNhapTen.setText(TenMonAn);
+                edtNhapGia.setText(Gia+"");
+                btnXong.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(edtNhapGia.getText().toString().equals(null)||edtNhapTen.getText().toString().equals(null))
+                        {
+                            Toast.makeText(quy_dinh_activity.this, "Các trường không được bỏ trống", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            try
+                            {
+                                ContentValues values = new ContentValues();
+                                values.put("DonGia", Integer.parseInt(edtNhapGia.getText().toString()));
+
+                                database.updateWithOnConflict("DichVu",values,"TenDV=?",new String[]{TenMonAn},SQLiteDatabase.CONFLICT_FAIL);
+                                listDichVu.get(PositionDichVu).setDongia(Integer.parseInt(edtNhapGia.getText().toString()));
+                                adapterDIchVu.notifyDataSetChanged();
+                                alertDialog.dismiss();
+
+                            }
+                            catch (SQLiteConstraintException Sqle)
+                            {
+                                Toast.makeText(quy_dinh_activity.this, "Thêm dịch vụ thất bại", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+
+                    }
+                });
 
                 break;
         }
@@ -151,6 +353,140 @@ public class quy_dinh_activity extends AppCompatActivity {
 
     }
 
+
+int xoa=0;
+    private  void ChinhSuaMonAn()
+    {
+        Button btnXoaMonAn= (Button) findViewById(R.id.btnXoaMonAn);
+        Button btnThemMonAn= (Button) findViewById(R.id.btnThemMonAn);
+        Button btnSuaMonAn= (Button) findViewById(R.id.btnSuaMonAn);
+        ListView lsvMonAn= (ListView) findViewById(R.id.lsv_CapNhatMonAn);
+        btnThemMonAn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(THEMMONAN);
+            }
+        });
+        btnXoaMonAn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if(luachon==MACDINH) {
+                   for (MonAn monAn : listMonAn) {
+                       monAn.setVisible(true);
+                   }
+                   xoa=1;
+               }
+
+                if(luachon==XOAMONAN)
+                {
+                  adapter.Remove();
+                    for(MonAn monAn:listMonAn)
+                    {
+                        monAn.setVisible(false);
+                    }
+                    luachon= MACDINH;
+                    xoa=0;
+                }
+
+
+                adapter.notifyDataSetChanged();
+              if(xoa==1) {
+                  luachon = XOAMONAN;
+              }
+            }
+        });
+
+
+        btnSuaMonAn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               luachon=SUAMONAN;
+            }
+        });
+
+lsvMonAn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Position=position;
+        if(luachon==SUAMONAN)
+        {
+
+            TenMonAn=listMonAn.get(position).getTenMonAn();
+            Gia=listMonAn.get(position).getGia();
+           showDialog(SUAMONAN);
+        }
+    }
+});
+
+    }
+
+
+int xoaDichVu=0;
+    private  void ChinhSuaDichVu()
+    {
+        Button btnXoaDichVu= (Button) findViewById(R.id.btnXoaDichVu);
+        Button btnThemDichVu= (Button) findViewById(R.id.btnThemDichVu);
+        Button btnSuaDichVu= (Button) findViewById(R.id.btnSuaDichVu);
+        final ListView lsvDichVu= (ListView) findViewById(R.id.lsv_CapNhatDichVu);
+        btnThemDichVu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(THEMDICHVU);
+            }
+        });
+        btnXoaDichVu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(luachon==MACDINH) {
+                    for (Dichvu dichvu : listDichVu) {
+                        dichvu.setVisible(true);
+                    }
+                    xoaDichVu=1;
+                }
+
+                if(luachon==XOADICHVU)
+                {
+                    adapterDIchVu.Remove();
+                    for(Dichvu dichvu : listDichVu)
+                    {
+                        dichvu.setVisible(false);
+                    }
+                    luachon= MACDINH;
+                    xoaDichVu=0;
+                }
+
+
+                adapterDIchVu.notifyDataSetChanged();
+                if(xoaDichVu==1) {
+                    luachon = XOADICHVU;
+                }
+            }
+
+        });
+
+
+        btnSuaDichVu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                luachon=SUADICHVU;
+            }
+        });
+
+        lsvDichVu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                PositionDichVu =position;
+                if(luachon==SUADICHVU)
+                {
+
+                    TenMonAn=listDichVu.get(position).getTendichvu();
+                    Gia=listDichVu.get(position).getDongia();
+                    showDialog(SUADICHVU);
+                }
+            }
+        });
+
+    }
     //addtabhost
     private void AddTabhost()
     {
