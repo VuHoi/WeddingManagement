@@ -20,7 +20,8 @@
         <activity android:name=".activityTraCuu" />
         <activity android:name=".DetailWeddingActivity" />
         <activity android:name=".LapHoaDon" />
-        <activity android:name=".LapHoaDon_ThanhToan"></activity>
+        <activity android:name=".LapHoaDon_ThanhToan" />
+        <activity android:name=".BaoCaoThang"></activity>
     </application>
 
 </manifest>

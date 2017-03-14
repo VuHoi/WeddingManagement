@@ -56,6 +56,7 @@ public class LapHoaDon extends AppCompatActivity {
         setContentView(R.layout.activity_lap_hoa_don);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_hoadon);
         mToolbar.setTitle("Lập hóa đơn");
+        //myDatabase.db_delete();
         setSupportActionBar(mToolbar);
         addControls();
         addEvents();
@@ -133,6 +134,8 @@ public class LapHoaDon extends AppCompatActivity {
                 String sanh = cursor.getString(3);
                 String ngay = cursor.getString(4);
                 dsHoaDon.add(new TiecCuoi(makh, chure, codau, sanh, ngay));
+                makh_mahd.add(makh);
+                dsmakh_mahd.notifyDataSetChanged();
                 adapterHoaDon.notifyDataSetChanged();
             }
             cursor.moveToNext();
@@ -189,9 +192,6 @@ public class LapHoaDon extends AppCompatActivity {
 
     private void Xulytab2()
     {
-        makh_mahd=new ArrayList<>();
-        dsmakh_mahd=new ArrayAdapter<String>(LapHoaDon.this,android.R.layout.simple_list_item_1,makh_mahd);
-
         dsls=new ArrayList<>();
         ls=new Adapter_HoaDon_Lichsu(LapHoaDon.this,R.layout.item_hoadon_lichsu,dsls);
 
@@ -219,6 +219,8 @@ public class LapHoaDon extends AppCompatActivity {
     private void addControls() {
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
+        makh_mahd=new ArrayList<>();
+        dsmakh_mahd=new ArrayAdapter<String>(LapHoaDon.this,android.R.layout.simple_list_item_1,makh_mahd);
         AddTabhost();
         Xulytab1();
         Xulytab2();
@@ -295,6 +297,7 @@ public class LapHoaDon extends AppCompatActivity {
                             dsHoaDon.remove(tc);
                             test.setCheck(1);
                             dsHoaDon.add(0,test);
+                            tabHost.setCurrentTab(0);
                             adapterHoaDon.notifyDataSetChanged();
                             break;
                         }

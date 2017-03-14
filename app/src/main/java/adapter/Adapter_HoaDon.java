@@ -47,6 +47,8 @@ public class Adapter_HoaDon extends ArrayAdapter<TiecCuoi> {
         sanh.setText(sanh.getText()+tc.getSanh());
         ngay.setText(ngay.getText()+tc.getNgay());
         makh.setText(makh.getText()+tc.getMakh());
+        if(tc.getCheck()==1)
+            row.setBackgroundColor(0xff00ffff);
         return row;
     }
 }
