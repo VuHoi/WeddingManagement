@@ -50,14 +50,16 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
 
     Button btnLap;
     Button btnHuy;
+
     Databasehelper myDatabase = new Databasehelper(this);
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lap_hoa_don__thanh_toan);
+
+
         addControls();
+
         addEvents();
     }
     private void addEvents() {
@@ -66,8 +68,11 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                myDatabase.Khoitai();;
-                SQLiteDatabase database = myDatabase.getMyDatabase();
+
+
+                myDatabase.Khoitai();
+                SQLiteDatabase database;
+                database = myDatabase.getMyDatabase();
                 ContentValues values=new ContentValues();
                 values.put("Makh",temp.getMakh());
                 values.put("Soluongban",Integer.parseInt(txtSLBan.getText().toString()));
@@ -76,7 +81,10 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 values.put("Tongtien",a+tiendv);
                 values.put("Nghd",df.format(Calendar.getInstance().getTime()));
                 database.insert("hoadon",null,values);
+                database.delete("thongtin","makh='"+temp.getMakh()+"'",null);
                 Toast.makeText(LapHoaDon_ThanhToan.this,"Lập hóa đon thành công",Toast.LENGTH_LONG).show();
+
+
                 finish();
             }
         });

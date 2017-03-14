@@ -42,6 +42,8 @@ public class Adapter_HoaDon_Lichsu extends ArrayAdapter<Hoadon>{
         txtMaKH_hoadon_lichsu.setText(txtMaKH_hoadon_lichsu.getText()+hoadon.getMakh());
         txtNgay_hoadon_lichsu.setText(txtNgay_hoadon_lichsu.getText()+hoadon.getNgthanhtoan());
         txtMaHD.setText(txtMaHD.getText()+hoadon.getMahd());
+        if(hoadon.getCheck()==1)
+            row.setBackgroundColor(0xff00ffff);
 
         return row;
     }
