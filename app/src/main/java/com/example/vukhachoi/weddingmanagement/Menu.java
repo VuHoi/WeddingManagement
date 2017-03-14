@@ -67,14 +67,14 @@ public class Menu extends AppCompatActivity {
         startActivity(intent);
     }
 });
-//        imgThayDoi.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ThayDoiAnh(imgThayDoi,R.drawable.thaydoi2);
-//                Intent intent=new Intent(Menu.this,DetailWeddingActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        imgThayDoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ThayDoiAnh(imgThayDoi,R.drawable.thaydoi2);
+                Intent intent=new Intent(Menu.this,quy_dinh_activity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void ThayDoiAnh(final ImageView id1, final int id2)

@@ -21,7 +21,9 @@
         <activity android:name=".DetailWeddingActivity" />
         <activity android:name=".LapHoaDon" />
         <activity android:name=".LapHoaDon_ThanhToan" />
+
         <activity android:name=".BaoCaoThang"></activity>
+        <activity android:name=".quy_dinh_activity"></activity>
     </application>
 
 </manifest>

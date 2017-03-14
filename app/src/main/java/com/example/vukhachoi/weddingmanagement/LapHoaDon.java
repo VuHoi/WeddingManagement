@@ -141,6 +141,7 @@ public class LapHoaDon extends AppCompatActivity {
             cursor.moveToNext();
         }
         cursor.close();
+
         lv_hoadon.setAdapter(adapterHoaDon);
 
         //Lấy tiền bàn
