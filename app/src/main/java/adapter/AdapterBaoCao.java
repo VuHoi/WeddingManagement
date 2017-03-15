@@ -38,16 +38,14 @@ public class AdapterBaoCao extends ArrayAdapter<BaoCao> {
         TextView txtNgay_baocao=(TextView) row.findViewById(R.id.txtNgay_baocao);
         TextView txtsl_baocao=(TextView) row.findViewById(R.id.txtsl_baocao);
         TextView txtDoanhThu=(TextView) row.findViewById(R.id.txtDoanhThu);
-        TextView txtTile=(TextView) row.findViewById(R.id.txtTile);
 
         //TextView makh= (TextView) row.findViewById(R.id.txtMaKH);
 
         BaoCao baoCao=this.objects.get(position);
         txtstt_baocao.setText(position+1+"");
-        txtNgay_baocao.setText(baoCao.getNgay());
-        txtsl_baocao.setText(baoCao.getSl());
-        txtDoanhThu.setText(baoCao.getDoanhthu());
-        txtTile.setText(baoCao.getTile()+"");
+        txtNgay_baocao.setText(baoCao.getNgay()+"");
+        txtsl_baocao.setText(baoCao.getSl()+"");
+        txtDoanhThu.setText(baoCao.getDoanhthu()+"");
         return row;
 
     }

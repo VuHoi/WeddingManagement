@@ -40,6 +40,14 @@ public class Menu extends AppCompatActivity {
     {
         //ThayDoiAnh(imgHoaDon,R.drawable.hoadon2);
         //ThayDoiAnh(imgBaoCao,R.drawable.baocao2);
+        imgBaoCao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ThayDoiAnh(imgBaoCao,R.drawable.baocao2);
+                Intent intent=new Intent(Menu.this,BaoCaoThang.class);
+                startActivity(intent);
+            }
+        });
         imgHoaDon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

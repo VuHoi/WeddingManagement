@@ -80,6 +80,16 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 values.put("Tiendatcoc",temp.getTiendatcoc());
                 values.put("Tongtien",a+tiendv);
                 values.put("Nghd",df.format(Calendar.getInstance().getTime()));
+
+                DateFormat ng = new SimpleDateFormat("dd");
+                values.put("ngay",ng.format(Calendar.getInstance().getTime()));
+
+                DateFormat th = new SimpleDateFormat("MM");
+                values.put("thang",th.format(Calendar.getInstance().getTime()));
+
+                DateFormat n = new SimpleDateFormat("yyyy");
+                values.put("nam",n.format(Calendar.getInstance().getTime()));
+
                 database.insert("hoadon",null,values);
                 database.delete("thongtin","makh='"+temp.getMakh()+"'",null);
                 Toast.makeText(LapHoaDon_ThanhToan.this,"Lập hóa đon thành công",Toast.LENGTH_LONG).show();
@@ -94,33 +104,33 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 finish();
             }
         });
-           txtSLBan.addTextChangedListener(new TextWatcher() {
-               @Override
-               public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        txtSLBan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-               }
+            }
 
-               @Override
-               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                   txtTongTienBan.setText("Tổng tiền bàn(triệu đồng): ");
-                   txttien_hoadon.setText("Tổng tiền hóa đơn(triệu đồng): ");
-                   txttien_conlai.setText("Còn lại(triệu đồng): ");
-                   if(!txtSLBan.getText().toString().equals("")) {
-                       a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
-                       txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
-                       float temp1=(float)a+tiendv;
-                       txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                txtTongTienBan.setText("Tổng tiền bàn(triệu đồng): ");
+                txttien_hoadon.setText("Tổng tiền hóa đơn(triệu đồng): ");
+                txttien_conlai.setText("Còn lại(triệu đồng): ");
+                if(!txtSLBan.getText().toString().equals("")) {
+                    a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
+                    txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
+                    float temp1=(float)a+tiendv;
+                    txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
 
-                       float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;
-                       txttien_conlai.setText(txttien_conlai.getText().toString()+x.format(conlai));
-                   }
-               }
+                    float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;
+                    txttien_conlai.setText(txttien_conlai.getText().toString()+x.format(conlai));
+                }
+            }
 
-               @Override
-               public void afterTextChanged(Editable editable) {
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-               }
-           });
+            }
+        });
     }
 
     private void addControls() {
