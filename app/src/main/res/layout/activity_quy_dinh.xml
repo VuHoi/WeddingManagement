@@ -91,7 +91,7 @@
                     <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
@@ -101,14 +101,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="1.Cập nhật món ăn"
-                                android:textSize="40dp"
+                                android:textSize="20dp"
                                 android:textStyle="bold"
                                 android:padding="10dp"
+                                android:id="@+id/txtCapNhatMonAn"
                                 />
                             <ListView
                                 android:layout_width="match_parent"
-                                android:layout_height="200dp"
-                                android:id="@+id/lsv_CapNhatMonAn">
+                                android:layout_height="400dp"
+                                android:id="@+id/lsv_CapNhatMonAn"
+                                android:layout_below="@+id/txtCapNhatMonAn">
 
                             </ListView>
                             <TextView
@@ -118,15 +120,96 @@
                                 android:textSize="20dp"
                                 android:textStyle="bold"
                                 android:padding="10dp"
+                                android:id="@+id/txtcapnhatdichvu"
+                                android:layout_below="@+id/rltbackgroundMonAn"
                                 />
                             <ListView
+                                android:layout_marginTop="10dp"
                                 android:layout_width="match_parent"
-                                android:layout_height="400dp"
-                                android:id="@+id/lsv_CapNhatDichVu">
+                                android:layout_height="500dp"
+                                android:id="@+id/lsv_CapNhatDichVu"
+                                android:layout_below="@+id/txtcapnhatdichvu">
 
                             </ListView>
-                        </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_gravity="bottom"
+                                android:layout_centerInParent="true"
+                                android:background="#BDBDBD"
+                                android:id="@+id/rltbackgroundMonAn"
+                                android:orientation="horizontal"
+                                android:layout_below="@+id/lsv_CapNhatMonAn"
+                                >
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btnThemMonAn"
+                                    android:text="Thêm"
+
+                                    android:layout_weight="1"
+                                    />
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btnXoaMonAn"
+                                    android:text="Xóa"
+
+                                    android:layout_weight="1"
+                                    />
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btnSuaMonAn"
+                                    android:text="Sửa"
+
+                                    android:layout_weight="1"
+                                    />
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_marginTop="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:layout_gravity="bottom"
+                                android:layout_centerInParent="true"
+                                android:background="#BDBDBD"
+                                android:id="@+id/rltbackgroundDichVu"
+                                android:orientation="horizontal"
+                                android:layout_below="@+id/lsv_CapNhatDichVu"
+                                >
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btnThemDichVu"
+                                    android:text="Thêm"
+
+                                    android:layout_weight="1"
+                                    />
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btnXoaDichVu"
+                                    android:text="Xóa"
+
+                                    android:layout_weight="1"
+                                    />
+                                <Button
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/btnSuaDichVu"
+                                    android:text="Sửa"
+
+                                    android:layout_weight="1"
+                                    />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
                     </ScrollView>
+
                 </LinearLayout>
 
 

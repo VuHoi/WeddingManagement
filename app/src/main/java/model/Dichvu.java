@@ -10,8 +10,35 @@ public class Dichvu implements Serializable {
 
    private String Tendichvu;
    private int Soluong;
+    private  Boolean IsVisible;
 
+    public Dichvu(String tendichvu, int soluong, Boolean isVisible, Boolean isXoa, String maKH, int dongia) {
+        Tendichvu = tendichvu;
+        Soluong = soluong;
+        IsVisible = isVisible;
+        IsXoa = isXoa;
+        MaKH = maKH;
+        Dongia = dongia;
+    }
 
+    public Boolean getXoa() {
+
+        return IsXoa;
+    }
+
+    public void setXoa(Boolean xoa) {
+        IsXoa = xoa;
+    }
+
+    public Boolean getVisible() {
+        return IsVisible;
+    }
+
+    public void setVisible(Boolean visible) {
+        IsVisible = visible;
+    }
+
+    private  Boolean IsXoa;
 
     public String getMaKH() {
         return MaKH;
