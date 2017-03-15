@@ -118,9 +118,9 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 if(!txtSLBan.getText().toString().equals("")) {
                     a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
                     txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
-                    float temp1=(float)(a+tiendv)*(1+(songaytre/100));
+                    float temp1=(float)(a+tiendv)*(1+((float)songaytre/100));
                     txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
-
+                    //
                     float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;
                     txttien_conlai.setText(txttien_conlai.getText().toString()+x.format(conlai));
                 }
