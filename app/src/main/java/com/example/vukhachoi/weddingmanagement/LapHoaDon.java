@@ -124,7 +124,7 @@ public class LapHoaDon extends AppCompatActivity {
             {
                 if(makh.equals(test))
                 {
-                   flag=0;
+                    flag=0;
                 }
             }
             if(flag==1)
