@@ -65,38 +65,34 @@ public class BaoCaoThang extends AppCompatActivity {
 
 
         txtThang.setText(thangnay+"");
-        Cursor cursor=database.rawQuery("select ngay,count(mahd),sum(tongtien) from hoadon where thang="+thangnay+" group by thang",null);
-        cursor.moveToFirst();
+        Cursor cursor=database.rawQuery("select ngay,count(mahd),sum(tongtien) from hoadon where thang="+thangnay+" group by ngay",null);
         float doanhthu=0;
-
-
-
-        Cursor cursor1=database.rawQuery("select sum(tongtien) from hoadon where thang="+thangtruoc+" group by thang",null);
         cursor.moveToFirst();
-        float doanhthutruoc=0;
-
-        while (!cursor1.isAfterLast())
-        {
-            int tongtien=cursor.getInt(0);
-            doanhthutruoc+=tongtien;
-            cursor1.moveToNext();
-        }
-        cursor1.close();
-
         while (!cursor.isAfterLast())
         {
             int ngay=cursor.getInt(0);
             int sl=cursor.getInt(1);
-            int tongtien=cursor.getInt(2);
-            doanhthu+=tongtien;
+            float tongtien=cursor.getFloat(2);
+            doanhthu+=(float)tongtien;
             BaoCao bc=new BaoCao(ngay,sl,tongtien);
             dsbc.add(bc);
             adapterBaoCao.notifyDataSetChanged();
             cursor.moveToNext();
         }
+        cursor.close();
+
+
+
+
+        Cursor cursor1=database.rawQuery("select sum(tongtien) from hoadon where thang="+thangtruoc+" group by thang",null);
+        cursor1.moveToFirst();
+        float doanhthutruoc=cursor1.getFloat(0);
+        cursor1.close();
+
+
+
         DecimalFormat x=new DecimalFormat("#.##");
         txtDoanhThu.setText(x.format(doanhthu)+"");
-        cursor.close();
         if(doanhthutruoc>0)
         {
             float tl=(doanhthu/doanhthutruoc)*100;
