@@ -57,6 +57,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     Databasehelper myDatabase = new Databasehelper(this);
     View ly;
     int songaytre=0;
+    float temp1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 values.put("Soluongban",Integer.parseInt(txtSLBan.getText().toString()));
                 values.put("Dongia",temp.getTienban());
                 values.put("Tiendatcoc",temp.getTiendatcoc());
-                values.put("Tongtien",a+tiendv);
+                values.put("Tongtien",temp1);
                 values.put("Nghd",df.format(Calendar.getInstance().getTime()));
 
                 DateFormat ng = new SimpleDateFormat("dd");
@@ -118,7 +119,7 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 if(!txtSLBan.getText().toString().equals("")) {
                     a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
                     txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
-                    float temp1=(float)(a+tiendv)*(1+((float)songaytre/100));
+                    temp1=(float)(a+tiendv)*(1+((float)songaytre/100));
                     txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
                     //
                     float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;

@@ -5,7 +5,8 @@ package model;
  */
 
 public class BaoCao {
-    private int ngay,thang,sl,doanhthu;
+    private int ngay,thang,sl;
+    private float doanhthu;
 
     public int getNgay() {
         return ngay;
@@ -31,7 +32,7 @@ public class BaoCao {
         this.sl = sl;
     }
 
-    public int getDoanhthu() {
+    public float getDoanhthu() {
         return doanhthu;
     }
 
@@ -39,7 +40,7 @@ public class BaoCao {
         this.doanhthu = doanhthu;
     }
 
-    public BaoCao(int ngay, int sl, int doanhthu) {
+    public BaoCao(int ngay, int sl, float doanhthu) {
 
         this.ngay = ngay;
         this.sl = sl;
