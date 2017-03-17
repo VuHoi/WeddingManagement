@@ -31,10 +31,10 @@ public class BaoCaoThang extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bao_cao_thang);
+
         myDatabase.Khoitai();
         database=myDatabase.getMyDatabase();
-        //
-        // myDatabase.db_delete();
+        //myDatabase.db_delete();
         addControls();
         addEvents();
 
@@ -86,17 +86,16 @@ public class BaoCaoThang extends AppCompatActivity {
 
         Cursor cursor1=database.rawQuery("select sum(tongtien) from hoadon where thang="+thangtruoc+" group by thang",null);
         cursor1.moveToFirst();
-        float doanhthutruoc=cursor1.getFloat(0);
-        cursor1.close();
-
-
-
-        DecimalFormat x=new DecimalFormat("#.##");
-        txtDoanhThu.setText(x.format(doanhthu)+"");
-        if(doanhthutruoc>0)
+        if(!cursor1.isAfterLast())
         {
-            float tl=(doanhthu/doanhthutruoc)*100;
-            txttile.setText(x.format(tl)+"");
+            float doanhthutruoc = cursor1.getFloat(0);
+            cursor1.close();
+            DecimalFormat x = new DecimalFormat("#.##");
+            txtDoanhThu.setText(x.format(doanhthu) + "");
+            if (doanhthutruoc > 0) {
+                float tl = (doanhthu / doanhthutruoc) * 100;
+                txttile.setText(x.format(tl) + "");
+            }
         }
     }
 }
