@@ -56,7 +56,6 @@ public class LapHoaDon extends AppCompatActivity {
         setContentView(R.layout.activity_lap_hoa_don);
         mToolbar = (Toolbar) findViewById(R.id.toolbar_hoadon);
         mToolbar.setTitle("Lập hóa đơn");
-        //myDatabase.db_delete();
         setSupportActionBar(mToolbar);
         addControls();
         addEvents();
@@ -220,6 +219,7 @@ public class LapHoaDon extends AppCompatActivity {
     private void addControls() {
         myDatabase.Khoitai();
         database = myDatabase.getMyDatabase();
+        //myDatabase.db_delete();
         makh_mahd=new ArrayList<>();
         dsmakh_mahd=new ArrayAdapter<String>(LapHoaDon.this,android.R.layout.simple_list_item_1,makh_mahd);
         AddTabhost();
