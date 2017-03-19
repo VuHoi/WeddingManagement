@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -26,7 +30,7 @@ import model.Hoadon;
 import model.TiecCuoi;
 import sqlite.Databasehelper;
 
-public class LapHoaDon extends AppCompatActivity {
+public class LapHoaDon extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     TabHost tabHost;
 
@@ -46,20 +50,80 @@ public class LapHoaDon extends AppCompatActivity {
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
 
-    AutoCompleteTextView txtSearch;
+    AutoCompleteTextView txtSearch1;
     ArrayList<String>makh_mahd;
     ArrayAdapter<String>dsmakh_mahd;
-
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lap_hoa_don);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_hoadon);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_navi);
         mToolbar.setTitle("Lập hóa đơn");
         setSupportActionBar(mToolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_4);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        int code= Integer.parseInt(getIntent().getStringExtra("code"));
+        navigationView.getMenu().getItem(code).setChecked(true);
         addControls();
         addEvents();
 
+    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_4);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        if (id == R.id.sanh_item) {
+            Intent intent=new Intent(this,HallsActivity.class);
+            intent.putExtra("code","0");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.tracuu_item) {
+            Intent intent=new Intent(this,activityTraCuu.class);
+            intent.putExtra("code","1");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.hoadon_item) {
+            Intent intent=new Intent(this,LapHoaDon.class);
+            intent.putExtra("code","2");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.baocao_item) {
+            Intent intent=new Intent(this,BaoCaoThang.class);
+            intent.putExtra("code","3");
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.quydinh_item) {
+            Intent intent=new Intent(this,quy_dinh_activity.class);
+            intent.putExtra("code","4");
+            startActivity(intent);
+            finish();
+
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_4);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private void addEvents() {
@@ -221,7 +285,7 @@ public class LapHoaDon extends AppCompatActivity {
         database = myDatabase.getMyDatabase();
         //myDatabase.db_delete();
         makh_mahd=new ArrayList<>();
-        dsmakh_mahd=new ArrayAdapter<String>(LapHoaDon.this,android.R.layout.simple_list_item_1,makh_mahd);
+        dsmakh_mahd=new ArrayAdapter(LapHoaDon.this,android.R.layout.select_dialog_item,makh_mahd);
         AddTabhost();
         Xulytab1();
         Xulytab2();
@@ -265,7 +329,7 @@ public class LapHoaDon extends AppCompatActivity {
 
             //hides the keyboard
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(txtSearch.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(txtSearch1.getWindowToken(), 0);
 
             //add the search icon in the action bar
             mSearchAction.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_search));
@@ -280,16 +344,16 @@ public class LapHoaDon extends AppCompatActivity {
             action.setDisplayShowTitleEnabled(false); //hide the title
 
 
-            txtSearch= (AutoCompleteTextView) action.getCustomView().findViewById(R.id.txtSearch_hoadon);
-            txtSearch.setThreshold(1);
-            txtSearch.setAdapter(dsmakh_mahd);
+            txtSearch1= (AutoCompleteTextView)  action.getCustomView().findViewById(R.id.txtSearch_hoadon);
+            txtSearch1.setThreshold(1);
+            txtSearch1.setAdapter(dsmakh_mahd);
 
-            txtSearch.requestFocus();
+            txtSearch1.requestFocus();
 
-            txtSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            txtSearch1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    String temp=txtSearch.getText().toString();
+                    String temp=txtSearch1.getText().toString();
                     for(TiecCuoi tc:dsHoaDon)
                     {
                         if(tc.getMakh().equals(temp))
@@ -324,4 +388,6 @@ public class LapHoaDon extends AppCompatActivity {
             isSearchOpened = true;
         }
     }
+
+
 }
