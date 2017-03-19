@@ -8,6 +8,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,7 +41,7 @@ import sqlite.Databasehelper;
 
 import static android.view.View.VISIBLE;
 
-public class NameHalllActivity extends AppCompatActivity {
+public class NameHalllActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     Databasehelper myDatabase;
     SQLiteDatabase database;
     RecyclerNameHallAdapter adapterHallName;
@@ -63,13 +67,139 @@ public class NameHalllActivity extends AppCompatActivity {
     String giaToiThieu;
     String TenSanh;
     RelativeLayout rltbackground;
+    NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_name_halll);
+        toolbar= (Toolbar) findViewById(R.id.toolbar_namehall);
+        toolbar.setTitle("Thông tin sảnh");
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_3);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        int code= Integer.parseInt(getIntent().getStringExtra("code"));
+        navigationView.getMenu().getItem(code).setChecked(true);
+
         addControls();
         addEvents();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_3);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.sanh_item) {
+            Intent intent=new Intent(this,HallsActivity.class);
+            intent.putExtra("code","0");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.tracuu_item) {
+            Intent intent=new Intent(this,activityTraCuu.class);
+            intent.putExtra("code","1");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.hoadon_item) {
+            Intent intent=new Intent(this,LapHoaDon.class);
+            intent.putExtra("code","2");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.baocao_item) {
+            Intent intent=new Intent(this,BaoCaoThang.class);
+            intent.putExtra("code","3");
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.quydinh_item) {
+            Intent intent=new Intent(this,quy_dinh_activity.class);
+            intent.putExtra("code","4");
+            startActivity(intent);
+            finish();
+
+
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_3);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    @Override
+    protected void onResume() {
+        lv_edit.setVisibility(View.INVISIBLE);
+
+        super.onResume();
+    }
+
+    private void addEvents() {
+        temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(flag==1)
+                {
+                    lv_edit.setVisibility(View.INVISIBLE);
+                    flag=0;
+                }
+            }
+        });
+        lv_edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i)
+                {
+                    case 0:
+                        luachon=THEM;
+                        showDialog(-1);
+                        break;
+                    case 1:
+                        //Xóa
+                        luachon=XOA;
+                        showDialog(-1);
+
+                        break;
+                    case 2:
+                        //Sửa
+                        luachon=SUA;
+                        showDialog(-1);
+                        break;
+                    case 3:
+                        luachon=MACDINH;
+                        for(NameHall hall:nameHalls)
+                        {
+                            hall.setVisible(false);
+                        }
+                        adapterHallName.notifyDataSetChanged();
+                        break;
+                }
+
+                lv_edit.setVisibility(View.INVISIBLE);
+                flag=0;
+            }
+        });
+    }
+
+    private void addControls() {
         myDatabase = new Databasehelper(this);
         extras=getIntent().getExtras();
         LoaiSanh= extras.getString("NameHall");
@@ -151,71 +281,8 @@ public class NameHalllActivity extends AppCompatActivity {
 
             }
         });
-    }
 
-
-
-
-
-    @Override
-    protected void onResume() {
-        lv_edit.setVisibility(View.INVISIBLE);
-
-        super.onResume();
-    }
-
-    private void addEvents() {
-        temp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(flag==1)
-                {
-                    lv_edit.setVisibility(View.INVISIBLE);
-                    flag=0;
-                }
-            }
-        });
-        lv_edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i)
-                {
-                    case 0:
-                        luachon=THEM;
-                        showDialog(-1);
-                        break;
-                    case 1:
-                        //Xóa
-                        luachon=XOA;
-                        showDialog(-1);
-
-                        break;
-                    case 2:
-                        //Sửa
-                        luachon=SUA;
-                        showDialog(-1);
-                        break;
-                    case 3:
-                        luachon=MACDINH;
-                        for(NameHall hall:nameHalls)
-                        {
-                            hall.setVisible(false);
-                        }
-                        adapterHallName.notifyDataSetChanged();
-                        break;
-                }
-
-                lv_edit.setVisibility(View.INVISIBLE);
-                flag=0;
-            }
-        });
-    }
-
-    private void addControls() {
         lv_edit= (ListView) findViewById(R.id.lv_edit);
-        toolbar= (Toolbar) findViewById(R.id.toolbar_namehall);
-        toolbar.setTitle("Thông tin sảnh");
-        setSupportActionBar(toolbar);
         ds=new ArrayList<>();
         ds.add("Thêm");
         ds.add("Xóa");
@@ -225,6 +292,7 @@ public class NameHalllActivity extends AppCompatActivity {
         lv_edit.setAdapter(adapter);
         temp=findViewById(R.id.activity_name_halll);
     }
+
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.mane_namehall, menu);
         return true;
@@ -549,4 +617,5 @@ public class NameHalllActivity extends AppCompatActivity {
         }
 //        if(luachon!=SUA &&luachon!=-1)   luachon=MACDINH;
     }
+
 }
