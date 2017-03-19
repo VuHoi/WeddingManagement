@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -117,10 +118,17 @@ public class HallsActivity extends AppCompatActivity implements NavigationView.O
             Intent intent=new Intent(this,quy_dinh_activity.class);
             intent.putExtra("code","4");
             startActivity(intent);
-            finish();
+            finish();}
 
+        else if (id == R.id.fb_item) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100008132835844"));
+                startActivity(i);
+            }
+        else if (id == R.id.git_item) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/duyuit/WeddingManagement"));
+                startActivity(i);
+            }
 
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_1);
         drawer.closeDrawer(GravityCompat.START);
         return true;

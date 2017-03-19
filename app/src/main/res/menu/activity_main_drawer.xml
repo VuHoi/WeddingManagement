@@ -24,5 +24,18 @@
             android:icon="@drawable/law"
             android:title="Quy định" />
     </group>
+    <item
+        android:title="Communicate">
+    <menu>
+        <item
+            android:title="Facebook"
+            android:icon="@drawable/face"
+            android:id="@+id/fb_item"></item>
+        <item
+            android:title="Github"
+            android:icon="@drawable/github"
+            android:id="@+id/git_item"></item>
+    </menu>
+    </item>
 
 </menu>
