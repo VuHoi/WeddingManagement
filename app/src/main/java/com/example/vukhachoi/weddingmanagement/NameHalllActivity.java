@@ -86,8 +86,6 @@ public class NameHalllActivity extends AppCompatActivity implements NavigationVi
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        int code= Integer.parseInt(getIntent().getStringExtra("code"));
-        navigationView.getMenu().getItem(code).setChecked(true);
 
         addControls();
         addEvents();
