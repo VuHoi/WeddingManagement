@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -144,6 +145,14 @@ public class quy_dinh_activity extends AppCompatActivity implements NavigationVi
             finish();
 
 
+        }
+        else if (id == R.id.fb_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100008132835844"));
+            startActivity(i);
+        }
+        else if (id == R.id.git_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/duyuit/WeddingManagement"));
+            startActivity(i);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_6);
         drawer.closeDrawer(GravityCompat.START);

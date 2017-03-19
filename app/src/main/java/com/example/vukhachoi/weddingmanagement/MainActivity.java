@@ -1,6 +1,7 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -97,13 +98,20 @@ public class MainActivity extends AppCompatActivity
 ;
 
         } else if (id == R.id.quydinh_item) {
-            Intent intent=new Intent(MainActivity.this,quy_dinh_activity.class);
-            intent.putExtra("code","4");
+            Intent intent = new Intent(MainActivity.this, quy_dinh_activity.class);
+            intent.putExtra("code", "4");
             startActivity(intent);
 
-
-
+        }else if (id == R.id.fb_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100008132835844"));
+            startActivity(i);
         }
+        else if (id == R.id.git_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/duyuit/WeddingManagement"));
+            startActivity(i);
+        }
+
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
