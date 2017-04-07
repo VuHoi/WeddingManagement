@@ -1,6 +1,7 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,8 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     TextView txttien_hoadon;
     TextView txttien_datcoc;
     TextView txttien_conlai;
+    TextView txtsongaytre;
+    TextView txtphantram;
     ArrayList<Dichvu>dv;
     ListView lv_dv;
     float a=0;
@@ -47,11 +50,14 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
     ArrayAdapter<Dichvu>adapter;
     DecimalFormat x=new DecimalFormat("#.##");
     DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-
+    SQLiteDatabase database;
     Button btnLap;
     Button btnHuy;
-
+    int check;
     Databasehelper myDatabase = new Databasehelper(this);
+    View ly;
+    int songaytre=0;
+    float temp1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,18 +74,23 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-
-
-                myDatabase.Khoitai();
-                SQLiteDatabase database;
-                database = myDatabase.getMyDatabase();
                 ContentValues values=new ContentValues();
                 values.put("Makh",temp.getMakh());
                 values.put("Soluongban",Integer.parseInt(txtSLBan.getText().toString()));
                 values.put("Dongia",temp.getTienban());
                 values.put("Tiendatcoc",temp.getTiendatcoc());
-                values.put("Tongtien",a+tiendv);
+                values.put("Tongtien",temp1);
                 values.put("Nghd",df.format(Calendar.getInstance().getTime()));
+
+                DateFormat ng = new SimpleDateFormat("dd");
+                values.put("ngay",ng.format(Calendar.getInstance().getTime()));
+
+                DateFormat th = new SimpleDateFormat("MM");
+                values.put("thang",th.format(Calendar.getInstance().getTime()));
+
+                DateFormat n = new SimpleDateFormat("yyyy");
+                values.put("nam",n.format(Calendar.getInstance().getTime()));
+
                 database.insert("hoadon",null,values);
                 database.delete("thongtin","makh='"+temp.getMakh()+"'",null);
                 Toast.makeText(LapHoaDon_ThanhToan.this,"Lập hóa đon thành công",Toast.LENGTH_LONG).show();
@@ -94,36 +105,44 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
                 finish();
             }
         });
-           txtSLBan.addTextChangedListener(new TextWatcher() {
-               @Override
-               public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        txtSLBan.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-               }
+            }
 
-               @Override
-               public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                   txtTongTienBan.setText("Tổng tiền bàn(triệu đồng): ");
-                   txttien_hoadon.setText("Tổng tiền hóa đơn(triệu đồng): ");
-                   txttien_conlai.setText("Còn lại(triệu đồng): ");
-                   if(!txtSLBan.getText().toString().equals("")) {
-                       a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
-                       txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
-                       float temp1=(float)a+tiendv;
-                       txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                txtTongTienBan.setText("Tổng tiền bàn(triệu đồng): ");
+                txttien_hoadon.setText("Tổng tiền hóa đơn(triệu đồng): ");
+                txttien_conlai.setText("Còn lại(triệu đồng): ");
+                if(!txtSLBan.getText().toString().equals("")) {
+                    a = ((float)temp.getTienban()/1000000) * Float.parseFloat(txtSLBan.getText().toString());
+                    txtTongTienBan.setText(txtTongTienBan.getText().toString() + x.format(a));
+                    temp1=(float)(a+tiendv)*(1+((float)songaytre/100));
+                    txttien_hoadon.setText(txttien_hoadon.getText().toString()+x.format(temp1));
+                    //
+                    float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;
+                    txttien_conlai.setText(txttien_conlai.getText().toString()+x.format(conlai));
+                }
+            }
 
-                       float conlai=(temp.getTiendatcoc()-temp1*1000000)/1000000;
-                       txttien_conlai.setText(txttien_conlai.getText().toString()+x.format(conlai));
-                   }
-               }
+            @Override
+            public void afterTextChanged(Editable editable) {
 
-               @Override
-               public void afterTextChanged(Editable editable) {
-
-               }
-           });
+            }
+        });
     }
 
     private void addControls() {
+
+        myDatabase.Khoitai();
+        database = myDatabase.getMyDatabase();
+        Cursor cursorcheck=database.rawQuery("select datquydinh from quydinh",null);
+        cursorcheck.moveToFirst();
+        check=cursorcheck.getInt(0);
+
+        ly=findViewById(R.id.ly);
 
 
         temp= (TiecCuoi) getIntent().getSerializableExtra("tieccuoi");
@@ -177,5 +196,25 @@ public class LapHoaDon_ThanhToan extends AppCompatActivity {
         txttien_datcoc.setText(txttien_datcoc.getText().toString()+(float)temp.getTiendatcoc()/1000000);
 
 
+        if(check==1)
+        {
+            ly.setVisibility(View.VISIBLE);
+            txtsongaytre= (TextView) findViewById(R.id.txtsongaytre);
+            txtphantram= (TextView) findViewById(R.id.txtphantram);
+            Calendar now=Calendar.getInstance();
+            Calendar ngaycuoi=Calendar.getInstance();
+
+            String ngaycuoitemp=temp.getNgay();
+            String[] chia=ngaycuoitemp.split("/");
+            ngaycuoi.set(Integer.parseInt(chia[2]),Integer.parseInt(chia[1]),Integer.parseInt(chia[0]));
+            DateFormat chiangay = new SimpleDateFormat("dd/MM/yyyy");
+            String ngayhientai=chiangay.format(now.getTime());
+            String[] chia1=ngayhientai.split("/");
+            now.set(Integer.parseInt(chia1[2]),Integer.parseInt(chia1[1]),Integer.parseInt(chia1[0]));
+            long songaytretam=(now.getTimeInMillis()-ngaycuoi.getTimeInMillis());
+            songaytre= (int) (songaytretam/(24 * 60 * 60 * 1000));
+            txtsongaytre.setText(songaytre+"");
+            txtphantram.setText(songaytre+"");
+        }
     }
 }

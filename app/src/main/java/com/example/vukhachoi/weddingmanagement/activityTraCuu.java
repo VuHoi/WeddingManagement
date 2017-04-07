@@ -1,14 +1,22 @@
 package com.example.vukhachoi.weddingmanagement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +29,7 @@ import adapter.adapterTraCuu;
 import model.TiecCuoi;
 import sqlite.Databasehelper;
 
-public class activityTraCuu extends AppCompatActivity {
+public class activityTraCuu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
     ListView lvTraCuu;
@@ -36,16 +44,106 @@ public class activityTraCuu extends AppCompatActivity {
     private MenuItem mSearchAction;
     private boolean isSearchOpened = false;
 
+    NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tra_cuu);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar_navi);
         mToolbar.setTitle("Tra cứu");
         setSupportActionBar(mToolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_2);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        int code= Integer.parseInt(getIntent().getStringExtra("code"));
+        navigationView.getMenu().getItem(code).setChecked(true);
+
         addControls();
         addEvents();
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(android.view.Menu menu) {
+        mSearchAction = menu.findItem(R.id.action_search);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_search:
+                handleMenuSearch();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_2);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.sanh_item) {
+            Intent intent=new Intent(this,HallsActivity.class);
+            intent.putExtra("code","0");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.tracuu_item) {
+            Intent intent=new Intent(this,activityTraCuu.class);
+            intent.putExtra("code","1");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.hoadon_item) {
+            Intent intent=new Intent(this,LapHoaDon.class);
+            intent.putExtra("code","2");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.baocao_item) {
+            Intent intent=new Intent(this,BaoCaoThang.class);
+            intent.putExtra("code","3");
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.quydinh_item) {
+            Intent intent=new Intent(this,quy_dinh_activity.class);
+            intent.putExtra("code","4");
+            startActivity(intent);
+            finish();
+        }
+        else if (id == R.id.fb_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100008132835844"));
+            startActivity(i);
+        }
+        else if (id == R.id.git_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/duyuit/WeddingManagement"));
+            startActivity(i);
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_2);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private void addControls() {
@@ -112,25 +210,8 @@ public class activityTraCuu extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(android.view.Menu menu) {
-        mSearchAction = menu.findItem(R.id.action_search);
-        return super.onPrepareOptionsMenu(menu);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.action_search:
-                handleMenuSearch();
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void handleMenuSearch(){
         ActionBar action = getSupportActionBar(); //get the actionbar
 
@@ -154,9 +235,7 @@ public class activityTraCuu extends AppCompatActivity {
             // custom view in the action bar.
             action.setCustomView(R.layout.search_bar);//add the custom view
             action.setDisplayShowTitleEnabled(false); //hide the title
-
-
-            txtSearch= (AutoCompleteTextView) action.getCustomView().findViewById(R.id.txtSearch);
+            txtSearch= (AutoCompleteTextView) action.getCustomView().findViewById(R.id.txtSearch);;
             txtSearch.setThreshold(1);
             txtSearch.setAdapter(adaptertenvc);
 

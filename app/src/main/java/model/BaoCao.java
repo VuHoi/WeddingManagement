@@ -5,8 +5,8 @@ package model;
  */
 
 public class BaoCao {
-    private int ngay,thang,sl,doanhthu;
-    private float tile;
+    private int ngay,thang,sl;
+    private float doanhthu;
 
     public int getNgay() {
         return ngay;
@@ -32,7 +32,7 @@ public class BaoCao {
         this.sl = sl;
     }
 
-    public int getDoanhthu() {
+    public float getDoanhthu() {
         return doanhthu;
     }
 
@@ -40,20 +40,10 @@ public class BaoCao {
         this.doanhthu = doanhthu;
     }
 
-    public float getTile() {
-        return tile;
-    }
-
-    public void setTile(float tile) {
-        this.tile = tile;
-    }
-
-    public BaoCao(int ngay, int thang, int sl, int doanhthu, float tile) {
+    public BaoCao(int ngay, int sl, float doanhthu) {
 
         this.ngay = ngay;
-        this.thang = thang;
         this.sl = sl;
         this.doanhthu = doanhthu;
-        this.tile = tile;
     }
 }

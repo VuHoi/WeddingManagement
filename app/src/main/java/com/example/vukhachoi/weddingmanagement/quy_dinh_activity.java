@@ -2,13 +2,21 @@ package com.example.vukhachoi.weddingmanagement;
 
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,7 +36,7 @@ import model.Dichvu;
 import model.MonAn;
 import sqlite.Databasehelper;
 
-public class quy_dinh_activity extends AppCompatActivity {
+public class quy_dinh_activity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     TabHost tabHost;
     TextView txtnoidung;
     Switch swcquydinh;
@@ -44,14 +52,111 @@ public class quy_dinh_activity extends AppCompatActivity {
     int Gia;
     int Position=0;
     int PositionDichVu=0;
+    NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quy_dinh);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_navi);
+        toolbar.setTitle("Quy định");
+        setSupportActionBar(toolbar);
+
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_6);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        int code= Integer.parseInt(getIntent().getStringExtra("code"));
+        navigationView.getMenu().getItem(code).setChecked(true);
         addControl();
         addEvent();
         AddTabhost();
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_6);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        // int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.sanh_item) {
+            Intent intent=new Intent(this,HallsActivity.class);
+            intent.putExtra("code","0");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.tracuu_item) {
+            Intent intent=new Intent(this,activityTraCuu.class);
+            intent.putExtra("code","1");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.hoadon_item) {
+            Intent intent=new Intent(this,LapHoaDon.class);
+            intent.putExtra("code","2");
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.baocao_item) {
+            Intent intent=new Intent(this,BaoCaoThang.class);
+            intent.putExtra("code","3");
+            startActivity(intent);
+            finish();
+
+        } else if (id == R.id.quydinh_item) {
+            Intent intent=new Intent(this,quy_dinh_activity.class);
+            intent.putExtra("code","4");
+            startActivity(intent);
+            finish();
+
+
+        }
+        else if (id == R.id.fb_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/profile.php?id=100008132835844"));
+            startActivity(i);
+        }
+        else if (id == R.id.git_item) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/duyuit/WeddingManagement"));
+            startActivity(i);
+        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout_6);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private void addControl() {
