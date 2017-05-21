@@ -295,10 +295,12 @@
                 android:layout_height="200dp"
                 android:animationCache="false"
                 android:divider="@null"
+                android:nestedScrollingEnabled="true"
                 android:scrollingCache="false"
                 android:smoothScrollbar="true"
                 android:id="@+id/lsv_MonAn"
                 android:layout_below="@+id/textView"
+android:isScrollContainer="true"
 
                 ></ListView>
 
